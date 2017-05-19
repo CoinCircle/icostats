@@ -1,0 +1,55 @@
+{
+  "name": "NodeApp",
+  "version": "1.0.0",
+  "description": "NodeJS App",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --inspect --watch server.js server.js",
+    "dev": "webpack --config webpack.config.dev.js --watch",
+    "build": "webpack --config webpack.config.dev.js",
+    "test": "mocha-webpack --webpack-config webpack.config.test.js --require babel-polyfill \"tests/**/*.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coopermaruyama/express-react-boilerplate.git"
+  },
+  "author": "Cooper Maruyama",
+  "license": "MIT",
+  "dependencies": {
+    "apollo-client": "^0.8.3",
+    "babel-polyfill": "^6.22.0",
+    "body-parser": "^1.16.0",
+    "dotenv": "^4.0.0",
+    "express": "^4.14.0",
+    "graphql": "^0.9.1",
+    "graphql-server-express": "^0.6.0",
+    "graphql-tag": "^1.2.4",
+    "graphql-tools": "^0.10.0",
+    "mongoose": "^4.7.6",
+    "nodemon": "^1.11.0",
+    "react": "^15.4.2",
+    "react-apollo": "^0.10.0",
+    "react-dom": "^15.4.2",
+    "webpack-node-externals": "^1.5.4",
+    "whatwg-fetch": "^2.0.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.21.0",
+    "babel-eslint": "^7.1.1",
+    "babel-loader": "^6.2.10",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-2": "^6.18.0",
+    "chai": "^3.5.0",
+    "eslint": "^3.13.0",
+    "eslint-config-airbnb": "^13.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-react": "^6.8.0",
+    "json-loader": "^0.5.4",
+    "mocha": "^3.2.0",
+    "mocha-webpack": "^1.0.0-beta.1",
+    "webpack": "^2.2.0-rc.3",
+    "webpack-node-externals": "^1.5.4"
+  }
+}
