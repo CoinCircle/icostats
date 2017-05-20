@@ -20,3 +20,12 @@ div {
 #app {
   height: 100%;
 }
+
+.percentage-enter {
+  opacity: 0.5;
+}
+
+.percentage-enter.percentage-enter-active {
+  opacity: 1;
+  transition: opacity .8s ease-in-out;
+}
