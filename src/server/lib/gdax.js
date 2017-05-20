@@ -15,22 +15,29 @@ publicClient.productID = 'ETH-USD';
  */
 export async function fetchEthPriceAtDate(date) {
   const start = new Date(date);
-  const end = new Date(`#{date} 12:00`);
+  const end = new Date(`${date} 12:00`);
 
   const options = {
     start: start,
     end: end,
     granularity: 300
   };
-  console.log(date, start, end);
+
   try {
     const data = await publicClient.getProductHistoricRatesAsync(options);
-    console.log(data);
     const firstRow = data[1][0];
     const price = firstRow[1];
-    console.log(date, price);
+
     return price;
   } catch (err) {
-    console.log(err.message);
+    throw new Error(err.message);
   }
+}
+
+
+export async function fetchCurrentEthPrice() {
+  const data = await publicClient.getProductTickerAsync();
+  const price = data[1].price;
+
+  return +price;
 }

@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
+import moment from 'moment';
 import Header from './Header';
 import Row from './Row';
-import moment from 'moment';
+import * as types from './constants';
 
 
 const styles = {
@@ -22,7 +23,7 @@ const styles = {
   },
   title: {
     fontWeight: 900,
-    fontSize: '30px',
+    fontSize: '25px',
     color: 'white',
     textTransform: 'uppercase',
     margin: '0'
@@ -62,7 +63,8 @@ class Rankings extends React.Component {
 
   static propTypes = {
     isFetching: PropTypes.bool,
-    icos: PropTypes.array
+    icos: PropTypes.array,
+    match: PropTypes.object
   };
 
   constructor(props) {
@@ -71,6 +73,20 @@ class Rankings extends React.Component {
       sortBy: 'change_since_ico',
       ascending: false
     };
+  }
+
+  getType() {
+    const { match: { path }} = this.props;
+
+    if (/^\/roi-over-time/.test(path)) {
+      return types.ROI_OVER_TIME;
+    }
+
+    if (/^\/vs-eth/.test(path)) {
+      return types.ROI_VS_ETH;
+    }
+
+    return types.ROI_TOTAL;
   }
 
   sort(icos) {
@@ -86,9 +102,15 @@ class Rankings extends React.Component {
   render() {
     if (this.props.isFetching) return this.renderLoading();
     const { classes } = this.props;
+    const type = this.getType();
+    const titles = {
+      [types.ROI_OVER_TIME]: 'ROI Over Time',
+      [types.ROI_TOTAL]: 'ROI Since ICO',
+      [types.ROI_VS_ETH]: 'Compare Performance to Ethereum'
+    };
     const title = (
       <h3 className={classes.title}>
-        ROI Since ICO
+        {titles[type]}
       </h3>
     );
     const feedbackButton = (
@@ -108,11 +130,13 @@ class Rankings extends React.Component {
           sortBy={this.state.sortBy}
           onSort={(sortBy, ascending) => this.setState({ sortBy, ascending })}
           ascending={this.state.ascending}
+          type={type}
         />
         {this.sort(this.props.icos).map(ico =>
           <Row
             key={ico.id}
             ico={ico}
+            type={type}
           />
         )}
       </div>
@@ -136,7 +160,7 @@ function handleSort(_a, _b, sortBy, ascending) {
   let b = _b[sortBy];
 
   switch (sortBy) {
-    case 'symbol': {
+    case 'name': {
       a = a.toLowerCase();
       b = b.toLowerCase();
       if (a < b) return ascending ? 1 : -1;
@@ -148,7 +172,9 @@ function handleSort(_a, _b, sortBy, ascending) {
       const ma = moment(a, format);
       const mb = moment(b, format);
 
-      return ascending ? (ma < mb) : (mb > ma);
+      if (ma < mb) return ascending ? 1 : -1;
+      if (ma > mb) return ascending ? -1 : 1;
+      return 0;
     }
     // Numeric values should use default
     default: {

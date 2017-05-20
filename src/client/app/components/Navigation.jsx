@@ -53,30 +53,33 @@ const Navigation = ({ classes }) => (
     </div>
 
     <div className={classes.menu}>
-      <h3 className={classes.menuTitle}>Rankings</h3>
+      <h3 className={classes.menuTitle}>Stats</h3>
       <NavLink
+        exact
         to="/"
-        className={classNames({
-          [classes.menuItem]: true,
-          [classes.activeMenuItem]: true
-        })}
+        className={classes.menuItem}
+        activeClassName={classes.activeMenuItem}
       >ROI Since ICO</NavLink>
       <NavLink
-        to="/"
+        to="/roi-over-time"
         className={classes.menuItem}
+        activeClassName={classes.activeMenuItem}
       >ROI / Time</NavLink>
       <NavLink
-        to="/"
+        to="/vs-eth"
         className={classes.menuItem}
-      >Volatility</NavLink>
-      <NavLink
-        to="/"
+        activeClassName={classes.activeMenuItem}
+      >ICO v.s. ETH</NavLink>
+      {/* <NavLink
+        to="/token-holders"
         className={classes.menuItem}
+        activeClassName={classes.activeMenuItem}
       >Token Holders</NavLink>
       <NavLink
-        to="/"
+        to="/locks"
         className={classes.menuItem}
-      >Locks</NavLink>
+        activeClassName={classes.activeMenuItem}
+      >Locks</NavLink> */}
     </div>
 
   </div>

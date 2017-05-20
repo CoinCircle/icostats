@@ -20,6 +20,8 @@ const App = ({ classes }) => (
       <Navigation />
 
       <Route exact path="/" component={Rankings} />
+      <Route exact path="/roi-over-time" component={Rankings} />
+      <Route exact path="/vs-eth" component={Rankings} />
     </div>
   </Router>
 );

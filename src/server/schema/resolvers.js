@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import { normalize as normalizeICO } from 'lib/icos';
 import icoData from 'lib/ico-data';
-import { fetchEthPriceAtDate } from 'lib/gdax';
+import { fetchEthPriceAtDate, fetchCurrentEthPrice } from 'lib/gdax';
 
 export default {
   Query: {
@@ -38,8 +38,10 @@ export default {
       });
       const results = await Promise.all(promises);
 
+      // Get the current ETH price
+      const ethPrice = await fetchCurrentEthPrice();
 
-      return results.map(normalizeICO);
+      return results.map(ico => normalizeICO(ico, ethPrice));
     },
     async ico(obj, { id }) {
       const url = `https://api.coinmarketcap.com/v1/ticker/${id}/`;

@@ -2,32 +2,73 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import classNames from 'classnames';
+import * as types from './constants';
 
 const propTypes = {
   sortBy: PropTypes.string,
   ascending: PropTypes.bool,
-  onSort: PropTypes.func.isRequired
+  onSort: PropTypes.func.isRequired,
+  type: PropTypes.string
 };
 
-const Header = ({ classes, sortBy, onSort, ascending }) => {
+const Header = ({ classes, sortBy, onSort, ascending, type = 'ROI_TOTAL' }) => {
   const items = [{
-    key: 'symbol',
-    label: 'Symbol',
-    addClass: classes.thSmall
+    key: 'name',
+    label: 'Name'
   }, {
     key: 'start_date',
     label: 'ICO Date'
   }, {
     key: 'implied_token_price',
-    label: 'ICO Price'
+    label: 'ICO Price',
+    addClass: classes.thPrice
   }, {
     key: 'price_usd',
-    label: 'Curr. Price'
-  }, {
-    key: 'change_since_ico',
-    label: 'Change (%)',
-    addClass: classes.thPrimary
+    label: 'Curr. Price',
+    addClass: classes.thPrice
   }];
+
+  switch (type) {
+    case types.ROI_OVER_TIME: {
+      items.push({
+        key: 'roi_per_day',
+        label: 'Daily Gains',
+        addClass: classes.thPrimary
+      });
+      items.push({
+        key: 'roi_per_week',
+        label: 'Weekly Gains',
+        addClass: classes.thPrimary
+      });
+      items.push({
+        key: 'roi_per_month',
+        label: 'Monthly Gains',
+        addClass: classes.thPrimary
+      });
+      break;
+    }
+    case types.ROI_VS_ETH: {
+      items.push({
+        key: 'eth_roi_during_period',
+        label: 'ETH ROI for period',
+        addClass: classes.thPrimary
+      });
+      items.push({
+        key: 'roi_vs_eth',
+        label: 'ROI vs ETH',
+        addClass: classes.thPrimary
+      });
+      break;
+    }
+    default: {
+      items.push({
+        key: 'change_since_ico',
+        label: 'Change (%)',
+        addClass: classes.thPrimary
+      });
+    }
+  }
+
   const sortedCell = item => (
     <span
       className={classes.sortActive}
@@ -98,15 +139,15 @@ const styles = {
     width: '65%'
   },
   thPrimary: {
-    width: '150%'
+    width: '125%'
   },
   sortActive: {
     background: 'hsl(256, 61%, 48%)',
     borderRadius: '2px',
     position: 'absolute',
     top: '-2px',
-    right: '-15px',
-    padding: '3px 20px 3px 15px',
+    right: '0px',
+    padding: '3px 6px 3px 20px',
     cursor: 'pointer',
     color: 'hsl(256, 81%, 85%)',
     '&:hover': {
@@ -124,7 +165,12 @@ const styles = {
     verticalAlign: '-5px',
     position: 'absolute',
     top: '2px',
-    right: '2px'
+    left: '2px'
+  },
+  '@media (max-width: 968px)': {
+    thPrice: {
+      display: 'none'
+    }
   }
 };
 

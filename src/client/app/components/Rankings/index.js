@@ -18,7 +18,13 @@ const QUERY = gql`
       implied_token_price,
       change_since_ico,
       start_date,
-      icon_ext
+      icon_ext,
+      ticker,
+      roi_per_week,
+      roi_per_day,
+      roi_per_month,
+      eth_roi_during_period,
+      roi_vs_eth
     }
   }
 `;
@@ -27,7 +33,10 @@ const mapDataToProps = result => ({
   isFetching: result.data.loading
 });
 const withData = graphql(QUERY, {
-  props: mapDataToProps
+  props: mapDataToProps,
+  options: {
+    pollInterval: 5000
+  }
 });
 
 /* =============================================================================
