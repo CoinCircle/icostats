@@ -1,11 +1,27 @@
 import React from 'react';
-import Home from 'app/components/Home';
+import {
+ BrowserRouter as Router,
+ Route
+} from 'react-router-dom';
+import injectSheet from 'react-jss';
+import Navigation from 'app/components/Navigation';
+import Rankings from 'app/components/Rankings';
 
-const App = () => (
-  <div>
-    <h1>My App</h1>
-    <Home />
-  </div>
+const styles = {
+  container: {
+    display: 'flex',
+    height: '100%'
+  }
+};
+
+const App = ({ classes }) => (
+  <Router>
+    <div className={classes.container}>
+      <Navigation />
+
+      <Route exact path="/" component={Rankings} />
+    </div>
+  </Router>
 );
 
-export default App;
+export default injectSheet(styles)(App);

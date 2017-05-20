@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="146px" height="41px" viewBox="0 0 146 41" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 3</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop" transform="translate(-23.000000, -22.000000)">
+            <g id="Group-3" transform="translate(21.000000, 16.000000)">
+                <text id="ICO-performance-trac" font-family="Montserrat-Light, Montserrat" font-size="12" font-weight="300" fill="#7183AE">
+                    <tspan x="1" y="44">ICO performance tracker</tspan>
+                </text>
+                <text id="ICO" font-family="Montserrat-ExtraLight, Montserrat" font-size="27" font-weight="300" fill="#F6F6F6">
+                    <tspan x="0" y="26">ICO</tspan>
+                </text>
+                <text id="STATS" font-family="Montserrat-Black, Montserrat" font-size="27" font-weight="700" fill="#F6F6F6">
+                    <tspan x="54" y="26">STATS</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,31 +1,37 @@
 /* eslint-disable */
 export default /* GraphQL */`
 
-# Users
-type User {
-  _id: ID!
-  username: String!
-}
-
-# Todos
-type Todo {
-  _id: ID!
-  _owner: User
-  title: String
-  completed: Boolean!
+type ICO {
+  id: String!
+  name: String!
+  symbol: String!
+  rank: Int!
+  price_usd: Float!
+  price_btc: Float!
+  volume_usd_24h: Float
+  market_cap_usd: Float
+  available_supply: Float
+  total_supply: Float
+  percent_change_1h: Float
+  percent_change_24h: Float
+  percent_change_7d: Float
+  last_updated: Int!
+  start_date: String
+  implied_token_price: Float!
+  eth_price_at_launch: String,
+  change_since_ico: Float!,
+  icon_ext: String
 }
 
 # the schema allows the following query:
 type Query {
-  users: [User]
-  todos: [Todo]
+  icos: [ICO]
+  ico(id: String!): ICO
 }
 
 # this schema allows the following mutation:
 type Mutation {
-  addUser (
-    username: String!
-  ): User
+  test: ICO
 }
 
 # we need to tell the server which types represent the root query

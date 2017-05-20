@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css?family=Material+Icons|Montserrat:200,400,400i,700,900');
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: hsl(222, 21%, 25%);
+}
+
+div {
+  box-sizing: border-box;
+}
+
+#app {
+  height: 100%;
+}
