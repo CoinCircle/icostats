@@ -55,17 +55,23 @@ function roiPerDays(ico, numDays) {
 }
 
 function roiVsEth(ico, ethPrice) {
-  const diff = roiSinceICO(ico);
-  const ethDiff = ethROISinceICO(ico, ethPrice);
+  const altROI = roiSinceICO(ico);
+  const ethROI = ethROISinceICO(ico, ethPrice);
+  const isDecrease = altROI < ethROI;
+  const diff = isDecrease ? (ethROI - altROI) : (altROI - ethROI);
+  const delta = diff / ethROI;
 
-  return diff - ethDiff;
+  return isDecrease ? (0 - delta) : delta;
 }
 
 function roiVsBtc(ico, btcPrice) {
-  const diff = roiSinceICO(ico);
-  const btcDiff = btcROISinceICO(ico, btcPrice);
+  const altROI = roiSinceICO(ico);
+  const ethROI = btcROISinceICO(ico, btcPrice);
+  const isDecrease = altROI < ethROI;
+  const diff = isDecrease ? (ethROI - altROI) : (altROI - ethROI);
+  const delta = diff / ethROI;
 
-  return diff - btcDiff;
+  return isDecrease ? (0 - delta) : delta;
 }
 
 function ethROISinceICO(ico, ethPrice) {

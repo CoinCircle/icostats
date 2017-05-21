@@ -26,8 +26,6 @@ export default {
           }
 
           cache.set(url, obj);
-        } else {
-          console.log('found URL in cache: (%s)', url);
         }
 
         return {
