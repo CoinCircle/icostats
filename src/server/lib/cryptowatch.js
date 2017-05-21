@@ -1,15 +1,12 @@
-import Gdax from 'gdax';
-import Promise from 'bluebird';
+/* eslint-disable import/prefer-default-export */
 import EthPrice from 'models/eth-price';
 
 const TOO_MANY_REQUESTS = 429;
-const publicClient = new Gdax.PublicClient();
-
-Promise.promisifyAll(publicClient);
-publicClient.productID = 'ETH-USD';
 
 /**
- * Get the price of ether on a certain date.
+ * Get the price of ether on a certain date. This is preferred for getting
+ * prices from a long time ago, as other exchanges have not supported ETH for
+ * as long as kraken.
  * @param {String|Date}   date
  * @return {Promise}
  */
@@ -57,13 +54,6 @@ function getLowestInterval(data) {
   const lowest = keysWithData.reduce((p, c) => ((+c < +p) ? c : p));
 
   return lowest;
-}
-
-
-export async function fetchCurrentEthPrice() {
-  const data = await fetchEthPriceAtDate(new Date());
-
-  return data;
 }
 
 function getUnixTime(date) {
