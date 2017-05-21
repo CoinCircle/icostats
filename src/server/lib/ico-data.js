@@ -1,6 +1,7 @@
 module.exports = [
   {
     id: 'waves',
+    is_erc20: false,
     name: 'Waves',
     status: 'Completed',
     type: 'Decentralized Applications Platform',
@@ -41,6 +42,8 @@ module.exports = [
   },
   {
     id: 'tokencard',
+    is_erc20: true,
+    contract_address: '0xaaaf91d9b90df800df4f55c205fd6989c977e73a',
     name: 'Tokencard',
     status: 'Completed',
     type: 'Banking',
@@ -82,6 +85,7 @@ module.exports = [
   {
     id: 'gnosis',
     name: 'Gnosis',
+    is_erc20: true,
     status: 'Completed',
     type: 'Prediction Market',
     raise: '$12,500,000',
@@ -122,6 +126,7 @@ module.exports = [
   {
     id: 'rlc',
     name: 'iEx.ec',
+    is_erc20: true,
     status: 'Completed',
     type: 'Computing',
     raise: '$12,158,963',
@@ -162,6 +167,7 @@ module.exports = [
   {
     id: 'iconomi',
     name: 'Iconomi',
+    is_erc20: true,
     status: 'Completed',
     type: 'Investing',
     raise: '$10,682,516',
@@ -202,6 +208,8 @@ module.exports = [
   {
     id: 'golem',
     name: 'Golem',
+    is_erc20: true,
+    contract_address: '0xa74476443119A942dE498590Fe1f2454d7D4aC0d',
     status: 'Completed',
     type: 'Computing',
     raise: '$8,596,000',
@@ -242,6 +250,8 @@ module.exports = [
   {
     id: 'taas',
     name: 'TaaS',
+    is_erc20: true,
+    contract_address: '0xe7775a6e9bcf904eb39da2b68c5efb4f9360e08c',
     status: 'Completed',
     type: 'Investing',
     raise: '$7,963,120',
@@ -280,7 +290,10 @@ module.exports = [
     btc: ''
   },
   {
+    id: 'singulardtv',
     name: 'SingularDTV',
+    is_erc20: true,
+    contract_address: '0xaec2e87e0a235266d9c5adc9deb4b2e29b54d009',
     status: 'Completed',
     type: 'Media',
     raise: '$7,500,000',
@@ -299,7 +312,6 @@ module.exports = [
     months: '6.7',
     years: '0.5506849315',
     ticker: 'singulardtv',
-    id: 'singulardtv',
     available_supply: '600,000,000.00',
     total_supply: '1,000,000,000.00',
     market_cap: '$66,799,200',
@@ -321,6 +333,7 @@ module.exports = [
   },
   {
     name: 'Lisk',
+    is_erc20: false,
     status: 'Completed',
     type: 'Decentralized Applications Platform',
     raise: '$6,500,000',
@@ -362,6 +375,8 @@ module.exports = [
   {
     id: 'matchpool',
     name: 'Matchpool',
+    is_erc20: true,
+    contract_address: '0xf7b098298f7c69fc14610bf71d5e02c60792894c',
     status: 'Completed',
     type: 'Social Network',
     raise: '$5,700,000',
@@ -402,6 +417,8 @@ module.exports = [
   {
     id: 'digixdao',
     name: 'DigixDAO',
+    is_erc20: true,
+    contract_address: '0xe0b7927c4af23765cb51314a0e0521a9645f0e2a',
     status: 'Completed',
     type: 'Investing',
     raise: '$5,500,000',
@@ -442,6 +459,8 @@ module.exports = [
   {
     id: 'firstblood',
     name: 'FirstBlood',
+    is_erc20: true,
+    contract_address: '0xAf30D2a7E90d7DC361c8C4585e9BB7D2F6f15bc7',
     status: 'Completed',
     type: 'Gaming',
     raise: '$5,500,000',
@@ -482,6 +501,8 @@ module.exports = [
   {
     name: 'ChronoBank',
     status: 'Completed',
+    is_erc20: true,
+    contract_address: '0x6531f133e6DeeBe7F2dcE5A0441aA7ef330B4e53',
     type: 'HR/Recruitment',
     raise: '$5,400,000',
     total_amount_of_tokens: '710,113',
@@ -522,6 +543,9 @@ module.exports = [
   {
     name: 'Augur',
     status: 'Completed',
+    is_erc20: true,
+    eth_price_at_launch: 1.26,
+    contract_address: '0x48c80F1f4D53D5951e5D5438B54Cba84f29F32a5',
     type: 'Prediction Market',
     raise: '$5,300,000',
     total_amount_of_tokens: '11,000,000',
@@ -561,6 +585,8 @@ module.exports = [
   {
     id: 'wetrust',
     name: 'WeTrust',
+    is_erc20: true,
+    contract_address: '0xcb94be6f13a1182e4a4b6140cb7bf2025d28e41b',
     status: 'Completed',
     type: 'Financial-Service',
     raise: '$5,000,000',
@@ -601,6 +627,7 @@ module.exports = [
   {
     name: 'Antshares',
     status: 'Completed',
+    is_erc20: false,
     type: 'Real World Assets',
     raise: '$4,500,000',
     total_amount_of_tokens: '',
@@ -644,6 +671,8 @@ module.exports = [
   {
     name: 'Lunyr',
     status: 'Completed',
+    is_erc20: true,
+    contract_address: '0xfa05A73FfE78ef8f1a739473e462c54bae6567D9',
     type: 'Wikipedia',
     raise: '$3,400,000',
     total_amount_of_tokens: '2,703,356',
@@ -684,6 +713,8 @@ module.exports = [
   {
     id: 'melonport',
     name: 'Melonport',
+    is_erc20: true,
+    contract_address: '0xBEB9eF514a379B997e0798FDcC901Ee474B6D9A1',
     status: 'Completed',
     type: 'Investment',
     raise: '$2,900,000',
@@ -725,6 +756,7 @@ module.exports = [
   {
     id: 'lykke',
     name: 'Lykke',
+    is_erc20: false,
     status: 'Completed',
     type: 'Exchange',
     raise: '$2,800,000',
@@ -766,6 +798,8 @@ module.exports = [
   {
     name: 'Edgeless',
     status: 'Completed',
+    is_erc20: true,
+    contract_address: '0x08711d3b02c8758f2fb3ab4e80228418a7f8e39c',
     type: 'Gambling',
     raise: '$2,700,000',
     total_amount_of_tokens: '132,046,997',
@@ -806,6 +840,8 @@ module.exports = [
   {
     name: 'Wings',
     status: 'Completed',
+    is_erc20: true,
+    contract_address: '0x667088b212ce3d06a1b553a7221E1fD19000d9aF',
     type: 'Decentralized Applications Platform',
     raise: '$2,074,000',
     total_amount_of_tokens: '100,000,000',
@@ -845,6 +881,7 @@ module.exports = [
   },
   {
     name: 'Komodo',
+    is_erc20: false,
     status: 'Completed',
     type: 'Cryptocurrency',
     raise: '$1,983,781',
@@ -887,6 +924,8 @@ module.exports = [
   {
     name: 'vDice',
     status: 'Completed',
+    is_erc20: true,
+    contract_address: '0x5c543e7AE0A1104f78406C340E9C64FD9fCE5170',
     type: 'Gambling',
     raise: '$1,800,000',
     total_amount_of_tokens: '33,390,496',
@@ -926,6 +965,7 @@ module.exports = [
   },
   {
     name: 'Incent',
+    is_erc20: false,
     status: 'Completed',
     type: 'Loyalty Program',
     raise: '$1,000,000',
@@ -967,6 +1007,7 @@ module.exports = [
   {
     name: 'Ark',
     status: 'Completed',
+    is_erc20: false,
     type: 'Cryptocurrency',
     raise: '$942,593',
     total_amount_of_tokens: '125,945,480',
@@ -1007,6 +1048,7 @@ module.exports = [
   {
     name: 'BlockPay',
     status: 'Completed',
+    is_erc20: false,
     type: 'Retail',
     raise: '$675,000',
     total_amount_of_tokens: '98,928,316',
@@ -1047,6 +1089,8 @@ module.exports = [
   {
     id: 'hackergold',
     name: 'Virtual Accelerator',
+    is_erc20: true,
+    contract_address: '0x14f37b574242d366558db61f3335289a5035c506',
     status: 'Completed',
     type: 'Crowdfunding',
     raise: '$645,000',
@@ -1088,6 +1132,7 @@ module.exports = [
     id: 'golos',
     name: 'Golos',
     status: 'Completed',
+    is_erc20: false,
     type: 'Media',
     raise: '$462,000',
     total_amount_of_tokens: '',
@@ -1127,6 +1172,7 @@ module.exports = [
   {
     id: 'storj',
     name: 'Storj',
+    is_erc20: false,
     status: 'Completed',
     type: 'Computing',
     raise: '$461,802',
@@ -1167,6 +1213,7 @@ module.exports = [
   {
     id: 'nexium',
     name: 'Beyond the Void',
+    is_erc20: false,
     status: 'Completed',
     type: 'Gaming',
     raise: '$115,500',
@@ -1207,6 +1254,7 @@ module.exports = [
   {
     id: 'tokes',
     name: 'Tokes',
+    is_erc20: false,
     status: 'Completed',
     type: 'Cannabis',
     raise: '$81,100',
@@ -1247,6 +1295,7 @@ module.exports = [
   {
     id: 'procommerce',
     name: 'Procommerce',
+    is_erc20: false,
     status: 'Completed',
     type: 'eCommerce',
     raise: '$77,000',
@@ -1287,6 +1336,7 @@ module.exports = [
   {
     id: 'spectrecoin',
     name: 'Spectrecoin',
+    is_erc20: false,
     status: 'Completed',
     type: 'Cryptocurrency',
     raise: '$15,427',
