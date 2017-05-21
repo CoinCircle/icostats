@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import Header from './Header';
 import Row from './Row';
 import Filters from './Filters';
+import Loading from './Loading';
 import * as types from './constants';
 
 
@@ -47,6 +48,7 @@ const styles = {
     color: 'hsl(15, 75%, 60%)',
     textTransform: 'uppercase',
     cursor: 'pointer',
+    textDecoration: 'none',
     '&:hover': {
       color: 'hsl(15, 85%, 70%)',
       borderColor: 'hsl(15, 85%, 70%)'
@@ -127,12 +129,9 @@ class Rankings extends React.Component {
     return filtered.slice().sort((a, b) => handleSort(a, b, sortBy, ascending));
   }
 
-  renderLoading() {
-    return <span>Loading...</span>;
-  }
 
   render() {
-    if (this.props.isFetching) return this.renderLoading();
+    if (this.props.isFetching) return <Loading />;
     const { classes } = this.props;
     const type = this.getType();
     const titles = {
@@ -146,7 +145,11 @@ class Rankings extends React.Component {
       </h3>
     );
     const feedbackButton = (
-      <button className={classes.btnFeedback}>Feedback</button>
+      <a
+        className={classes.btnFeedback}
+        href="https://cooperm1.typeform.com/to/VYgHPt"
+        target="_blank"
+      >Feedback</a>
     );
     const header = (
       <div className={classes.header}>
