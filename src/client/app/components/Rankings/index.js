@@ -16,7 +16,7 @@ const QUERY = gql`
       price_usd,
       price_btc,
       implied_token_price,
-      change_since_ico,
+      roi_since_ico,
       start_date,
       icon_ext,
       ticker,
@@ -24,7 +24,8 @@ const QUERY = gql`
       roi_per_day,
       roi_per_month,
       eth_roi_during_period,
-      roi_vs_eth
+      roi_vs_eth,
+      is_erc20
     }
   }
 `;
@@ -35,7 +36,7 @@ const mapDataToProps = result => ({
 const withData = graphql(QUERY, {
   props: mapDataToProps,
   options: {
-    pollInterval: 5000
+    pollInterval: 10000
   }
 });
 

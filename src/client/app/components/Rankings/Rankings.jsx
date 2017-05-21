@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import moment from 'moment';
+import classNames from 'classnames';
 import Header from './Header';
 import Row from './Row';
+import Filters from './Filters';
 import * as types from './constants';
 
 
@@ -29,7 +31,7 @@ const styles = {
     margin: '0'
   },
   header: {
-    flex: '0 0 80px',
+    flex: '0 0 100px',
     width: '100%',
     display: 'flex',
     alignItems: 'baseline',
@@ -37,8 +39,8 @@ const styles = {
   },
   btnFeedback: {
     background: 'hsla(0, 0%, 0%, 0)',
-    border: '2px solid hsl(15, 75%, 60%)',
-    fontSize: '15px',
+    border: '1px solid hsl(15, 75%, 60%)',
+    fontSize: '12px',
     fontWeight: '900',
     padding: '6px 20px',
     borderRadius: '2px',
@@ -54,7 +56,9 @@ const styles = {
     width: '100%',
     display: 'flex',
     flexDirection: 'column'
-  }
+  },
+  headerLeft: {},
+  headerRight: {},
 };
 
 
@@ -70,8 +74,11 @@ class Rankings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sortBy: 'change_since_ico',
-      ascending: false
+      sortBy: this.getInitialSortBy(this.getType()),
+      ascending: false,
+      filters: {
+        erc20: true
+      }
     };
   }
 
@@ -89,10 +96,35 @@ class Rankings extends React.Component {
     return types.ROI_TOTAL;
   }
 
-  sort(icos) {
-    const { sortBy, ascending } = this.state;
+  getInitialSortBy(type) {
+    switch (type) {
+      case types.ROI_OVER_TIME: {
+        return 'roi_per_month';
+      }
+      case types.ROI_VS_ETH: {
+        return 'roi_vs_eth';
+      }
+      default: {
+        return 'roi_since_ico';
+      }
+    }
+  }
 
-    return icos.slice().sort((a, b) => handleSort(a, b, sortBy, ascending));
+  /**
+   * Return sorted & filtered ICOs.
+   */
+  getIcos() {
+    const { icos } = this.props;
+    const { sortBy, ascending, filters } = this.state;
+    const filtered = icos.filter((ico) => {
+      if (filters.erc20 && !ico.is_erc20) {
+        return false;
+      }
+
+      return true;
+    });
+
+    return filtered.slice().sort((a, b) => handleSort(a, b, sortBy, ascending));
   }
 
   renderLoading() {
@@ -118,8 +150,16 @@ class Rankings extends React.Component {
     );
     const header = (
       <div className={classes.header}>
-        {title}
-        {feedbackButton}
+        <div className={classes.headerLeft}>
+          {title}
+          <Filters
+            filters={this.state.filters}
+            onUpdate={filters => this.setState({ filters })}
+          />
+        </div>
+        <div className={classes.headerRight}>
+          {feedbackButton}
+        </div>
       </div>
     );
 
@@ -132,7 +172,7 @@ class Rankings extends React.Component {
           ascending={this.state.ascending}
           type={type}
         />
-        {this.sort(this.props.icos).map(ico =>
+        {this.getIcos().map(ico =>
           <Row
             key={ico.id}
             ico={ico}

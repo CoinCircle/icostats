@@ -32,25 +32,30 @@ const Header = ({ classes, sortBy, onSort, ascending, type = 'ROI_TOTAL' }) => {
     case types.ROI_OVER_TIME: {
       items.push({
         key: 'roi_per_day',
-        label: 'Daily Gains',
-        addClass: classes.thPrimary
+        label: 'Daily ROI',
+        addClass: [classes.thPrimary, classes.hideMobile]
       });
       items.push({
         key: 'roi_per_week',
-        label: 'Weekly Gains',
-        addClass: classes.thPrimary
+        label: 'Weekly ROI',
+        addClass: [classes.thPrimary, classes.hideMobile]
       });
       items.push({
         key: 'roi_per_month',
-        label: 'Monthly Gains',
+        label: 'Monthly ROI',
         addClass: classes.thPrimary
       });
       break;
     }
     case types.ROI_VS_ETH: {
       items.push({
+        key: 'roi_since_ico',
+        label: 'ROI since ICO',
+        addClass: classes.thPrimary
+      });
+      items.push({
         key: 'eth_roi_during_period',
-        label: 'ETH ROI for period',
+        label: 'ETH ROI since ICO',
         addClass: classes.thPrimary
       });
       items.push({
@@ -62,7 +67,7 @@ const Header = ({ classes, sortBy, onSort, ascending, type = 'ROI_TOTAL' }) => {
     }
     default: {
       items.push({
-        key: 'change_since_ico',
+        key: 'roi_since_ico',
         label: 'Change (%)',
         addClass: classes.thPrimary
       });
@@ -145,11 +150,15 @@ const styles = {
     background: 'hsl(256, 61%, 48%)',
     borderRadius: '2px',
     position: 'absolute',
-    top: '-2px',
+    top: '-1px',
     right: '0px',
     padding: '3px 6px 3px 20px',
     cursor: 'pointer',
     color: 'hsl(256, 81%, 85%)',
+    maxWidth: '80%',
+    overflow: 'hidden',
+    whiteSpace: 'pre',
+    textOverflow: 'ellipsis',
     '&:hover': {
       background: 'hsl(256, 61%, 52%)',
     }
@@ -164,11 +173,14 @@ const styles = {
     fontSize: '18px',
     verticalAlign: '-5px',
     position: 'absolute',
-    top: '2px',
+    top: '1px',
     left: '2px'
   },
   '@media (max-width: 968px)': {
-    thPrice: {
+    th: {
+      fontSize: '10px'
+    },
+    hideMobile: {
       display: 'none'
     }
   }

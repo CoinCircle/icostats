@@ -52,32 +52,60 @@ const Row = ({ classes, ico, type = types.ROI_TOTAL }) => {
         </CSSTransitionGroup>
       </div>
       {type === types.ROI_TOTAL &&
-        <div className={classNames(classes.td, classes.tdChange)}>
-          {getPrettyPercentage(ico.change_since_ico)}
+        <div className={classNames(classes.td, classes.tdPrimary, {
+          [classes.tdPrimaryNegative]: ico.roi_since_ico <= 0
+        })}>
+          {getPrettyPercentage(ico.roi_since_ico)}
         </div>
       }
       {type === types.ROI_OVER_TIME &&
-        <div className={classNames(classes.td, classes.tdChange)}>
+        <div
+          className={classNames(
+            classes.td,
+            classes.tdPrimary,
+            classes.hideMobile,
+            {
+              [classes.tdPrimaryNegative]: ico.roi_per_day <= 0
+            }
+          )}
+        >
           {getPrettyPercentage(ico.roi_per_day)}
         </div>
       }
       {type === types.ROI_OVER_TIME &&
-        <div className={classNames(classes.td, classes.tdChange)}>
+        <div className={classNames(classes.td, classes.tdPrimary, classes.hideMobile, {
+          [classes.tdPrimaryNegative]: ico.roi_per_week <= 0
+        })}>
           {getPrettyPercentage(ico.roi_per_week)}
         </div>
       }
       {type === types.ROI_OVER_TIME &&
-        <div className={classNames(classes.td, classes.tdChange)}>
+        <div className={classNames(classes.td, classes.tdPrimary, {
+          [classes.tdPrimaryNegative]: ico.roi_per_month <= 0
+        })}>
           {getPrettyPercentage(ico.roi_per_month)}
         </div>
       }
       {type === types.ROI_VS_ETH &&
-        <div className={classNames(classes.td, classes.tdChange)}>
+        <div className={classNames(classes.td, classes.tdPrimary, {
+          [classes.tdPrimaryNegative]: ico.roi_since_ico <= 0
+        })}>
+            {getPrettyPercentage(ico.roi_since_ico)}
+        </div>
+      }
+      {type === types.ROI_VS_ETH &&
+        <div className={classNames(classes.td, classes.tdPrimary, {
+          [classes.tdPrimaryNegative]: ico.eth_roi_during_period <= 0
+        })}>
             {getPrettyPercentage(ico.eth_roi_during_period)}
         </div>
       }
       {type === types.ROI_VS_ETH &&
-        <div className={classNames(classes.td, classes.tdChange)}>
+        <div
+          className={classNames(classes.td, classes.tdPrimary, {
+            [classes.tdPrimaryNegative]: ico.roi_vs_eth <= 0
+          })}
+        >
           {getPrettyPercentage(ico.roi_vs_eth)}
         </div>
       }
@@ -138,11 +166,14 @@ const styles = {
     fontSize: '19px',
     fontWeight: 900
   },
-  tdChange: {
+  tdPrimary: {
     color: 'hsl(150, 75%, 45%)',
-    fontSize: '22px',
+    fontSize: '19px',
     fontWeight: 900,
     width: '125%'
+  },
+  tdPrimaryNegative: {
+    color: 'hsl(15, 75%, 60%)',
   },
   tdSmall: {
     width: '65%'
@@ -157,6 +188,7 @@ const styles = {
   link: {
     textDecoration: 'none',
     color: 'inherit',
+    cursor: 'pointer',
     '&:hover': {
       color: 'hsl(195, 89%, 72%)'
     }
@@ -169,11 +201,13 @@ const styles = {
       maxHeight: '20px'
     },
     tdPrice: {
-      display: 'none',
       fontSize: '14px'
     },
-    tdChange: {
+    tdPrimary: {
       fontSize: '14px'
+    },
+    hideMobile: {
+      display: 'none'
     }
   }
 };
