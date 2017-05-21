@@ -2,9 +2,11 @@
 import fetch from 'isomorphic-fetch';
 import { normalize as normalizeICO } from 'lib/icos';
 import icoData from 'lib/ico-data';
-import { fetchEthPriceAtDate, fetchCurrentEthPrice } from 'lib/cryptowatch';
+import { fetchEthPriceAtDate } from 'lib/cryptowatch';
+import { fetchCurrentPrice } from 'lib/gdax';
 import { cache } from 'app';
 import EthPrice from 'models/eth-price';
+import BtcPrice from 'models/btc-price';
 import { sendMail } from 'lib/mail';
 
 export default {
@@ -24,6 +26,7 @@ export default {
           data.start_date &&
           (new Date(data.start_date)) > minGdaxDate
         ) {
+          console.log('Fetched eth price at launch for %s', data.name);
           const price = await fetchEthPriceAtDate(data.start_date);
 
           json.eth_price_at_launch = price;
@@ -44,21 +47,33 @@ export default {
 
       // Get the current ETH price
       let ethPrice = cache.get('ethPrice');
+      let btcPrice = cache.get('btcPrice');
 
       if (!ethPrice) {
         try {
-          ethPrice = await fetchCurrentEthPrice();
+          ethPrice = await fetchCurrentPrice('ETH');
         } catch (e) {
-          console.log('fetch eth error: %s', e.message);
-          console.log('Reached cryptowatch rate limit. Trying database..');
           const latest = await EthPrice.findOne().sort('-timestamp');
 
           ethPrice = latest.usd_price;
+          console.log('Fetched fallback ETH price (%s) from db.', ethPrice);
         }
         cache.set('ethPrice', ethPrice);
       }
 
-      return results.map(ico => normalizeICO(ico, ethPrice));
+      if (!btcPrice) {
+        try {
+          btcPrice = await fetchCurrentPrice('BTC');
+        } catch (e) {
+          const latest = await BtcPrice.findOne().sort('-timestamp');
+
+          btcPrice = latest.usd_price;
+          console.log('Fetched fallback BTC price (%s) from db.', btcPrice);
+        }
+        cache.set('btcPrice', btcPrice);
+      }
+
+      return results.map(ico => normalizeICO(ico, ethPrice, btcPrice));
     },
     async ico(obj, { id }) {
       const url = `https://api.coinmarketcap.com/v1/ticker/${id}/`;

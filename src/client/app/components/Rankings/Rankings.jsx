@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import moment from 'moment';
 import classNames from 'classnames';
+import * as utils from 'app/utils';
 import Header from './Header';
 import Row from './Row';
 import Filters from './Filters';
@@ -35,24 +36,8 @@ const styles = {
     flex: '0 0 100px',
     width: '100%',
     display: 'flex',
-    alignItems: 'baseline',
+    alignItems: 'flex-start',
     justifyContent: 'space-between'
-  },
-  btnFeedback: {
-    background: 'hsla(0, 0%, 0%, 0)',
-    border: '1px solid hsl(15, 75%, 60%)',
-    fontSize: '12px',
-    fontWeight: '900',
-    padding: '6px 20px',
-    borderRadius: '2px',
-    color: 'hsl(15, 75%, 60%)',
-    textTransform: 'uppercase',
-    cursor: 'pointer',
-    textDecoration: 'none',
-    '&:hover': {
-      color: 'hsl(15, 85%, 70%)',
-      borderColor: 'hsl(15, 85%, 70%)'
-    }
   },
   tbody: {
     width: '100%',
@@ -61,6 +46,39 @@ const styles = {
   },
   headerLeft: {},
   headerRight: {},
+  selectCurrencyTitle: {
+    color: 'hsl(200, 40%, 50%)',
+    fontSize: '8px',
+    margin: '2px 0',
+    textAlign: 'right',
+    textTransform: 'uppercase',
+    letterSpacing: '1px'
+  },
+  selectCurrency: {
+    display: 'flex',
+    border: '1px solid hsl(200, 90%, 50%)',
+    borderRadius: '3px'
+  },
+  selectCurrencyItem: {
+    display: 'flex',
+    width: '33%',
+    padding: '3px 10px',
+    color: 'hsl(200, 90%, 50%)',
+    fontWeight: '400',
+    fontSize: '11px',
+    alignItems: 'center',
+    borderRight: '1px solid hsl(200, 90%, 50%)',
+    '&:last-child': {
+      borderRight: 'none'
+    },
+    '&.is-active': {
+      background: 'hsl(200, 90%, 50%)',
+      color: 'hsl(222, 21%, 25%)'
+    },
+    '&:hover': {
+      cursor: 'pointer'
+    }
+  }
 };
 
 
@@ -76,6 +94,7 @@ class Rankings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      currency: 'USD',
       sortBy: this.getInitialSortBy(this.getType()),
       ascending: false,
       filters: {
@@ -95,6 +114,10 @@ class Rankings extends React.Component {
       return types.ROI_VS_ETH;
     }
 
+    if (/^\/vs-btc/.test(path)) {
+      return types.ROI_VS_BTC;
+    }
+
     return types.ROI_TOTAL;
   }
 
@@ -105,6 +128,9 @@ class Rankings extends React.Component {
       }
       case types.ROI_VS_ETH: {
         return 'roi_vs_eth';
+      }
+      case types.ROI_VS_BTC: {
+        return 'roi_vs_btc';
       }
       default: {
         return 'roi_since_ico';
@@ -117,7 +143,7 @@ class Rankings extends React.Component {
    */
   getIcos() {
     const { icos } = this.props;
-    const { sortBy, ascending, filters } = this.state;
+    const { sortBy, ascending, filters, currency } = this.state;
     const filtered = icos.filter((ico) => {
       if (filters.erc20 && !ico.is_erc20) {
         return false;
@@ -126,7 +152,9 @@ class Rankings extends React.Component {
       return true;
     });
 
-    return filtered.slice().sort((a, b) => handleSort(a, b, sortBy, ascending));
+    return filtered
+      .slice()
+      .sort((a, b) => handleSort(a, b, sortBy, ascending, currency));
   }
 
 
@@ -134,22 +162,32 @@ class Rankings extends React.Component {
     if (this.props.isFetching) return <Loading />;
     const { classes } = this.props;
     const type = this.getType();
+    const showCurrencyPicker = type !== types.ROI_VS_ETH && type !== types.ROI_VS_BTC;
     const titles = {
       [types.ROI_OVER_TIME]: 'ROI Over Time',
       [types.ROI_TOTAL]: 'ROI Since ICO',
-      [types.ROI_VS_ETH]: 'Compare Performance to Ethereum'
+      [types.ROI_VS_ETH]: 'Compare Performance to Ethereum',
+      [types.ROI_VS_BTC]: 'Compare Performance to Bitcoin'
     };
     const title = (
       <h3 className={classes.title}>
         {titles[type]}
       </h3>
     );
-    const feedbackButton = (
-      <a
-        className={classes.btnFeedback}
-        href="https://cooperm1.typeform.com/to/VYgHPt"
-        target="_blank"
-      >Feedback</a>
+    const currencies = ['USD', 'ETH', 'BTC'];
+    const selectCurrency = (
+      <div className={classes.selectCurrency}>
+        {currencies.map(currency =>
+          <div
+            onClick={() => this.setState({ currency })}
+            className={classNames(classes.selectCurrencyItem, {
+              'is-active': this.state.currency === currency
+            })}
+          >
+            {currency}
+          </div>
+        )}
+      </div>
     );
     const header = (
       <div className={classes.header}>
@@ -161,7 +199,12 @@ class Rankings extends React.Component {
           />
         </div>
         <div className={classes.headerRight}>
-          {feedbackButton}
+          {showCurrencyPicker &&
+            <div className={classes.selectCurrencyTitle}>
+              Base Currency
+            </div>
+          }
+          {showCurrencyPicker && selectCurrency}
         </div>
       </div>
     );
@@ -174,12 +217,14 @@ class Rankings extends React.Component {
           onSort={(sortBy, ascending) => this.setState({ sortBy, ascending })}
           ascending={this.state.ascending}
           type={type}
+          currency={this.state.currency}
         />
         {this.getIcos().map(ico =>
           <Row
             key={ico.id}
             ico={ico}
             type={type}
+            currency={this.state.currency}
           />
         )}
       </div>
@@ -198,7 +243,7 @@ class Rankings extends React.Component {
  * @param {Boolean} ascending
  * @return {Number}
  */
-function handleSort(_a, _b, sortBy, ascending) {
+function handleSort(_a, _b, sortBy, ascending, currency, startDate) {
   let a = _a[sortBy];
   let b = _b[sortBy];
 
@@ -218,6 +263,42 @@ function handleSort(_a, _b, sortBy, ascending) {
       if (ma < mb) return ascending ? 1 : -1;
       if (ma > mb) return ascending ? -1 : 1;
       return 0;
+    }
+    case 'ico_price': {
+      a = utils.getICOPrice(a, currency);
+      b = utils.getICOPrice(b, currency);
+      return ascending ? (a - b) : (b - a);
+    }
+    case 'current_price': {
+      a = utils.getCurrentPrice(a, currency);
+      b = utils.getCurrentPrice(b, currency);
+      return ascending ? (a - b) : (b - a);
+    }
+    case 'roi_per_day': {
+      a = utils.getTotalROI(_a, currency);
+      b = utils.getTotalROI(_b, currency);
+      a = utils.getPeriodicROI(a, _a.start_date, utils.DAILY);
+      b = utils.getPeriodicROI(b, _b.start_date, utils.DAILY);
+      return ascending ? (a - b) : (b - a);
+    }
+    case 'roi_per_week': {
+      a = utils.getTotalROI(_a, currency);
+      b = utils.getTotalROI(_b, currency);
+      a = utils.getPeriodicROI(a, _a.start_date, utils.WEEKLY);
+      b = utils.getPeriodicROI(b, _b.start_date, utils.WEEKLY);
+      return ascending ? (a - b) : (b - a);
+    }
+    case 'roi_per_month': {
+      a = utils.getTotalROI(_a, currency);
+      b = utils.getTotalROI(_b, currency);
+      a = utils.getPeriodicROI(a, _a.start_date, utils.MONTHLY);
+      b = utils.getPeriodicROI(b, _b.start_date, utils.MONTHLY);
+      return ascending ? (a - b) : (b - a);
+    }
+    case 'roi_since_ico': {
+      a = utils.getTotalROI(_a, currency);
+      b = utils.getTotalROI(_b, currency);
+      return ascending ? (a - b) : (b - a);
     }
     // Numeric values should use default
     default: {

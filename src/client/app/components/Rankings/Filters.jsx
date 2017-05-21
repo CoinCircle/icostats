@@ -16,7 +16,6 @@ const Filters = ({ classes, filters, onUpdate }) => {
         name="filter-erc20"
         className={classes.checkInput}
         type="checkbox"
-        checked={filters.erc20}
       />
       <label
         className={classes.check}

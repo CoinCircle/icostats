@@ -22,6 +22,7 @@ const App = ({ classes }) => (
       <Route exact path="/" component={Rankings} />
       <Route exact path="/roi-over-time" component={Rankings} />
       <Route exact path="/vs-eth" component={Rankings} />
+      <Route exact path="/vs-btc" component={Rankings} />
     </div>
   </Router>
 );

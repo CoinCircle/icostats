@@ -11,7 +11,7 @@ const propTypes = {
   type: PropTypes.string
 };
 
-const Header = ({ classes, sortBy, onSort, ascending, type = 'ROI_TOTAL' }) => {
+const Header = ({ classes, sortBy, onSort, ascending, type = 'ROI_TOTAL', currency }) => {
   const items = [{
     key: 'name',
     label: 'Name'
@@ -19,11 +19,11 @@ const Header = ({ classes, sortBy, onSort, ascending, type = 'ROI_TOTAL' }) => {
     key: 'start_date',
     label: 'ICO Date'
   }, {
-    key: 'implied_token_price',
+    key: 'ico_price',
     label: 'ICO Price',
     addClass: classes.thPrice
   }, {
-    key: 'price_usd',
+    key: 'current_price',
     label: 'Curr. Price',
     addClass: classes.thPrice
   }];
@@ -61,6 +61,24 @@ const Header = ({ classes, sortBy, onSort, ascending, type = 'ROI_TOTAL' }) => {
       items.push({
         key: 'roi_vs_eth',
         label: 'ROI vs ETH',
+        addClass: classes.thPrimary
+      });
+      break;
+    }
+    case types.ROI_VS_BTC: {
+      items.push({
+        key: 'roi_since_ico',
+        label: 'ROI since ICO',
+        addClass: classes.thPrimary
+      });
+      items.push({
+        key: 'btc_roi_during_period',
+        label: 'BTC ROI since ICO',
+        addClass: classes.thPrimary
+      });
+      items.push({
+        key: 'roi_vs_btc',
+        label: 'ROI vs BTC',
         addClass: classes.thPrimary
       });
       break;
@@ -144,7 +162,7 @@ const styles = {
     width: '65%'
   },
   thPrimary: {
-    width: '125%'
+    width: '110%'
   },
   sortActive: {
     background: 'hsl(256, 61%, 48%)',

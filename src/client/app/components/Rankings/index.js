@@ -17,15 +17,23 @@ const QUERY = gql`
       price_btc,
       implied_token_price,
       roi_since_ico,
+      roi_since_ico_eth,
+      roi_since_ico_btc,
       start_date,
       icon_ext,
       ticker,
+      eth_price_at_launch,
+      btc_price_at_launch,
       roi_per_week,
       roi_per_day,
       roi_per_month,
       eth_roi_during_period,
+      btc_roi_during_period,
       roi_vs_eth,
-      is_erc20
+      roi_vs_btc,
+      is_erc20,
+      eth_price_usd,
+      btc_price_usd
     }
   }
 `;
