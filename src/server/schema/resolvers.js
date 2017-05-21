@@ -5,6 +5,7 @@ import icoData from 'lib/ico-data';
 import { fetchEthPriceAtDate, fetchCurrentEthPrice } from 'lib/cryptowatch';
 import { cache } from 'app';
 import EthPrice from 'models/eth-price';
+import { sendMail } from 'lib/mail';
 
 export default {
   Query: {
@@ -70,8 +71,10 @@ export default {
     }
   },
   Mutation: {
-    async test() {
-      return [];
+    async sendMail(_, { name, email, message }) {
+      const success = await sendMail(name, email, message);
+
+      return success ? 'success' : 'failed';
     }
   }
 };

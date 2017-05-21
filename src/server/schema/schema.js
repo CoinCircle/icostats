@@ -38,7 +38,7 @@ type Query {
 
 # this schema allows the following mutation:
 type Mutation {
-  test: ICO
+  sendMail(name: String!, email: String!, message: String!): Boolean
 }
 
 # we need to tell the server which types represent the root query

@@ -7,5 +7,7 @@ module.exports = {
   MONGO_URI: process.env.MONGO_URI || 'mongodb://mongo/app',
   MONGO_TEST_URI: process.env.MONGO_TEST_URI || 'mongodb://mongo/app_test',
   MONGO_USERNAME: process.env.MONGO_USERNAME,
-  MONGO_PASSWORD: process.env.MONGO_PASSWORD
+  MONGO_PASSWORD: process.env.MONGO_PASSWORD,
+  SMTP_USERNAME: process.env.SMTP_USERNAME,
+  SMTP_PASSWORD: process.env.SMTP_PASSWORD
 };
