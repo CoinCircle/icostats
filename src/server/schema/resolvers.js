@@ -14,31 +14,25 @@ export default {
     async icos() {
       const promises = icoData.map(async (data) => {
         const url = `https://api.coinmarketcap.com/v1/ticker/${data.ticker}/`;
-        const response = await fetch(url);
-        let json = await response.json();
+        let obj = cache.get(url);
 
-        // Try to get ETH price on ICO launch day
-        // NOTE: GDAX does not have history before a ceertain date
-        const minGdaxDate = new Date('05/25/2016');
+        if (!obj) {
+          const response = await fetch(url);
 
-        if (
-          !data.eth_price_at_launch &&
-          data.start_date &&
-          (new Date(data.start_date)) > minGdaxDate
-        ) {
-          console.log('Fetched eth price at launch for %s', data.name);
-          const price = await fetchEthPriceAtDate(data.start_date);
+          obj = await response.json();
 
-          json.eth_price_at_launch = price;
-        }
+          if (Array.isArray(obj)) {
+            obj = obj[0];
+          }
 
-        if (Array.isArray(json)) {
-          json = json[0];
+          cache.set(url, obj);
+        } else {
+          console.log('found URL in cache: (%s)', url);
         }
 
         return {
           ...data,
-          ...json,
+          ...obj,
           // This one conflicts
           id: data.id
         };
