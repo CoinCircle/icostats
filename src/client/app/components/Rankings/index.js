@@ -41,10 +41,12 @@ const mapDataToProps = result => ({
   icos: result.data.icos,
   isFetching: result.data.loading
 });
+const ONE_SECOND = 1000;
+const ONE_MINUTE = ONE_SECOND * 60;
 const withData = graphql(QUERY, {
   props: mapDataToProps,
   options: {
-    pollInterval: 10000
+    pollInterval: ONE_MINUTE
   }
 });
 
