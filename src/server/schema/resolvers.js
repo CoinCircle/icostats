@@ -1,7 +1,10 @@
+/* eslint-disable no-console */
 import fetch from 'isomorphic-fetch';
 import { normalize as normalizeICO } from 'lib/icos';
 import icoData from 'lib/ico-data';
-import { fetchEthPriceAtDate, fetchCurrentEthPrice } from 'lib/gdax';
+import { fetchEthPriceAtDate, fetchCurrentEthPrice } from 'lib/cryptowatch';
+import { cache } from 'app';
+import EthPrice from 'models/eth-price';
 
 export default {
   Query: {
@@ -39,7 +42,21 @@ export default {
       const results = await Promise.all(promises);
 
       // Get the current ETH price
-      const ethPrice = await fetchCurrentEthPrice();
+      let ethPrice = cache.get('ethPrice');
+
+      if (!ethPrice) {
+        try {
+          ethPrice = await fetchCurrentEthPrice();
+          cache.set('ethPrice', ethPrice);
+        } catch (e) {
+          console.log('Reached cryptowatch rate limit. Trying database..');
+          const latest = await EthPrice.findOne().sort('-timestamp');
+
+          ethPrice = latest.usd_price;
+        }
+      } else {
+        console.log('pulled eth price (%s) from cache', ethPrice);
+      }
 
       return results.map(ico => normalizeICO(ico, ethPrice));
     },

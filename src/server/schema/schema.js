@@ -19,14 +19,15 @@ type ICO {
   start_date: String
   implied_token_price: Float!
   eth_price_at_launch: String,
-  change_since_ico: Float!,
+  roi_since_ico: Float!,
   icon_ext: String,
   ticker: String,
   roi_per_day: Float,
   roi_per_week: Float,
   roi_per_month: Float,
   eth_roi_during_period: Float,
-  roi_vs_eth: Float
+  roi_vs_eth: Float,
+  is_erc20: Boolean
 }
 
 # the schema allows the following query:
