@@ -63,6 +63,27 @@ const styles = {
       borderColor: 'hsl(15, 85%, 70%)'
     }
   },
+  tipjar: {
+    wordWrap: 'break-word',
+    textAlign: 'left',
+    padding: '6px 10px',
+    fontSize: '9px',
+    fontWeight: '400',
+    color: 'hsl(0, 0%, 63%)',
+    marginTop: '1px',
+    borderRadius: '2px',
+    width: '90%',
+    alignSelf: 'center',
+    marginBottom: '10px'
+  },
+  tipjarAddress: {
+    color: 'hsl(0, 0%, 51%)',
+    textDecoration: 'none',
+    '&:hover': {
+      color: 'hsl(220, 50%, 60%)',
+      textDecoration: 'underline'
+    }
+  }
 };
 
 const Navigation = ({ classes }) => (
@@ -112,6 +133,18 @@ const Navigation = ({ classes }) => (
       href="https://cooperm1.typeform.com/to/VYgHPt"
       target="_blank"
     >Feedback</a>
+
+    <div className={classes.tipjar}>
+      <span className={classes.tipjarTitle}>
+        Tipjar:{' '}
+      </span>
+      <a
+        href="https://etherscan.io/address/0x2B981863A0FBf4e07c8508623De8Bd6d4b28419C"
+        className={classes.tipjarAddress}
+      >
+        0x2B981863A0FBf4e07c8508623De8Bd6d4b28419C
+      </a>
+    </div>
   </div>
 );
 
