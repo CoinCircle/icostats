@@ -30,6 +30,7 @@
     "isomorphic-fetch": "^2.2.1",
     "moment": "^2.18.1",
     "mongoose": "^4.7.6",
+    "morgan": "^1.8.1",
     "node-cache": "^4.1.1",
     "nodemailer": "^4.0.1",
     "nodemon": "^1.11.0",

@@ -1,4 +1,4 @@
-/* eslint-disable no-console, newline-after-var */
+/* eslint-disable no-console, newline-after-var, import/prefer-default-export */
 import 'babel-polyfill';
 import express from 'express';
 import bodyParser from 'body-parser';
@@ -7,6 +7,7 @@ import { graphqlExpress, graphiqlExpress } from 'graphql-server-express';
 import settings from 'settings';
 import schema from 'schema';
 import NodeCache from 'node-cache';
+import morgan from 'morgan';
 
 /**
  * Initialize the database.
@@ -32,6 +33,11 @@ export const cache = appCache;
  */
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+/**
+ * HTTP logger
+ */
+app.use(morgan('tiny'));
 
 /**
  * GraphQL
