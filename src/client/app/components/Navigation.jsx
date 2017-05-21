@@ -83,6 +83,21 @@ const styles = {
       color: 'hsl(220, 50%, 60%)',
       textDecoration: 'underline'
     }
+  },
+  roadmap: {
+    color: 'hsl(192, 0%, 43%)',
+    cursor: 'pointer',
+    fontSize: '10px',
+    background: 'hsla(0, 0%, 0%, 0)',
+    alignSelf: 'center',
+    marginBottom: '10px',
+    paddingBottom: '0px',
+    textDecoration: 'none',
+    borderBottom: '1px solid hsl(192, 0%, 36%)',
+    '&:hover': {
+      color: 'hsl(192, 0%, 52%)',
+      borderBottom: '1px solid hsl(192, 0%, 45%)',
+    }
   }
 };
 
@@ -132,7 +147,17 @@ const Navigation = ({ classes }) => (
       className={classes.btnFeedback}
       href="https://cooperm1.typeform.com/to/VYgHPt"
       target="_blank"
+      rel="noopener noreferrer"
     >Feedback</a>
+
+    <a
+      href="https://trello.com/b/UnsBjG3k"
+      target="_blank"
+      rel="noopener noreferrer"
+      className={classes.roadmap}
+    >
+      Trello Roadmap
+    </a>
 
     <div className={classes.tipjar}>
       <span className={classes.tipjarTitle}>
