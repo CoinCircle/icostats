@@ -2,6 +2,7 @@ import Gdax from 'gdax';
 import Promise from 'bluebird';
 import EthPrice from 'models/eth-price';
 
+const TOO_MANY_REQUESTS = 429;
 const publicClient = new Gdax.PublicClient();
 
 Promise.promisifyAll(publicClient);
@@ -18,6 +19,11 @@ export async function fetchEthPriceAtDate(date) {
 
   try {
     const response = await fetch(url);
+
+    if (response.status === TOO_MANY_REQUESTS) {
+      throw new Error('Failed to get ETH price: Too many cryptowatch requests');
+    }
+
     const json = await response.json();
     const result = json.result;
     const key = getLowestInterval(result);
@@ -40,6 +46,7 @@ export async function fetchEthPriceAtDate(date) {
 
     return data[0][1];
   } catch (err) {
+    console.log('cryptowatch err: %s', err);
     throw new Error(err.message);
   }
 }

@@ -22,7 +22,7 @@ const app = module.exports = express();
  * Initialize a cache.
  */
 const appCache = new NodeCache({
-  stdTTL: 10,
+  stdTTL: 60,
   checkperiod: 120
 });
 export const cache = appCache;

@@ -48,15 +48,14 @@ export default {
       if (!ethPrice) {
         try {
           ethPrice = await fetchCurrentEthPrice();
-          cache.set('ethPrice', ethPrice);
         } catch (e) {
+          console.log('fetch eth error: %s', e.message);
           console.log('Reached cryptowatch rate limit. Trying database..');
           const latest = await EthPrice.findOne().sort('-timestamp');
 
           ethPrice = latest.usd_price;
         }
-      } else {
-        console.log('pulled eth price (%s) from cache', ethPrice);
+        cache.set('ethPrice', ethPrice);
       }
 
       return results.map(ico => normalizeICO(ico, ethPrice));
