@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import { graphqlExpress, graphiqlExpress } from 'graphql-server-express';
 import settings from 'settings';
 import schema from 'schema';
+import NodeCache from 'node-cache';
 
 /**
  * Initialize the database.
@@ -16,6 +17,15 @@ mongoose.connect(settings.MONGO_URI);
  * Initialize the application.
  */
 const app = module.exports = express();
+
+/**
+ * Initialize a cache.
+ */
+const appCache = new NodeCache({
+  stdTTL: 10,
+  checkperiod: 120
+});
+export const cache = appCache;
 
 /**
  * Support json & urlencoded requests.
