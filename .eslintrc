@@ -56,7 +56,7 @@
     }],
     "comma-dangle": [0, "always-multiline"],
     "no-underscore-dangle": [1, {
-        "allow": ["_id"]
+        "allow": ["_id", "_doc"]
     }],
     "no-mixed-spaces-and-tabs": 0,
     "comma-style": [2, "last"],
