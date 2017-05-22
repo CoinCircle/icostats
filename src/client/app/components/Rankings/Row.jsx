@@ -165,7 +165,7 @@ Row.propTypes = propTypes;
 
 const styles = {
   tr: {
-    width: '150%',
+    width: '180%',
     height: '60px',
     minHeight: '60px',
     color: 'white',

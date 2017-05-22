@@ -144,7 +144,7 @@ Header.propTypes = propTypes;
 const styles = {
   tableheader: {
     display: 'flex',
-    width: '150%',
+    width: '180%',
     height: '20px',
     minHeight: '20px',
     boxShadow: '-17px 0px 24px -13px hsla(0, 100%, 100%, 0.2) inset'
