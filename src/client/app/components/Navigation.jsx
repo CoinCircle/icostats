@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import injectSheet from 'react-jss';
+import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 const styles = {
@@ -98,12 +99,16 @@ const styles = {
       color: 'hsl(192, 0%, 52%)',
       borderBottom: '1px solid hsl(192, 0%, 45%)',
     }
+  },
+  hide: {
+    display: 'none'
   }
 };
 
-const Navigation = ({ classes }) => (
-  <div className={classes.container}>
-
+const Navigation = ({ classes, isNavOpen = true }) => (
+  <div
+    className={classNames(classes.container, { [classes.hide]: !isNavOpen })}
+  >
     <div className={classes.brand}>
       <img src="/img/logo.svg" className={classes.logo} alt="logo" />
     </div>
@@ -173,4 +178,13 @@ const Navigation = ({ classes }) => (
   </div>
 );
 
-export default injectSheet(styles)(Navigation);
+const withStyles = injectSheet(styles)(Navigation);
+
+const mapStateToProps = (state, ownProps) => ({
+  isNavOpen: state.app.isNavOpen,
+  pathname: ownProps.location
+});
+const connected = connect(mapStateToProps)(withStyles);
+import { withRouter } from 'react-router-dom';
+
+export default withRouter(connected);

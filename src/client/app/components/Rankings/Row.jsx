@@ -30,7 +30,7 @@ const Row = ({ classes, ico, currency = 'USD', type = types.ROI_TOTAL }) => {
           className={classes.logo}
         />
       </div>
-      <div className={classes.td}>
+      <div className={classNames(classes.td, classes.tdName)}>
         <a
           href={`https://coinmarketcap.com/assets/${ico.ticker}/`}
           className={classes.link}
@@ -40,7 +40,7 @@ const Row = ({ classes, ico, currency = 'USD', type = types.ROI_TOTAL }) => {
           {ico.name}
         </a>
       </div>
-      <div className={classes.td}>
+      <div className={classNames(classes.td, classes.tdDate)}>
         {moment(ico.start_date, 'MM/DD/YYYY').format('MM/DD/YY')}
       </div>
       <div className={classNames(classes.td, classes.tdPrice)}>
@@ -165,43 +165,60 @@ Row.propTypes = propTypes;
 
 const styles = {
   tr: {
-    width: '100%',
+    width: '150%',
     height: '60px',
     minHeight: '60px',
     color: 'white',
     display: 'flex',
     alignItems: 'center',
-    boxShadow: '0px 1px hsla(0, 0%, 0%, .8), 0px 2px  hsla(0, 0%, 100%, .2)'
+    boxShadow: [
+      '0px 1px hsla(0, 0%, 0%, .8)',
+      '0px 2px  hsla(0, 0%, 100%, .2)',
+      '-17px 0px 24px -13px hsla(0, 100%, 100%, 0.2) inset'
+    ].join(',')
   },
   td: {
     flexGrow: '2',
     width: '100%',
-    fontSize: '16px',
+    fontSize: '13px',
     fontWeight: 200,
     textAlign: 'right',
     overflow: 'hidden',
-    textOverflow: 'ellipsis'
+    textOverflow: 'ellipsis',
+    margin: '0 10px',
+    order: 1
   },
   logo: {
-    maxHeight: '30px',
-    maxWidth: '100%',
-    width: 'auto'
+    maxWidth: '30px',
+    height: 'auto'
   },
   tdLogo: {
+    width: '60%',
     display: 'flex',
     justifyContent: 'center',
-    width: '70%'
+    maxHeight: '40px',
+    alignItems: 'center',
+    order: 0
   },
   tdPrice: {
     color: 'hsl(220, 5%, 76%)',
-    fontSize: '17px',
+    fontSize: '13px',
     fontWeight: 900
+  },
+  tdName: {
+    width: '100%',
+    order: 0
+  },
+  tdDate: {
+    width: '100%',
+    fontSize: '12px'
   },
   tdPrimary: {
     color: 'hsl(150, 75%, 45%)',
-    fontSize: '19px',
+    fontSize: '15px',
     fontWeight: 900,
-    width: '110%'
+    width: '140%',
+    order: 0
   },
   tdPrimaryNegative: {
     color: 'hsl(15, 75%, 60%)',
@@ -211,9 +228,9 @@ const styles = {
   },
   dollar: {
     fontWeight: 400,
-    fontSize: '15px',
+    fontSize: '12px',
     color: 'hsl(0, 0%, 45%)',
-    verticalAlign: 'middle',
+    verticalAlign: 'baseline',
     paddingRight: '3px'
   },
   link: {
@@ -224,21 +241,30 @@ const styles = {
       color: 'hsl(195, 89%, 72%)'
     }
   },
-  '@media (max-width: 968px)': {
-    td: {
-      fontSize: '12px'
+  '@media (min-width: 768px)': {
+    tr: {
+      width: '100%',
+      boxShadow: [
+        '0px 1px hsla(0, 0%, 0%, .8)',
+        '0px 2px  hsla(0, 0%, 100%, .2)',
+      ].join(',')
+    },
+    tdLogo: {
+      width: '70%'
     },
     logo: {
-      maxHeight: '20px'
+      maxWidth: '40px'
+    }
+  },
+  '@media (min-width: 1024px)': {
+    td: {
+      fontSize: '15px'
     },
-    tdPrice: {
-      fontSize: '14px'
+    tdDate: {
+      fontSize: '12px'
     },
     tdPrimary: {
-      fontSize: '14px'
-    },
-    hideMobile: {
-      display: 'none'
+      fontSize: '17px'
     }
   }
 };

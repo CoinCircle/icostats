@@ -20,6 +20,30 @@ div {
 #app {
   height: 100%;
 }
+/* Let's get this party started */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    display: none;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: hsla(0, 0%, 100%, .1);
+}
+
+::-webkit-scrollbar:vertical {
+  display: none;
+}
+
+::-webkit-scrollbar-corner {
+  display: none;
+}
 
 .percentage-enter {
   opacity: 0.5;

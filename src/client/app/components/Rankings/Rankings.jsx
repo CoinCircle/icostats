@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import moment from 'moment';
 import classNames from 'classnames';
+import { connect } from 'react-redux';
+import app from 'app';
 import * as utils from 'app/utils';
 import Header from './Header';
 import Row from './Row';
@@ -13,7 +15,6 @@ import * as types from './constants';
 
 const styles = {
   container: {
-    padding: '15px 30px',
     flexGrow: 2,
     display: 'flex',
     flexDirection: 'column',
@@ -27,24 +28,32 @@ const styles = {
   },
   title: {
     fontWeight: 900,
-    fontSize: '25px',
+    fontSize: '19px',
     color: 'white',
     textTransform: 'uppercase',
-    margin: '0'
+    margin: '0',
+    display: 'flex',
+    alignItems: 'center'
   },
   header: {
+    padding: '15px',
     flex: '0 0 100px',
     width: '100%',
     display: 'flex',
     alignItems: 'flex-start',
-    justifyContent: 'space-between'
+    justifyContent: 'flex-start'
   },
   tbody: {
     width: '100%',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    position: 'relative',
+    overflow: 'scroll',
+    boxShadow: '-25px 0px 30px -20px hsla(0, 0%, 0%, 0.8) inset'
   },
-  headerLeft: {},
+  headerLeft: {
+    flexGrow: 2
+  },
   headerRight: {},
   selectCurrencyTitle: {
     color: 'hsl(200, 40%, 50%)',
@@ -78,6 +87,21 @@ const styles = {
     '&:hover': {
       cursor: 'pointer'
     }
+  },
+  hamburger: {
+    color: 'hsl(0, 0%, 75%)',
+    paddingRight: '15px',
+    cursor: 'pointer',
+    '&:hover': {
+      color: 'hsl(0, 0%, 80%)'
+    }
+  },
+  '@media (min-width: 768px)': {
+    tbody: {
+      boxShadow: 'none',
+      padding: '0 15px',
+      overflow: 'auto'
+    }
   }
 };
 
@@ -101,6 +125,28 @@ class Rankings extends React.Component {
         erc20: true
       }
     };
+  }
+
+  handleTableRef(ref) {
+    // // Add the event listener which gets triggered when using the trackpad
+    // ref.addEventListener('mousewheel', function(event) {
+    //   // We don't want to scroll below zero or above the width and height
+    //   var maxX = this.scrollWidth - this.offsetWidth;
+    //   var maxY = this.scrollHeight - this.offsetHeight;
+    //
+    //   // If this event looks like it will scroll beyond the bounds of the element, prevent it and set the scroll to the boundary manually
+    //   if (this.scrollLeft + event.deltaX < 0 ||
+    //     this.scrollLeft + event.deltaX > maxX ||
+    //     this.scrollTop + event.deltaY < 0 ||
+    //     this.scrollTop + event.deltaY > maxY) {
+    //
+    //       event.preventDefault();
+    //
+    //       // Manually set the scroll to the boundary
+    //       this.scrollLeft = Math.max(0, Math.min(maxX, this.scrollLeft + event.deltaX));
+    //       this.scrollTop = Math.max(0, Math.min(maxY, this.scrollTop + event.deltaY));
+    //     }
+    //   }, false);
   }
 
   getType() {
@@ -190,8 +236,17 @@ class Rankings extends React.Component {
         )}
       </div>
     );
+    const hamburger = (
+      <i
+        className={classNames('material-icons', classes.hamburger)}
+        onClick={this.props.toggleNav}
+      >
+        menu
+      </i>
+    );
     const header = (
       <div className={classes.header}>
+        {hamburger}
         <div className={classes.headerLeft}>
           {title}
           <Filters
@@ -213,21 +268,23 @@ class Rankings extends React.Component {
     return (
       <div className={classes.container}>
         {header}
-        <Header
-          sortBy={this.state.sortBy}
-          onSort={(sortBy, ascending) => this.setState({ sortBy, ascending })}
-          ascending={this.state.ascending}
-          type={type}
-          currency={this.state.currency}
-        />
-        {this.getIcos().map(ico =>
-          <Row
-            key={ico.id}
-            ico={ico}
+        <div className={classes.tbody} ref={this.handleTableRef}>
+          <Header
+            sortBy={this.state.sortBy}
+            onSort={(sortBy, ascending) => this.setState({ sortBy, ascending })}
+            ascending={this.state.ascending}
             type={type}
             currency={this.state.currency}
           />
-        )}
+          {this.getIcos().map(ico =>
+            <Row
+              key={ico.id}
+              ico={ico}
+              type={type}
+              currency={this.state.currency}
+            />
+          )}
+        </div>
       </div>
     );
   }

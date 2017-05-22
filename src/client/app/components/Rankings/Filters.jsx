@@ -55,18 +55,20 @@ const Filters = ({ classes, filters, onUpdate }) => {
 const styles = {
   container: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: '20px'
   },
   title: {
-    color: 'hsl(0, 0%, 65%)',
+    color: 'hsl(0, 0%, 100%)',
     fontWeight: '200',
-    fontSize: '16px',
-    paddingRight: '10px'
+    fontSize: '13px',
+    paddingRight: '6px',
+    margin: 0
   },
   erc20: {
     display: 'flex',
     alignItems: 'center',
-    marginLeft: '15px',
+    marginLeft: '5px',
     cursor: 'pointer'
   },
   checkWrapper: {

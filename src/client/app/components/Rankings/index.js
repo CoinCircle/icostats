@@ -1,5 +1,7 @@
 import { graphql, compose } from 'react-apollo';
+import { connect } from 'react-redux';
 import gql from 'graphql-tag';
+import app from 'app';
 import Rankings from './Rankings';
 
 
@@ -69,4 +71,12 @@ const withActions = graphql(ACTIONS, {
   props: mapActionsToProps
 });
 
-export default compose(withData, withActions)(Rankings);
+/* =============================================================================
+=    Redux
+============================================================================= */
+const mapDispatchToProps = dispatch => ({
+  toggleNav: () => dispatch(app.actions.toggleNav())
+});
+const withConnect = connect(null, mapDispatchToProps);
+
+export default compose(withData, withActions, withConnect)(Rankings);

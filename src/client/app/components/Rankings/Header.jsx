@@ -14,10 +14,12 @@ const propTypes = {
 const Header = ({ classes, sortBy, onSort, ascending, type = 'ROI_TOTAL', currency }) => {
   const items = [{
     key: 'name',
-    label: 'Name'
+    label: 'Name',
+    addClass: classes.thName
   }, {
     key: 'start_date',
-    label: 'ICO Date'
+    label: 'ICO Date',
+    addClass: classes.thDate
   }, {
     key: 'ico_price',
     label: 'ICO Price',
@@ -142,27 +144,39 @@ Header.propTypes = propTypes;
 const styles = {
   tableheader: {
     display: 'flex',
-    width: '100%',
+    width: '150%',
     height: '20px',
-    minHeight: '20px'
+    minHeight: '20px',
+    boxShadow: '-17px 0px 24px -13px hsla(0, 100%, 100%, 0.2) inset'
   },
   th: {
     flexGrow: '1',
     width: '100%',
     color: '#8F6CF0',
-    fontSize: '12px',
+    fontSize: '11px',
     textTransform: 'uppercase',
     textAlign: 'right',
     position: 'relative',
+    margin: '10px',
+    order: 1
   },
   thLogo: {
-    width: '70%'
+    width: '60%',
+    order: 0
   },
   thSmall: {
-    width: '65%'
+    width: '80%'
   },
   thPrimary: {
-    width: '110%'
+    width: '140%',
+    order: 0
+  },
+  thName: {
+    width: '100%',
+    order: 0
+  },
+  thDate: {
+    width: '100%'
   },
   sortActive: {
     background: 'hsl(256, 61%, 48%)',
@@ -194,12 +208,15 @@ const styles = {
     top: '1px',
     left: '2px'
   },
-  '@media (max-width: 968px)': {
+  '@media (min-width: 768px)': {
+    tableheader: {
+      width: '100%',
+      boxShadow: 'none'
+    }
+  },
+  '@media (min-width: 1024px)': {
     th: {
-      fontSize: '10px'
-    },
-    hideMobile: {
-      display: 'none'
+      fontSize: '13px'
     }
   }
 };
