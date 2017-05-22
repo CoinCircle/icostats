@@ -8,6 +8,7 @@ import settings from 'settings';
 import schema from 'schema';
 import NodeCache from 'node-cache';
 import morgan from 'morgan';
+import initTickerWorker from 'lib/ticker-worker';
 
 /**
  * Initialize the database.
@@ -63,4 +64,7 @@ app.get('*', (req, res) => res.sendFile(`${settings.APP_ROOT}/public/index.html`
 /**
  * Run the server
  */
-app.listen(settings.APP_PORT, () => console.log(`App listening on port ${settings.APP_PORT}!`));
+app.listen(settings.APP_PORT, () => {
+  console.log(`App listening on port ${settings.APP_PORT}!`);
+  initTickerWorker();
+});

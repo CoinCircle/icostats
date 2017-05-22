@@ -12,7 +12,6 @@ const QUERY = gql`
       id,
       name,
       symbol,
-      rank,
       price_usd,
       price_btc,
       implied_token_price,

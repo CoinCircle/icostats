@@ -8,34 +8,17 @@ import { cache } from 'app';
 import EthPrice from 'models/eth-price';
 import BtcPrice from 'models/btc-price';
 import { sendMail } from 'lib/mail';
+import Ticker from 'models/ticker';
 
 export default {
   Query: {
     async icos() {
-      const promises = icoData.map(async (data) => {
-        const url = `https://api.coinmarketcap.com/v1/ticker/${data.ticker}/`;
-        let obj = cache.get(url);
-
-        if (!obj) {
-          const response = await fetch(url);
-
-          obj = await response.json();
-
-          if (Array.isArray(obj)) {
-            obj = obj[0];
-          }
-
-          cache.set(url, obj);
-        }
-
-        return {
-          ...data,
-          ...obj,
-          // This one conflicts
-          id: data.id
-        };
-      });
-      const results = await Promise.all(promises);
+      const tickers = await Ticker.find();
+      const results = icoData.map(data => ({
+        ...data,
+        ...( tickers.find(t => t.ticker === data.ticker)._doc ),
+        id: data.id
+      }));
 
       // Get the current ETH price
       let ethPrice = cache.get('ethPrice');

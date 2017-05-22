@@ -5,7 +5,6 @@ type ICO {
   id: String!
   name: String!
   symbol: String!
-  rank: Int!
   price_usd: Float!
   price_btc: Float!
   volume_usd_24h: Float
@@ -18,22 +17,22 @@ type ICO {
   last_updated: Int!
   start_date: String
   implied_token_price: Float!
-  eth_price_at_launch: Float!,
-  btc_price_at_launch: Float!,
-  roi_since_ico: Float!,
-  roi_since_ico_eth: Float!,
-  roi_since_ico_btc: Float!,
-  icon_ext: String,
-  ticker: String,
-  roi_per_day: Float,
-  roi_per_week: Float,
-  roi_per_month: Float,
-  eth_roi_during_period: Float,
-  btc_roi_during_period: Float,
-  roi_vs_eth: Float,
-  roi_vs_btc: Float,
-  is_erc20: Boolean,
-  eth_price_usd: Float!,
+  eth_price_at_launch: Float!
+  btc_price_at_launch: Float!
+  roi_since_ico: Float!
+  roi_since_ico_eth: Float!
+  roi_since_ico_btc: Float!
+  icon_ext: String
+  ticker: String
+  roi_per_day: Float
+  roi_per_week: Float
+  roi_per_month: Float
+  eth_roi_during_period: Float
+  btc_roi_during_period: Float
+  roi_vs_eth: Float
+  roi_vs_btc: Float
+  is_erc20: Boolean
+  eth_price_usd: Float!
   btc_price_usd: Float!
 }
 

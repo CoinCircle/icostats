@@ -179,6 +179,7 @@ class Rankings extends React.Component {
       <div className={classes.selectCurrency}>
         {currencies.map(currency =>
           <div
+            key={currency}
             onClick={() => this.setState({ currency })}
             className={classNames(classes.selectCurrencyItem, {
               'is-active': this.state.currency === currency
