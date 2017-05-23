@@ -122,7 +122,7 @@ class Rankings extends React.Component {
       sortBy: this.getInitialSortBy(this.getType()),
       ascending: false,
       filters: {
-        erc20: true
+        erc20: false
       }
     };
   }
