@@ -80,7 +80,7 @@
     "max-nested-callbacks": [2, 2],
     "new-cap": 2,
     "newline-after-var": [1, "always"],
-    "no-inline-comments": 1,
+    "no-inline-comments": 0,
     "no-lonely-if": 0,
     "padded-blocks": [0, "always"],
     "one-var": [1, "never"],
@@ -127,7 +127,7 @@
     }],
     "no-mixed-operators": 0,
     "import/no-unresolved": [2, {
-      "ignore": ['^(app|settings|models|api|lib|schema)']
+      "ignore": ['^(app|settings|models|api|lib|schema|compare)']
     }],
     "import/no-extraneous-dependencies": [0],
     "import/extensions": [0],

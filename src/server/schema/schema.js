@@ -36,10 +36,16 @@ type ICO {
   btc_price_usd: Float!
 }
 
+type Price {
+  price_usd: [[ Float ]]
+  ticker: String
+}
+
 # the schema allows the following query:
 type Query {
   icos: [ICO]
   ico(id: String!): ICO
+  prices(tickers: [String!]): [Price]
 }
 
 # this schema allows the following mutation:

@@ -136,6 +136,11 @@ const Navigation = ({ classes, isNavOpen = true }) => (
         className={classes.menuItem}
         activeClassName={classes.activeMenuItem}
       >ICO v.s. BTC</NavLink>
+      <NavLink
+        to="/compare"
+        className={classes.menuItem}
+        activeClassName={classes.activeMenuItem}
+      >Compare</NavLink>
       {/* <NavLink
         to="/token-holders"
         className={classes.menuItem}

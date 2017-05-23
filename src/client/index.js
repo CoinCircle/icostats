@@ -7,6 +7,7 @@ import ApolloClient from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
 import App from 'app/components/App';
 import appReducer from 'app/reducers';
+import compareReducer from 'compare/reducers';
 
 /* =============================================================================
 =    Redux
@@ -14,13 +15,14 @@ import appReducer from 'app/reducers';
 const client = new ApolloClient();
 const reducer = combineReducers({
   app: appReducer,
+  compare: compareReducer,
   apollo: client.reducer()
 });
 const initialState = {};
 const enhancer = compose(
   applyMiddleware(client.middleware()),
-  (typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined') ?
-    window.__REDUX_DEVTOOLS_EXTENSION__() : f => f
+  // eslint-disable-next-line
+  (typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined') ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f
 );
 const store = createStore(reducer, initialState, enhancer);
 
