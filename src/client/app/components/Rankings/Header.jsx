@@ -217,6 +217,9 @@ const styles = {
   '@media (min-width: 1024px)': {
     th: {
       fontSize: '13px'
+    },
+    thLogo: {
+      width: '70%'
     }
   }
 };
