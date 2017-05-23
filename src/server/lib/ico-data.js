@@ -869,7 +869,8 @@ module.exports = [
     excess_return_btc: '162.20%',
     token: '85.11%',
     eth: '43.28%',
-    btc: '28.52%'
+    btc: '28.52%',
+    icon_ext: 'jpg'
   },
   {
     name: 'Wings',
