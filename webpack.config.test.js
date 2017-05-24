@@ -11,16 +11,19 @@ module.exports = {
     * Access config from anywhere via `import settings from 'settings'``
     */
     alias: {
-      settings: path.resolve(__dirname, './settings.js')
+      settings: path.resolve(__dirname, './settings.js'),
+      server: path.resolve(__dirname, './src/server'),
+      client: path.resolve(__dirname, './src/client')
     }
   },
   module: {
     loaders: [
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         loader: 'babel-loader',
         query: {
-          presets: ['es2015', 'stage-2']
+          presets: ['es2015', 'react', 'stage-2', 'flow'],
+          plugins: ['transform-decorators-legacy']
         }
       }
     ]

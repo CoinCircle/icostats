@@ -26,7 +26,8 @@ module.exports = [
       * Access config from anywhere via `import settings from 'settings'``
       */
       alias: {
-        settings: path.resolve(__dirname, './settings.js')
+        settings: path.resolve(__dirname, './settings.js'),
+        '~': path.resolve(__dirname, './src/client')
       }
     },
     module: {
@@ -36,7 +37,7 @@ module.exports = [
           exclude: /(node_modules|bower_components)/,
           loader: 'babel-loader',
           query: {
-            presets: ['es2015', 'react', 'stage-2'],
+            presets: ['es2015', 'react', 'stage-2', 'flow'],
             plugins: ['transform-decorators-legacy']
           }
         }
@@ -81,7 +82,8 @@ module.exports = [
       * Access config from anywhere via `import settings from 'settings'``
       */
       alias: {
-        settings: path.resolve(__dirname, './settings.js')
+        settings: path.resolve(__dirname, './settings.js'),
+        '~': path.resolve(__dirname, './src/server')
       }
     },
     module: {
@@ -90,7 +92,7 @@ module.exports = [
           test: /\.js$/,
           loader: 'babel-loader',
           query: {
-            presets: ['es2015', 'stage-2']
+            presets: ['es2015', 'stage-2', 'flow']
           }
         }
       ]

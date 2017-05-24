@@ -7,7 +7,8 @@
     "start": "nodemon --inspect --watch server.js server.js",
     "dev": "webpack --config webpack.config.dev.js --watch",
     "build": "webpack --config webpack.config.dev.js",
-    "test": "mocha-webpack --webpack-config webpack.config.test.js --require babel-polyfill \"tests/**/*.js\""
+    "test": "mocha-webpack --webpack-config webpack.config.test.js --require babel-polyfill \"tests/server/**/*.js\"",
+    "test-client": "mocha-webpack --watch --growl --webpack-config webpack.config.test.js --require babel-polyfill \"tests/client/**/*.js\""
   },
   "repository": {
     "type": "git",

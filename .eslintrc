@@ -126,8 +126,9 @@
       "max": 15
     }],
     "no-mixed-operators": 0,
+    "no-duplicate-imports": 0,
     "import/no-unresolved": [2, {
-      "ignore": ['^(app|settings|models|api|lib|schema|compare)']
+      "ignore": ['^(~|app|settings|models|api|lib|schema|compare|server|client)']
     }],
     "import/no-extraneous-dependencies": [0],
     "import/extensions": [0],
