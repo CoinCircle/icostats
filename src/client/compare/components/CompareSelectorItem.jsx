@@ -1,17 +1,18 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
-import compare from 'compare';
+import compare from '~/compare';
 
-const propTypes = {
-  ticker: PropTypes.string.isRequired,
-  onRemove: PropTypes.func.isRequired,
-  color: PropTypes.string
+type Props = {
+  ticker: string,
+  onRemove: Function,
+  color: string,
+  classes: Object
 };
 
-const CompareSelectorItem = ({ classes, ticker, onRemove, color }) => (
+const CompareSelectorItem = ({ classes, ticker, onRemove, color }: Props) => (
   <div className={classes.container}>
     <div className={classes.dot} style={{ background: color }} />
     <div className={classes.label}>{ticker}</div>
@@ -21,8 +22,6 @@ const CompareSelectorItem = ({ classes, ticker, onRemove, color }) => (
     >close</i>
   </div>
 );
-
-CompareSelectorItem.propTypes = propTypes;
 
 const styles = {
   container: {

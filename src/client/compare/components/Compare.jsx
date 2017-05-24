@@ -4,7 +4,9 @@ import injectSheet from 'react-jss';
 import { connect } from 'react-redux';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
+import { getColors } from '~/compare/helpers';
 import CompareSelector from './CompareSelector';
+import ComparisonChart from './ComparisonChart';
 
 
 const styles = {
@@ -42,21 +44,22 @@ class Compare extends React.Component {
     if (this.props.isFetching) return <span>Loading...</span>;
     const { classes, tickers } = this.props;
     const title = <h1 className={classes.title}>Compare ICOs</h1>;
+    const colors = getColors(tickers.length + 1);
 
     return (
       <div className={classes.container}>
         {title}
         <CompareSelector
+          colors={colors}
           items={this.props.icos}
           selected={tickers}
           onAdd={ticker => this.props.addTicker(ticker)}
           onRemove={ticker => this.props.onRemove(ticker)}
         />
-        {this.props.prices.map(price => (
-          <div key={price.ticker}>
-            {price.ticker}: {price.price_usd.length} items
-          </div>
-        ))}
+        <ComparisonChart
+          colors={colors}
+          prices={this.props.prices}
+        />
       </div>
     );
   }

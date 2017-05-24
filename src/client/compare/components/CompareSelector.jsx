@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
-import { getColors } from 'compare/helpers';
 import CompareSelectorItem from './CompareSelectorItem';
 import CompareSelectorAddNew from './CompareSelectorAddNew';
 
@@ -12,8 +11,7 @@ const propTypes = {
   onRemove: PropTypes.func.isRequired
 };
 
-function CompareSelector({ classes, items, selected, onAdd, onRemove }) {
-  const colors = getColors(selected.length + 1);
+function CompareSelector({ classes, items, selected, onAdd, onRemove, colors }) {
 
   return (
     <div className={classes.container}>
