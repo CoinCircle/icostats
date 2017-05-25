@@ -1,6 +1,6 @@
 /* eslint-disable max-nested-callbacks */
 import { expect } from 'chai';
-import User from '../../src/server/models/user';
+import User from 'server/models/user';
 
 describe('User', function () {
 

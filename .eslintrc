@@ -80,7 +80,7 @@
     "max-nested-callbacks": [2, 2],
     "new-cap": 2,
     "newline-after-var": [1, "always"],
-    "no-inline-comments": 1,
+    "no-inline-comments": 0,
     "no-lonely-if": 0,
     "padded-blocks": [0, "always"],
     "one-var": [1, "never"],
@@ -126,8 +126,9 @@
       "max": 15
     }],
     "no-mixed-operators": 0,
+    "no-duplicate-imports": 0,
     "import/no-unresolved": [2, {
-      "ignore": ['^(app|settings|models|api|lib|schema)']
+      "ignore": ['^(~|app|settings|models|api|lib|schema|compare|server|client)']
     }],
     "import/no-extraneous-dependencies": [0],
     "import/extensions": [0],
@@ -136,6 +137,7 @@
         "classes"
       ]
     }],
+    "react/sort-comp": 0,
     "react/forbid-prop-types": 0,
     "jsx-a11y/no-static-element-interactions": 0,
     "class-methods-use-this": 0

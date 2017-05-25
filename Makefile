@@ -5,3 +5,6 @@ shell: ## start docker shell
 
 test:  ## Run tests
 	docker exec -it ${NAME}_web_1 npm test
+
+test-client:  ## Run tests
+	docker exec -it ${NAME}_web_1 npm run test-client

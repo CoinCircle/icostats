@@ -1,0 +1,12 @@
+[ignore]
+.*/node_modules/jss/.*
+
+[include]
+
+[libs]
+
+[options]
+suppress_type=$FlowTODO
+module.name_mapper='^~/\(.*\)' -> '<PROJECT_ROOT>/src/client/\1'
+module.name_mapper='^~/\(.*\)' -> '<PROJECT_ROOT>/src/server/\1'
+module.name_mapper='^settings$' -> '<PROJECT_ROOT>/settings.js'
