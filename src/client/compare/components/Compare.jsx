@@ -1,9 +1,12 @@
 // @flow
+import type { Dispatch } from 'redux';
 import React from 'react';
 import injectSheet from 'react-jss';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
+import app from '~/app';
 import { getColors } from '~/compare/helpers';
 import CompareSelector from './CompareSelector';
 import ComparisonChart from './ComparisonChart';
@@ -14,7 +17,9 @@ type Props = {
   tickers: Array<string>,
   classes: Object,
   addTicker: Function,
-  onRemove: Function
+  onRemove: Function,
+  toggleNav: Function,
+  isFetching: boolean
 };
 
 class Compare extends React.Component {
@@ -28,10 +33,19 @@ class Compare extends React.Component {
   render() {
     const { classes, tickers } = this.props;
     const colors = getColors(tickers.length + 1);
+    const hamburger = (
+      <i
+        className={classNames('material-icons', classes.hamburger)}
+        onClick={this.props.toggleNav}
+      >
+        menu
+      </i>
+    );
 
     return (
       <div className={classes.container}>
         <h1 className={classes.title}>
+          {hamburger}
           Compare ICOs (Beta)
         </h1>
         <CompareSelector
@@ -74,7 +88,10 @@ const withData = graphql(QUERY, {
 const mapStateToProps = state => ({
   tickers: state.compare.tickers
 });
-const container = connect(mapStateToProps)(withData);
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  toggleNav: () => dispatch(app.actions.toggleNav())
+});
+const container = connect(mapStateToProps, mapDispatchToProps)(withData);
 
 /* =============================================================================
 =    Stylesheet
@@ -90,7 +107,15 @@ const styles = {
     color: 'white',
     fontSize: '35px',
     fontWeight: 900
-  }
+  },
+  hamburger: {
+    color: 'hsl(0, 0%, 75%)',
+    paddingRight: '15px',
+    cursor: 'pointer',
+    '&:hover': {
+      color: 'hsl(0, 0%, 80%)'
+    }
+  },
 };
 
 export default injectSheet(styles)(container);
