@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { expect, assert } from 'chai';
-import { generateLineChartData } from 'client/compare/helpers/charts';
+import { generateLineChartData, roundToDays } from 'client/compare/helpers/charts';
 
 describe('generateDatasets', function () {
   before(function() {
@@ -147,6 +147,51 @@ describe('generateDatasets', function () {
     expect(humaniq.data[0]).to.be.null;
     expect(humaniq.data.length).to.equal(8);
 
+  });
+  it('rounds to days', function () {
+    // const ONE_DAY = 1000 * 60 * 60 * 24;
+    // const prices = [
+    //   {
+    //     ticker: 'humaniq',
+    //     price_usd: [
+    //       [1494000000000, 1.0],
+    //       [1494043200000, 2.0],
+    //       [1494086400000, 1.5],
+    //       [1494129600000, 1.7],
+    //       [1494172800000, 1.7],
+    //     ]
+    //   },
+    //   {
+    //     ticker: 'golem',
+    //     price_usd: [
+    //       [1493913600000, 0.5],
+    //       [1493956800000, 0.7],
+    //       [1494000000000, 1.0],
+    //       [1494043200000, 2.0],
+    //       [1494086400000, 1.5],
+    //       [1494129600000, 1.7],
+    //       [1494172800000, 1.7],
+    //     ]
+    //   }
+    // ];
+    const timestamps = [
+      1493913600000,
+      1493956800000,
+      1494000000000,
+      1494043200000,
+      1494086400000,
+      1494129600000,
+      1494172800000,
+    ];
+    const expected = [
+      1493913600000,
+      1494000000000,
+      1494086400000,
+      1494172800000,
+    ];
+    const actual = roundToDays(timestamps);
+
+    expect(actual.toString()).to.equal(expected.toString());
   });
   // * It filters out time periods that not all items contain if it is beyond
   //   the max time

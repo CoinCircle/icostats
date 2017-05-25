@@ -3,7 +3,6 @@
  * Helpers for generating data required to render charts.
  * @flow
  */
-
 export type Price = {
   ticker: String,
   price_usd: Array<Array<number>>
@@ -19,7 +18,7 @@ export function generateLineChartData(
   const longest = items.slice().sort((a, b) =>
     b.price_usd.length - a.price_usd.length
   )[0];
-  const labels = [];
+  let labels = [];
 
   longest.price_usd.forEach((datapoint) => {
     const timestamp = datapoint[0];
@@ -33,6 +32,9 @@ export function generateLineChartData(
       labels.push(timestamp);
     }
   });
+
+  labels = roundToDays(labels);
+
   const datasets = items.map((item, i) => ({
     label: item.ticker,
     borderColor: colors[i],
@@ -51,4 +53,25 @@ export function generateLineChartData(
     labels,
     datasets
   };
+}
+
+export function roundToDays(timestamps: Array<number>) {
+  const ONE_DAY = 1000 * 60 * 60 * 24;
+  const first = timestamps[0];
+  const res = [first];
+
+  for (let i = 1; i < timestamps.length; i++) {
+    const head = res[res.length - 1];
+    const target = head + ONE_DAY;
+    const prev = timestamps[i - 1]
+    const curr = timestamps[i];
+
+    // If prev < (head + 1 day) < curr
+    //  push curr
+    if (prev < target && target <= curr) {
+      res.push(curr);
+    }
+  }
+
+  return res;
 }
