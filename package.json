@@ -5,8 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon --inspect --watch server.js server.js",
+    "start-production": "nodemon server.js",
     "dev": "webpack --config webpack.config.dev.js --watch",
-    "build": "webpack --config webpack.config.dev.js",
+    "build": "webpack --config webpack.config.prod.js",
     "test": "mocha-webpack --webpack-config webpack.config.test.js --require babel-polyfill \"tests/server/**/*.js\"",
     "test-client": "mocha-webpack --watch --growl --webpack-config webpack.config.test.js --require babel-polyfill \"tests/client/**/*.js\""
   },
