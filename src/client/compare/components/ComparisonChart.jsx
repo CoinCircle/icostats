@@ -28,19 +28,12 @@ Chart.defaults.global.elements.backgroundColor =  'rgba(255, 206, 86, 1)';
    canvas: HTMLCanvasElement;
    chart: Object;
 
-  //  componentWillReceiveProps(nextProps) {
-  //    if (this.props.tickers.slice().sort().toString() !== nextProps.tickers.slice().sort().toString()) {
-  //      this.chart.destroy();
-  //      this.renderChart(nextProps);
-  //    }
-  //  }
-
    renderChart (ctx) {
      if (!ctx) {
        return;
      }
-     const { prices, colors } = this.props;
-     const data = generateLineChartData(prices, colors);
+     const { prices, colors, icos } = this.props;
+     const data = generateLineChartData(prices, colors, icos);
      const options = {
        showLines: true,
        spanGaps: false,
@@ -50,9 +43,12 @@ Chart.defaults.global.elements.backgroundColor =  'rgba(255, 206, 86, 1)';
        },
        scales: {
          yAxes: [{
+           ticks: {
+             callback: (value) => `${value < 0 ? '-' : '+'}${value*100}%`
+           },
            scaleLabel: {
              display: true,
-             labelString: 'Price (USD)',
+             labelString: 'ROI since ICO',
              fontColor: '#FFFFFF'
            },
            gridLines: {
@@ -112,6 +108,7 @@ query getprices($tickers: [String!]) {
   icos {
     ticker
     name
+    implied_token_price
   }
 }
 `;

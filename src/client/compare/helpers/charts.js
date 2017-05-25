@@ -10,9 +10,16 @@ export type Price = {
   price_usd: Array<Array<number>>
 };
 
+type ICO = {
+  name: string,
+  ticker: string,
+  implied_token_price: number
+};
+
 export function generateLineChartData(
   items: Array<Price>,
-  colors: Array<String>
+  colors: Array<String>,
+  icos: Array<ICO>
 ) {
 
 
@@ -60,7 +67,14 @@ export function generateLineChartData(
       );
 
       if (match) {
-        return match[1];
+        const price = match[1];
+        const ico = icos.find((el) => el.ticker === item.ticker);
+
+        if (ico) {
+          const startPrice = ico.implied_token_price;
+
+          return roi(startPrice, price);
+        }
       }
 
       return null;
