@@ -3,6 +3,8 @@
  * Helpers for generating data required to render charts.
  * @flow
  */
+import moment from 'moment';
+
 export type Price = {
   ticker: String,
   price_usd: Array<Array<number>>
@@ -15,9 +17,12 @@ export function generateLineChartData(
 
 
   // Find the longest range
-  const longest = items.slice().sort((a, b) =>
-    b.price_usd.length - a.price_usd.length
-  )[0];
+  const longest = items.slice().sort((_a, _b) => {
+    const a = _a.price_usd[_a.price_usd.length - 1][0] - _a.price_usd[0][0];
+    const b = _b.price_usd[_b.price_usd.length - 1][0] - _b.price_usd[0][0];
+
+    return b - a;
+  })[0];
   let labels = [];
 
   longest.price_usd.forEach((datapoint) => {
@@ -25,7 +30,12 @@ export function generateLineChartData(
     const isMatch = items.every(item =>
       // time is less than the min time
       timestamp < item.price_usd[0][0] ||
-      item.price_usd.some(_datapoint => _datapoint[0] === timestamp)
+      item.price_usd.some((_datapoint, j) =>
+        _datapoint[0] === timestamp ||
+        (j > 0 &&
+          (item.price_usd[j-1][0] < timestamp && timestamp <= datapoint[0])
+        )
+      )
     );
 
     if (isMatch) {
@@ -38,8 +48,16 @@ export function generateLineChartData(
   const datasets = items.map((item, i) => ({
     label: item.ticker,
     borderColor: colors[i],
+    fill: false,
+    lineTension: 0.5,
+    pointRadius: 0,
     data: labels.map((ts) => {
-      const match = item.price_usd.find(datapoint => datapoint[0] === ts);
+      const match = item.price_usd.find((datapoint, j) =>
+        datapoint[0] === ts ||
+        (j > 0 &&
+          (item.price_usd[j-1][0] < ts && ts <= datapoint[0])
+        )
+      );
 
       if (match) {
         return match[1];
@@ -50,9 +68,21 @@ export function generateLineChartData(
   }));
 
   return {
-    labels,
+    labels: formatLabels(labels),
     datasets
   };
+}
+
+function formatLabels(labels) {
+  return labels.map(label => moment(label).format('MM/DD/YYYY'));
+}
+
+function roi(startPrice, currPrice) {
+  const isDecrease = currPrice < startPrice;
+  const diff = isDecrease ? (startPrice - currPrice) : (currPrice - startPrice);
+  const delta = diff / startPrice;
+
+  return isDecrease ? (0 - delta) : delta;
 }
 
 export function roundToDays(timestamps: Array<number>) {

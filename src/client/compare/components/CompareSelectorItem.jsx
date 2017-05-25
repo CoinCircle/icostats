@@ -56,7 +56,11 @@ const styles = {
   close: {
     fontSize: '12px',
     color: 'hsl(225, 7%, 49%)',
-    marginRight: '10px'
+    marginRight: '10px',
+    cursor: 'pointer',
+    '&:hover': {
+      color: 'hsl(225, 7%, 70%)',
+    }
   }
 };
 const styled = injectSheet(styles)(CompareSelectorItem);

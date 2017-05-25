@@ -1,7 +1,7 @@
 import * as types from './constants';
 
 const initialState = {
-  tickers: ['golem', 'humaniq', 'tokencard']
+  tickers: ['aragon', 'humaniq', 'tokencard']
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
