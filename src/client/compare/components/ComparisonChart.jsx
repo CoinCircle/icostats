@@ -13,7 +13,6 @@ Chart.defaults.global.defaultFontColor = '#767D8B';
 Chart.defaults.global.defaultFontFamily = 'Montserrat';
 Chart.defaults.global.defaultFontSize = 12;
 Chart.defaults.global.defaultFontStyle = 'normal';
-Chart.defaults.global.elements.backgroundColor =  'rgba(255, 206, 86, 1)';
 
 type Props = {
   prices: Price[],
@@ -24,12 +23,20 @@ type Props = {
   icos: Object[]
 };
 
-   renderChart (ctx) {
-     if (!ctx) {
-       return;
-     }
-     const { prices, colors, icos } = this.props;
-     const data = generateLineChartData(prices, colors, icos);
+class ComparisonChart extends React.Component {
+  props: Props;
+  canvas: HTMLCanvasElement;
+  chart: Object;
+
+  renderChart (ctx) {
+    if (!ctx) {
+      return;
+    }
+    const { prices, colors, icos, tickers } = this.props;
+    const sorted = prices.slice().sort((a, b) =>
+      tickers.indexOf(a.ticker) - tickers.indexOf(b.ticker)
+    );
+     const data = generateLineChartData(sorted, colors, icos);
      const options = {
        showLines: true,
        spanGaps: false,
