@@ -1,6 +1,63 @@
 /* eslint-disable max-lines */
 module.exports = [
   {
+    id: 'pluton',
+    is_erc20: true,
+    contract_address: '0xD8912C10681D8B21Fd3742244f44658dBA12264E',
+    name: 'Plutus',
+    symbol: 'PLU',
+    eth_price_at_launch: 12.488,
+    btc_price_at_launch: 667.81,
+    raise: 1005487.65,
+    amount_sold_in_ico: 850000,
+    implied_token_price: 1.18,
+    start_date: '06/21/2016',
+    ticker: 'pluton'
+  },
+  {
+    id: 'bcap',
+    is_erc20: true,
+    contract_address: '0xFf3519eeeEA3e76F1F699CCcE5E23ee0bdDa41aC',
+    name: 'Blockchain Capital',
+    symbol: 'BCAP',
+    eth_price_at_launch: 43.83,
+    btc_price_at_launch: 1223.99,
+    raise: 10000000,
+    amount_sold_in_ico: 10000000,
+    implied_token_price: 1,
+    start_date: '04/10/2017',
+    ticker: 'bcap'
+  },
+  {
+    id: 'stratis',
+    is_erc20: false,
+    name: 'Stratis',
+    symbol: 'STRAT',
+    eth_price_at_launch: 13.89,
+    btc_price_at_launch: 667.66,
+    raise: 610908, // 915 BTC raised
+    amount_sold_in_ico: 84000000,
+    implied_token_price: 0.007,
+    start_date: '06/20/2016',
+    ticker: 'stratis'
+  },
+  {
+    id: 'etheroll',
+    is_erc20: true,
+    contract_address: '0x2e071D2966Aa7D8dECB1005885bA1977D6038A65',
+    name: 'Etheroll',
+    symbol: 'DICE',
+    eth_price_at_launch: 13.14,
+    btc_price_at_launch: 1012.11,
+    raise: 311162.77,
+    total_amount_of_tokens: 7001622.64879,
+    amount_sold_in_ico: 4501622,
+    ownership_pct: 0.6429,
+    implied_token_price: 0.069,
+    start_date: '02/13/2017',
+    ticker: 'etheroll'
+  },
+  {
     id: 'humaniq',
     is_erc20: true,
     name: 'Humaniq',
