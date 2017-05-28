@@ -39,6 +39,7 @@ function recursiveFetch(tickers, i) {
     return Price.findOneAndUpdate(query, doc, options).then((err) => {
       if (i === tickers.length - 1) {
         console.log('Finished fetching all graphs');
+        process.exit(0);
       } else {
         console.log('Fetched graph for %s', ticker);
         return recursiveFetch(tickers, i + 1);
