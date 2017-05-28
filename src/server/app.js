@@ -21,6 +21,12 @@ mongoose.connect(settings.MONGO_URI);
 const app = module.exports = express();
 
 /**
+ * Tell nginx to read the X-Forwarded-For header for logging IP addresses which
+ * will contain the real IP.
+ */
+app.enable('trust proxy');
+
+/**
  * Initialize a cache.
  */
 const appCache = new NodeCache({
