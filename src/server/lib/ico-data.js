@@ -1,7 +1,21 @@
 /* eslint-disable max-lines */
 module.exports = [
   {
-    id: 'pluton',
+    id: 'swarm-city',
+    is_erc20: true,
+    contract_address: '0xb9e7f8568e08d5659f5d29c4997173d84cdf2607',
+    name: 'Swarm City',
+    symbol: 'SWT',
+    eth_price_at_launch: 10.83,
+    btc_price_at_launch: 744.60,
+    raise: 841350.21, // 77687 ETH
+    amount_sold_in_ico: 9525397,
+    implied_token_price: 0.088,
+    start_date: '11/01/2016',
+    ticker: 'swarm-city'
+  },
+  {
+    id: 'plutus',
     is_erc20: true,
     contract_address: '0xD8912C10681D8B21Fd3742244f44658dBA12264E',
     name: 'Plutus',
@@ -12,7 +26,8 @@ module.exports = [
     amount_sold_in_ico: 850000,
     implied_token_price: 1.18,
     start_date: '06/21/2016',
-    ticker: 'pluton'
+    ticker: 'pluton',
+    icon_ext: 'svg'
   },
   {
     id: 'bcap',
