@@ -9,24 +9,20 @@ import injectSheet from 'react-jss';
 import { generateLineChartData } from '~/compare/helpers/charts';
 import Loading from './ComparisonChartLoading';
 
-type Props = {
-  prices: Array<Price>,
-  classes: Object,
-  colors: Array<String>,
-  tickers: Array<String>,
-  isFetching: Boolean
-};
-
 Chart.defaults.global.defaultFontColor = '#767D8B';
 Chart.defaults.global.defaultFontFamily = 'Montserrat';
 Chart.defaults.global.defaultFontSize = 12;
 Chart.defaults.global.defaultFontStyle = 'normal';
 Chart.defaults.global.elements.backgroundColor =  'rgba(255, 206, 86, 1)';
 
- class ComparisonChart extends React.Component {
-   props: Props;
-   canvas: HTMLCanvasElement;
-   chart: Object;
+type Props = {
+  prices: Price[],
+  classes: Object,
+  colors: string[],
+  tickers: string[],
+  isFetching: boolean,
+  icos: Object[]
+};
 
    renderChart (ctx) {
      if (!ctx) {

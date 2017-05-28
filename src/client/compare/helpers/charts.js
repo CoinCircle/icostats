@@ -5,8 +5,22 @@
  */
 import moment from 'moment';
 
+type ChartJSLineChartDataset = {
+  borderColor: string,
+  data: Array<?number>,
+  fill: boolean,
+  label: string,
+  lineTension: number,
+  pointRadius: number
+};
+
+type ChartJSLineChartData = {
+  labels: string[],
+  datasets: ChartJSLineChartDataset[]
+};
+
 export type Price = {
-  ticker: String,
+  ticker: string,
   price_usd: Array<Array<number>>
 };
 
@@ -16,12 +30,14 @@ type ICO = {
   implied_token_price: number
 };
 
+/**
+ * Generates data for the line chart.
+ */
 export function generateLineChartData(
-  items: Array<Price>,
-  colors: Array<String>,
-  icos: Array<ICO>
-) {
-
+  items: Price[],
+  colors: string[],
+  icos: ICO[]
+): ChartJSLineChartData {
 
   // Find the longest range
   const longest = items.slice().sort((_a, _b) => {
