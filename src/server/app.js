@@ -38,7 +38,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 /**
  * HTTP logger
  */
-app.use(morgan('tiny'));
+app.use(morgan('short'));
 
 /**
  * GraphQL
