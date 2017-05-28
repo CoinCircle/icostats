@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
+import { getColors } from '~/compare/helpers';
 import CompareSelectorItem from './CompareSelectorItem';
 import CompareSelectorAddNew from './CompareSelectorAddNew';
 
@@ -12,7 +13,7 @@ const propTypes = {
 };
 
 function CompareSelector({ classes, items, selected, onAdd, onRemove, colors }) {
-
+  const nextColor = getColors(colors.length + 1)[colors.length];
   return (
     <div className={classes.container}>
       {selected.map((ticker, i) => (
@@ -23,7 +24,7 @@ function CompareSelector({ classes, items, selected, onAdd, onRemove, colors }) 
         />
       ))}
       <CompareSelectorAddNew
-        color={colors[items.length]}
+        color={nextColor}
         items={items}
         selected={selected}
         onAdd={onAdd}

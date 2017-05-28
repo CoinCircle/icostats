@@ -32,7 +32,7 @@ class Compare extends React.Component {
 
   render() {
     const { classes, tickers } = this.props;
-    const colors = getColors(tickers.length + 1);
+    const colors = getColors(tickers.length);
     const hamburger = (
       <i
         className={classNames('material-icons', classes.hamburger)}
