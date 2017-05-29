@@ -19,7 +19,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    overflow: 'auto'
+    overflow: 'hidden'
   },
   ico: {
     display: 'flex',
@@ -43,13 +43,21 @@ const styles = {
     alignItems: 'flex-start',
     justifyContent: 'flex-start'
   },
-  tbody: {
+  table: {
+    overflowX: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
     width: '100%',
+    WebkitOverflowScrolling: 'touch'
+  },
+  tbody: {
     display: 'flex',
     flexDirection: 'column',
     position: 'relative',
-    overflow: 'scroll',
-    boxShadow: '-25px 0px 30px -20px hsla(0, 0%, 0%, 0.8) inset'
+    overflowY: 'scroll',
+    flexGrow: '2',
+    overflowX: 'hidden',
+    width: '180%'
   },
   headerLeft: {
     flexGrow: 2
@@ -100,7 +108,8 @@ const styles = {
     tbody: {
       boxShadow: 'none',
       padding: '0 15px',
-      overflow: 'auto'
+      overflow: 'auto',
+      width: '100%'
     }
   }
 };
@@ -123,7 +132,8 @@ class Rankings extends React.Component {
       ascending: false,
       filters: {
         erc20: false
-      }
+      },
+      active: null
     };
   }
 
@@ -247,7 +257,7 @@ class Rankings extends React.Component {
     return (
       <div className={classes.container}>
         {header}
-        <div className={classes.tbody}>
+        <div className={classes.table}>
           <Header
             sortBy={this.state.sortBy}
             onSort={(sortBy, ascending) => this.setState({ sortBy, ascending })}
@@ -255,14 +265,18 @@ class Rankings extends React.Component {
             type={type}
             currency={this.state.currency}
           />
-          {this.getIcos().map(ico =>
-            <Row
-              key={ico.id}
-              ico={ico}
-              type={type}
-              currency={this.state.currency}
-            />
-          )}
+          <div className={classes.tbody}>
+            {this.getIcos().map(ico =>
+              <Row
+                key={ico.id}
+                ico={ico}
+                type={type}
+                currency={this.state.currency}
+                onTouchStart={() => this.setState({ active: ico.id })}
+                active={this.state.active === ico.id}
+              />
+            )}
+          </div>
         </div>
       </div>
     );

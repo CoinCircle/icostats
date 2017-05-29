@@ -144,10 +144,11 @@ Header.propTypes = propTypes;
 const styles = {
   tableheader: {
     display: 'flex',
-    width: '180%',
-    height: '20px',
+    width: '179%',
+    marginLeft: '1%', // prevent covering up shadow on left side
+    flex: '0 0 30px',
     minHeight: '20px',
-    boxShadow: '-17px 0px 24px -13px hsla(0, 100%, 100%, 0.2) inset'
+    background: 'hsl(222, 21%, 25%)'
   },
   th: {
     flexGrow: '1',
@@ -157,7 +158,7 @@ const styles = {
     textTransform: 'uppercase',
     textAlign: 'right',
     position: 'relative',
-    margin: '10px',
+    margin: '0px 10px',
     order: 1
   },
   thLogo: {
@@ -210,7 +211,7 @@ const styles = {
   },
   '@media (min-width: 768px)': {
     tableheader: {
-      width: '100%',
+      width: '99%',
       boxShadow: 'none'
     }
   },

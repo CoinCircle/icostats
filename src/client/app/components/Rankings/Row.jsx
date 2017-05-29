@@ -10,10 +10,12 @@ import * as utils from 'app/utils';
 
 const propTypes = {
   ico: PropTypes.object,
-  type: PropTypes.string
+  type: PropTypes.string,
+  onTouchStart: PropTypes.func,
+  active: PropTypes.bool
 };
 
-const Row = ({ classes, ico, currency = 'USD', type = types.ROI_TOTAL }) => {
+const Row = ({ classes, ico, currency = 'USD', type = types.ROI_TOTAL, onTouchStart, active }) => {
   const $ = <span className={classes.dollar}>$</span>;
   const PRECISION = {
     USD: 3,
@@ -22,7 +24,11 @@ const Row = ({ classes, ico, currency = 'USD', type = types.ROI_TOTAL }) => {
   };
 
   return (
-    <div key={ico.id} className={classes.tr}>
+    <div
+      key={ico.id}
+      className={classNames(classes.tr, { 'is-active': active })}
+      onTouchStart={onTouchStart}
+    >
       <div className={classNames(classes.td, classes.tdLogo)}>
         <img
           src={`/img/logos/${ico.id}.${ico.icon_ext || 'png'}`}
@@ -165,7 +171,6 @@ Row.propTypes = propTypes;
 
 const styles = {
   tr: {
-    width: '180%',
     height: '60px',
     minHeight: '60px',
     color: 'white',
@@ -173,9 +178,11 @@ const styles = {
     alignItems: 'center',
     boxShadow: [
       '0px 1px hsla(0, 0%, 0%, .8)',
-      '0px 2px  hsla(0, 0%, 100%, .2)',
-      '-17px 0px 24px -13px hsla(0, 100%, 100%, 0.2) inset'
-    ].join(',')
+      '0px 2px  hsla(0, 0%, 100%, .2)'
+    ].join(','),
+    '&.is-active': {
+      background: 'hsla(0, 0%, 100%, 0.05)'
+    }
   },
   td: {
     flexGrow: '2',
@@ -243,7 +250,6 @@ const styles = {
   },
   '@media (min-width: 768px)': {
     tr: {
-      width: '100%',
       boxShadow: [
         '0px 1px hsla(0, 0%, 0%, .8)',
         '0px 2px  hsla(0, 0%, 100%, .2)',
