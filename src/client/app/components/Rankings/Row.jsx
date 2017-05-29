@@ -37,14 +37,20 @@ const Row = ({ classes, ico, currency = 'USD', type = types.ROI_TOTAL, onTouchSt
         />
       </div>
       <div className={classNames(classes.td, classes.tdName)}>
-        <a
-          href={`https://coinmarketcap.com/assets/${ico.ticker}/`}
-          className={classes.link}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {ico.name}
-        </a>
+        {ico.name}
+        {ico.supported_changelly &&
+          <a
+            className={classes.buyNow}
+            href={`https://changelly.com/exchange/ETH/${ico.symbol}/1?ref_id=861e5d1e1238`}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => window.ga &&
+              window.ga('send', 'event', 'Changelly', 'Click Buy Now', ico.symbol)
+            }
+          >
+            Buy Instantly
+          </a>
+        }
       </div>
       <div className={classNames(classes.td, classes.tdDate)}>
         {moment(ico.start_date, 'MM/DD/YYYY').format('MM/DD/YY')}
@@ -214,7 +220,9 @@ const styles = {
   },
   tdName: {
     width: '100%',
-    order: 0
+    order: 0,
+    position: 'relative',
+    overflow: 'visible'
   },
   tdDate: {
     width: '100%',
@@ -247,6 +255,16 @@ const styles = {
     '&:hover': {
       color: 'hsl(195, 89%, 72%)'
     }
+  },
+  buyNow: {
+    bottom: '-11px',
+    right: '0px',
+    width: '60px',
+    color: 'hsl(220, 30%, 60%)',
+    position: 'absolute',
+    fontSize: '8px',
+    fontWeight: '400',
+    textDecoration: 'none'
   },
   '@media (min-width: 768px)': {
     tr: {

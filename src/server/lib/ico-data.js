@@ -12,7 +12,8 @@ module.exports = [
     amount_sold_in_ico: 9525397,
     implied_token_price: 0.088,
     start_date: '11/01/2016',
-    ticker: 'swarm-city'
+    ticker: 'swarm-city',
+    supported_changelly: true
   },
   {
     id: 'plutus',
@@ -27,7 +28,8 @@ module.exports = [
     implied_token_price: 1.18,
     start_date: '06/21/2016',
     ticker: 'pluton',
-    icon_ext: 'svg'
+    icon_ext: 'svg',
+    supported_changelly: false
   },
   {
     id: 'bcap',
@@ -41,7 +43,8 @@ module.exports = [
     amount_sold_in_ico: 10000000,
     implied_token_price: 1,
     start_date: '04/10/2017',
-    ticker: 'bcap'
+    ticker: 'bcap',
+    supported_changelly: false
   },
   {
     id: 'stratis',
@@ -54,7 +57,8 @@ module.exports = [
     amount_sold_in_ico: 84000000,
     implied_token_price: 0.007,
     start_date: '06/20/2016',
-    ticker: 'stratis'
+    ticker: 'stratis',
+    supported_changelly: true
   },
   {
     id: 'etheroll',
@@ -70,7 +74,8 @@ module.exports = [
     ownership_pct: 0.6429,
     implied_token_price: 0.069,
     start_date: '02/13/2017',
-    ticker: 'etheroll'
+    ticker: 'etheroll',
+    supported_changelly: false
   },
   {
     id: 'humaniq',
@@ -85,7 +90,8 @@ module.exports = [
     ownership_pct: 0.7114,
     implied_token_price: 0.0394,
     start_date: '04/06/2017',
-    ticker: 'humaniq'
+    ticker: 'humaniq',
+    supported_changelly: false
   },
   {
     id: 'waves',
@@ -127,7 +133,8 @@ module.exports = [
     excess_return_btc: '178.22%',
     token: '15.05%',
     eth: '17.34%',
-    btc: '10.82%'
+    btc: '10.82%',
+    supported_changelly: true
   },
   {
     id: 'tokencard',
@@ -170,7 +177,8 @@ module.exports = [
     excess_return_btc: '77.41%',
     token: '264.13%',
     eth: '15.41%',
-    btc: '41.29%'
+    btc: '41.29%',
+    supported_changelly: false
   },
   {
     id: 'gnosis',
@@ -212,7 +220,8 @@ module.exports = [
     excess_return_btc: '211.52%',
     token: '391.65%',
     eth: '96.23%',
-    btc: '52.95%'
+    btc: '52.95%',
+    supported_changelly: true
   },
   {
     id: 'rlc',
@@ -254,7 +263,8 @@ module.exports = [
     excess_return_btc: '132.73%',
     token: '192.85%',
     eth: '75.47%',
-    btc: '48.53%'
+    btc: '48.53%',
+    supported_changelly: true
   },
   {
     id: 'iconomi',
@@ -296,7 +306,8 @@ module.exports = [
     excess_return_btc: '163.01%',
     token: '21.68%',
     eth: '27.71%',
-    btc: '14.81%'
+    btc: '14.81%',
+    supported_changelly: false
   },
   {
     id: 'golem',
@@ -339,7 +350,8 @@ module.exports = [
     excess_return_btc: '1889.55%',
     token: '65.04%',
     eth: '41.70%',
-    btc: '16.26%'
+    btc: '16.26%',
+    supported_changelly: true
   },
   {
     id: 'taas',
@@ -382,7 +394,8 @@ module.exports = [
     excess_return_btc: '',
     token: '',
     eth: '',
-    btc: ''
+    btc: '',
+    supported_changelly: false
   },
   {
     id: 'singulardtv',
@@ -425,7 +438,8 @@ module.exports = [
     excess_return_btc: '494.99%',
     token: '35.44%',
     eth: '36.80%',
-    btc: '14.68%'
+    btc: '14.68%',
+    supported_changelly: true
   },
   {
     name: 'Lisk',
@@ -467,7 +481,8 @@ module.exports = [
     excess_return_btc: '309.22%',
     token: '15.44%',
     eth: '15.86%',
-    btc: '11.02%'
+    btc: '11.02%',
+    supported_changelly: true
   },
   {
     id: 'matchpool',
@@ -510,7 +525,8 @@ module.exports = [
     excess_return_btc: '12.08%',
     token: '41.17%',
     eth: '58.23%',
-    btc: '33.93%'
+    btc: '33.93%',
+    supported_changelly: true
   },
   {
     id: 'digixdao',
@@ -553,7 +569,8 @@ module.exports = [
     excess_return_btc: '954.53%',
     token: '19.62%',
     eth: '19.04%',
-    btc: '10.06%'
+    btc: '10.06%',
+    supported_changelly: true
   },
   {
     id: 'firstblood',
@@ -596,7 +613,8 @@ module.exports = [
     excess_return_btc: '302.74%',
     token: '26.14%',
     eth: '27.71%',
-    btc: '14.89%'
+    btc: '14.89%',
+    supported_changelly: false
   },
   {
     name: 'ChronoBank',
@@ -639,7 +657,8 @@ module.exports = [
     excess_return_btc: '56.88%',
     token: '31.69%',
     eth: '86.53%',
-    btc: '19.88%'
+    btc: '19.88%',
+    supported_changelly: true
   },
   {
     name: 'Augur',
@@ -682,7 +701,8 @@ module.exports = [
     excess_return_btc: '1899.31%',
     token: '18.20%',
     eth: '27.81%',
-    btc: '10.74%'
+    btc: '10.74%',
+    supported_changelly: true
   },
   {
     id: 'wetrust',
@@ -725,7 +745,8 @@ module.exports = [
     excess_return_btc: '124.28%',
     token: '145.11%',
     eth: '66.80%',
-    btc: '42.13%'
+    btc: '42.13%',
+    supported_changelly: true
   },
   {
     name: 'Antshares',
@@ -769,7 +790,8 @@ module.exports = [
     excess_return_btc: '',
     token: '',
     eth: '',
-    btc: ''
+    btc: '',
+    supported_changelly: false
   },
   {
     name: 'Lunyr',
@@ -812,7 +834,8 @@ module.exports = [
     excess_return_btc: '14.98%',
     token: '75.50%',
     eth: '96.57%',
-    btc: '51.77%'
+    btc: '51.77%',
+    supported_changelly: false
   },
   {
     id: 'melonport',
@@ -855,7 +878,8 @@ module.exports = [
     excess_return_btc: '429.60%',
     token: '82.00%',
     eth: '88.21%',
-    btc: '19.48%'
+    btc: '19.48%',
+    supported_changelly: true
   },
   {
     id: 'lykke',
@@ -898,7 +922,8 @@ module.exports = [
     token: '14.99%',
     eth: '30.56%',
     btc: '15.41%',
-    icon_ext: 'svg'
+    icon_ext: 'svg',
+    supported_changelly: false
   },
   {
     name: 'Edgeless',
@@ -942,7 +967,8 @@ module.exports = [
     token: '85.11%',
     eth: '43.28%',
     btc: '28.52%',
-    icon_ext: 'jpg'
+    icon_ext: 'jpg',
+    supported_changelly: true
   },
   {
     name: 'Wings',
@@ -985,7 +1011,8 @@ module.exports = [
     excess_return_btc: '566.77%',
     token: '59.27%',
     eth: '63.30%',
-    btc: '15.50%'
+    btc: '15.50%',
+    supported_changelly: true
   },
   {
     name: 'Komodo',
@@ -1028,7 +1055,8 @@ module.exports = [
     token: '',
     eth: '',
     btc: '',
-    icon_ext: 'gif'
+    icon_ext: 'gif',
+    supported_changelly: false
   },
   {
     name: 'vDice',
@@ -1071,7 +1099,8 @@ module.exports = [
     excess_return_btc: '215.51%',
     token: '34.03%',
     eth: '59.52%',
-    btc: '17.37%'
+    btc: '17.37%',
+    supported_changelly: true
   },
   {
     name: 'Incent',
@@ -1113,7 +1142,8 @@ module.exports = [
     excess_return_btc: '46.48%',
     token: '15.96%',
     eth: '25.69%',
-    btc: '14.06%'
+    btc: '14.06%',
+    supported_changelly: false
   },
   {
     name: 'Ark',
@@ -1155,7 +1185,8 @@ module.exports = [
     excess_return_btc: '2285.12%',
     token: '86.01%',
     eth: '56.86%',
-    btc: '17.16%'
+    btc: '17.16%',
+    supported_changelly: false
   },
   {
     name: 'BlockPay',
@@ -1197,7 +1228,8 @@ module.exports = [
     excess_return_btc: '-127.69%',
     token: '5.82%',
     eth: '26.64%',
-    btc: '13.46%'
+    btc: '13.46%',
+    supported_changelly: false
   },
   {
     id: 'hackergold',
@@ -1240,7 +1272,8 @@ module.exports = [
     excess_return_btc: '-96.30%',
     token: '3.59%',
     eth: '63.50%',
-    btc: '17.04%'
+    btc: '17.04%',
+    supported_changelly: false
   },
   {
     id: 'golos',
@@ -1282,7 +1315,8 @@ module.exports = [
     excess_return_btc: '',
     token: '',
     eth: '',
-    btc: ''
+    btc: '',
+    supported_changelly: true
   },
   {
     id: 'storj',
@@ -1324,7 +1358,8 @@ module.exports = [
     excess_return_btc: '',
     token: '',
     eth: '',
-    btc: ''
+    btc: '',
+    supported_changelly: false
   },
   {
     id: 'nexium',
@@ -1366,7 +1401,8 @@ module.exports = [
     excess_return_btc: '3006.30%',
     token: '87.05%',
     eth: '51.57%',
-    btc: '16.83%'
+    btc: '16.83%',
+    supported_changelly: false
   },
   {
     id: 'tokes',
@@ -1408,7 +1444,8 @@ module.exports = [
     excess_return_btc: '444.55%',
     token: '59.74%',
     eth: '71.54%',
-    btc: '20.30%'
+    btc: '20.30%',
+    supported_changelly: false
   },
   {
     id: 'aragon',
@@ -1451,6 +1488,7 @@ module.exports = [
     excess_return_btc: '',
     token: '',
     eth: '',
-    btc: ''
+    btc: '',
+    supported_changelly: true
   },
 ];

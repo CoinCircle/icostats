@@ -34,7 +34,8 @@ const QUERY = gql`
       roi_vs_btc,
       is_erc20,
       eth_price_usd,
-      btc_price_usd
+      btc_price_usd,
+      supported_changelly
     }
   }
 `;

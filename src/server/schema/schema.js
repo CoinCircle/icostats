@@ -34,6 +34,7 @@ type ICO {
   is_erc20: Boolean
   eth_price_usd: Float!
   btc_price_usd: Float!
+  supported_changelly: Boolean
 }
 
 type Price {
