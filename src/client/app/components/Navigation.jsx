@@ -13,7 +13,8 @@ const styles = {
     alignItems: 'left',
     boxShadow: '3px 0px 10px hsla(0, 0%, 0%, 0.5)',
     backgroundColor: 'hsl(222, 21%, 20%)',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    zIndex: 1
   },
   brand: {
 
