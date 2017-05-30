@@ -55,9 +55,19 @@ const Row = ({ classes, ico, currency = 'USD', type = types.ROI_TOTAL, onTouchSt
       <div className={classNames(classes.td, classes.tdDate)}>
         {moment(ico.start_date, 'MM/DD/YYYY').format('MM/DD/YY')}
       </div>
-      <div className={classNames(classes.td, classes.tdPrice)}>
+      <div className={classNames(classes.td, classes.tdPrice, 'tooltip-trigger')}>
         {currency === 'USD' && $}
         {utils.getICOPrice(ico, currency).toFixed(PRECISION[currency])}
+        <div className={classes.tooltip}>
+          <div className={classes.tooltipRow}>
+            <strong>USD Raised: </strong>
+            {`$${ico.raise.toLocaleString()}`}
+          </div>
+          <div className={classes.tooltipRow}>
+            <strong>Tokens sold: </strong>
+            {ico.amount_sold_in_ico.toLocaleString()}
+          </div>
+        </div>
       </div>
       <div className={classNames(classes.td, classes.tdPrice)}>
         <CSSTransitionGroup
@@ -203,6 +213,7 @@ const styles = {
   },
   logo: {
     maxWidth: '30px',
+    maxHeight: '30px',
     height: 'auto'
   },
   tdLogo: {
@@ -216,7 +227,11 @@ const styles = {
   tdPrice: {
     color: 'hsl(220, 5%, 76%)',
     fontSize: '13px',
-    fontWeight: 900
+    fontWeight: 900,
+    position: 'relative',
+    '&.tooltip-trigger': {
+      overflow: 'visible'
+    }
   },
   tdName: {
     width: '100%',
@@ -266,6 +281,30 @@ const styles = {
     fontWeight: '400',
     textDecoration: 'none'
   },
+  tooltip: {
+    position: 'absolute',
+    background: 'hsl(222, 21%, 25%)',
+    right: '-24px',
+    bottom: '-10px',
+    left: 'auto',
+    zIndex: '999999',
+    fontSize: '8px',
+    textAlign: 'left',
+    padding: '5px',
+    borderRadius: '3px',
+    fontWeight: '400',
+    display: 'none',
+    color: 'white',
+    '.tooltip-trigger:hover > &': {
+      display: 'block'
+    },
+    '&.is-first': {
+      bottom: 0
+    }
+  },
+  tooltipRow: {
+    whiteSpace: 'pre'
+  },
   '@media (min-width: 768px)': {
     tr: {
       boxShadow: [
@@ -277,7 +316,8 @@ const styles = {
       width: '70%'
     },
     logo: {
-      maxWidth: '40px'
+      maxWidth: '50px',
+      maxHeight: '30px',
     }
   },
   '@media (min-width: 1024px)': {

@@ -266,7 +266,7 @@ class Rankings extends React.Component {
             currency={this.state.currency}
           />
           <div className={classes.tbody}>
-            {this.getIcos().map(ico =>
+            {this.getIcos().map(ico => (
               <Row
                 key={ico.id}
                 ico={ico}
@@ -275,7 +275,7 @@ class Rankings extends React.Component {
                 onTouchStart={() => this.setState({ active: ico.id })}
                 active={this.state.active === ico.id}
               />
-            )}
+            ))}
           </div>
         </div>
       </div>

@@ -35,7 +35,9 @@ const QUERY = gql`
       is_erc20,
       eth_price_usd,
       btc_price_usd,
-      supported_changelly
+      supported_changelly,
+      raise,
+      amount_sold_in_ico
     }
   }
 `;

@@ -35,6 +35,8 @@ type ICO {
   eth_price_usd: Float!
   btc_price_usd: Float!
   supported_changelly: Boolean
+  raise: Float!
+  amount_sold_in_ico: Float!
 }
 
 type Price {
