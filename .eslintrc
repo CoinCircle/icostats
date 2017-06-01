@@ -14,7 +14,12 @@
     "browser": true
   },
   "plugins": [
-    "react"
+    "react",
+    "flowtype"
+  ],
+  "extends": [
+    "airbnb",
+    "plugin:flowtype/recommended"
   ],
   "extends": ["airbnb"],
   "settings": {
