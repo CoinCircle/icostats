@@ -21,7 +21,6 @@
     "airbnb",
     "plugin:flowtype/recommended"
   ],
-  "extends": ["airbnb"],
   "settings": {
     "react": {
       "pragma": "React",
@@ -39,7 +38,7 @@
     "complexity": 2,
     "eqeqeq": [2, "smart"],
     "no-lone-blocks": 2,
-    "no-magic-numbers": [2, {
+    "no-magic-numbers": [0, {
       "ignore": [-1, 0, 1, 2]
     }],
     "no-multi-spaces": 2,
@@ -90,7 +89,7 @@
     "padded-blocks": [0, "always"],
     "one-var": [1, "never"],
     "operator-assignment": [1, "never"],
-    "operator-linebreak": [1, "after"],
+    "operator-linebreak": 0,
     "quote-props": 0,
     "quotes": [1, "single", "avoid-escape"],
     "keyword-spacing": [1, {
@@ -133,7 +132,7 @@
     "no-mixed-operators": 0,
     "no-duplicate-imports": 0,
     "import/no-unresolved": [2, {
-      "ignore": ['^(~|app|settings|models|api|lib|schema|compare|server|client)']
+      "ignore": ['^(~|app|settings|models|api|lib|schema|compare|server|client|shared)']
     }],
     "import/no-extraneous-dependencies": [0],
     "import/extensions": [0],
