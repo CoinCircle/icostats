@@ -31,6 +31,7 @@ module.exports = [
       */
       alias: {
         settings: path.resolve(__dirname, './settings.js'),
+        shared: path.resolve(__dirname, './src/shared'),
         '~': path.resolve(__dirname, './src/client')
       }
     },
@@ -95,6 +96,7 @@ module.exports = [
       */
       alias: {
         settings: path.resolve(__dirname, './settings.js'),
+        shared: path.resolve(__dirname, './src/shared'),
         '~': path.resolve(__dirname, './src/server')
       }
     },

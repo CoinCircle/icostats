@@ -13,6 +13,7 @@ module.exports = {
     alias: {
       settings: path.resolve(__dirname, './settings.js'),
       server: path.resolve(__dirname, './src/server'),
+      shared: path.resolve(__dirname, './src/shared'),
       client: path.resolve(__dirname, './src/client')
     }
   },
