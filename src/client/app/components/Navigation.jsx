@@ -121,6 +121,12 @@ const Navigation = ({ classes, isNavOpen = true }) => (
         to="/"
         className={classes.menuItem}
         activeClassName={classes.activeMenuItem}
+      >Recent Performers</NavLink>
+      <NavLink
+        exact
+        to="/roi-since-ico"
+        className={classes.menuItem}
+        activeClassName={classes.activeMenuItem}
       >ROI Since ICO</NavLink>
       <NavLink
         to="/roi-over-time"

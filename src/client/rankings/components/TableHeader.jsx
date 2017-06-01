@@ -3,7 +3,7 @@ import React from 'react';
 import injectSheet from 'react-jss';
 import classNames from 'classnames';
 import Modal from '~/app/components/Modal';
-import * as types from './constants';
+import * as types from '../constants';
 
 type Props = {
   sortBy: string,
@@ -13,7 +13,7 @@ type Props = {
   classes: Object
 }
 
-class Header extends React.Component {
+class TableHeader extends React.Component {
   props: Props;
   state = {
     isModalOpen: false
@@ -46,6 +46,24 @@ class Header extends React.Component {
     }];
 
     switch (type) {
+      case types.RECENT_PERFORMANCE: {
+        items.push({
+          key: 'recentStats.roi.day',
+          label: '24 Hr ROI',
+          addClass: classes.thPrimary
+        });
+        items.push({
+          key: 'recentStats.roi.week',
+          label: 'ROI Since Last Week',
+          addClass: [classes.thPrimary, classes.hideMobile]
+        });
+        items.push({
+          key: 'recentStats.roi.month',
+          label: 'ROI Since Last Month',
+          addClass: [classes.thPrimary, classes.hideMobile]
+        });
+        break;
+      }
       case types.ROI_OVER_TIME: {
         items.push({
           key: 'roi_per_day',
@@ -100,6 +118,14 @@ class Header extends React.Component {
         });
         break;
       }
+      case types.ROI_TOTAL: {
+        items.push({
+          key: 'roi_since_ico',
+          label: 'Change (%)',
+          addClass: classes.thPrimary
+        });
+        break;
+      }
       default: {
         items.push({
           key: 'roi_since_ico',
@@ -118,7 +144,7 @@ class Header extends React.Component {
       sortBy,
       onSort,
       ascending,
-      type = 'ROI_TOTAL'
+      type
     } = this.props;
     const sortedCell = item => (
       <span
@@ -194,7 +220,7 @@ const styles = {
   th: {
     flexGrow: '1',
     width: '100%',
-    color: '#8F6CF0',
+    color: 'hsl(256, 70%, 68%)',
     fontSize: '11px',
     textTransform: 'uppercase',
     textAlign: 'right',
@@ -231,7 +257,6 @@ const styles = {
     color: 'hsl(256, 81%, 85%)',
     maxWidth: '80%',
     overflow: 'hidden',
-    whiteSpace: 'pre',
     textOverflow: 'ellipsis',
     '&:hover': {
       background: 'hsl(256, 61%, 52%)',
@@ -282,4 +307,4 @@ const styles = {
   }
 };
 
-export default injectSheet(styles)(Header);
+export default injectSheet(styles)(TableHeader);

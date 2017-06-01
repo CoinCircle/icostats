@@ -1,12 +1,11 @@
 import React from 'react';
-import {
- BrowserRouter as Router,
- Route
-} from 'react-router-dom';
+import { Route } from 'react-router-dom';
+import { ConnectedRouter } from 'react-router-redux';
 import injectSheet from 'react-jss';
-import Navigation from 'app/components/Navigation';
-import Rankings from 'app/components/Rankings';
-import Compare from 'compare/components/Compare';
+import { history } from '~/index.js';
+import Navigation from '~/app/components/Navigation';
+import Rankings from '~/rankings/screens/Rankings';
+import Compare from '~/compare/components/Compare';
 
 const styles = {
   container: {
@@ -16,17 +15,18 @@ const styles = {
 };
 
 const App = ({ classes }) => (
-  <Router>
+  <ConnectedRouter history={history}>
     <div className={classes.container}>
       <Navigation />
 
       <Route exact path="/" component={Rankings} />
+      <Route exact path="/roi-since-ico" component={Rankings} />
       <Route exact path="/roi-over-time" component={Rankings} />
       <Route exact path="/vs-eth" component={Rankings} />
       <Route exact path="/vs-btc" component={Rankings} />
       <Route exact path="/compare" component={Compare} />
     </div>
-  </Router>
+  </ConnectedRouter>
 );
 
 export default injectSheet(styles)(App);

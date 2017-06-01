@@ -5,8 +5,8 @@ import injectSheet from 'react-jss';
 import classNames from 'classnames';
 import moment from 'moment';
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
-import * as types from './constants';
-import * as utils from 'app/utils';
+import * as types from '../constants';
+import * as utils from '~/app/utils';
 
 const propTypes = {
   ico: PropTypes.object,
@@ -15,7 +15,7 @@ const propTypes = {
   active: PropTypes.bool
 };
 
-const Row = ({ classes, ico, currency = 'USD', type = types.ROI_TOTAL, onTouchStart, active }) => {
+const TableRow = ({ classes, ico, currency = 'USD', type = types.ROI_TOTAL, onTouchStart, active }) => {
   const $ = <span className={classes.dollar}>$</span>;
   const PRECISION = {
     USD: 3,
@@ -83,7 +83,7 @@ const Row = ({ classes, ico, currency = 'USD', type = types.ROI_TOTAL, onTouchSt
       </div>
       {type === types.ROI_TOTAL &&
         <div className={classNames(classes.td, classes.tdPrimary, {
-          [classes.tdPrimaryNegative]: utils.getTotalROI(ico, currency) <= 0
+          [classes.tdPrimaryNegative]: utils.getTotalROI(ico, currency) < 0
         })}>
           {getPrettyPercentage(utils.getTotalROI(ico, currency))}
         </div>
@@ -95,7 +95,7 @@ const Row = ({ classes, ico, currency = 'USD', type = types.ROI_TOTAL, onTouchSt
             classes.tdPrimary,
             classes.hideMobile,
             {
-              [classes.tdPrimaryNegative]: utils.getPeriodicROI(utils.getTotalROI(ico, currency), ico.start_date, utils.DAILY) <= 0
+              [classes.tdPrimaryNegative]: utils.getPeriodicROI(utils.getTotalROI(ico, currency), ico.start_date, utils.DAILY) < 0
             }
           )}
         >
@@ -104,28 +104,28 @@ const Row = ({ classes, ico, currency = 'USD', type = types.ROI_TOTAL, onTouchSt
       }
       {type === types.ROI_OVER_TIME &&
         <div className={classNames(classes.td, classes.tdPrimary, classes.hideMobile, {
-          [classes.tdPrimaryNegative]: utils.getPeriodicROI(utils.getTotalROI(ico, currency), ico.start_date, utils.WEEKLY) <= 0
+          [classes.tdPrimaryNegative]: utils.getPeriodicROI(utils.getTotalROI(ico, currency), ico.start_date, utils.WEEKLY) < 0
         })}>
           {getPrettyPercentage(utils.getPeriodicROI(utils.getTotalROI(ico, currency), ico.start_date, utils.WEEKLY))}
         </div>
       }
       {type === types.ROI_OVER_TIME &&
         <div className={classNames(classes.td, classes.tdPrimary, {
-          [classes.tdPrimaryNegative]: utils.getPeriodicROI(utils.getTotalROI(ico, currency), ico.start_date, utils.MONTHLY) <= 0
+          [classes.tdPrimaryNegative]: utils.getPeriodicROI(utils.getTotalROI(ico, currency), ico.start_date, utils.MONTHLY) < 0
         })}>
           {getPrettyPercentage(utils.getPeriodicROI(utils.getTotalROI(ico, currency), ico.start_date, utils.MONTHLY))}
         </div>
       }
       {type === types.ROI_VS_ETH &&
         <div className={classNames(classes.td, classes.tdPrimary, {
-          [classes.tdPrimaryNegative]: utils.getTotalROI(ico, currency) <= 0
+          [classes.tdPrimaryNegative]: utils.getTotalROI(ico, currency) < 0
         })}>
             {getPrettyPercentage(utils.getTotalROI(ico, currency))}
         </div>
       }
       {type === types.ROI_VS_ETH &&
         <div className={classNames(classes.td, classes.tdPrimary, {
-          [classes.tdPrimaryNegative]: ico.eth_roi_during_period <= 0
+          [classes.tdPrimaryNegative]: ico.eth_roi_during_period < 0
         })}>
             {getPrettyPercentage(ico.eth_roi_during_period)}
         </div>
@@ -133,7 +133,7 @@ const Row = ({ classes, ico, currency = 'USD', type = types.ROI_TOTAL, onTouchSt
       {type === types.ROI_VS_ETH &&
         <div
           className={classNames(classes.td, classes.tdPrimary, {
-            [classes.tdPrimaryNegative]: ico.roi_vs_eth <= 0
+            [classes.tdPrimaryNegative]: ico.roi_vs_eth < 0
           })}
         >
           {getPrettyPercentage(ico.roi_vs_eth)}
@@ -141,14 +141,14 @@ const Row = ({ classes, ico, currency = 'USD', type = types.ROI_TOTAL, onTouchSt
       }
       {type === types.ROI_VS_BTC &&
         <div className={classNames(classes.td, classes.tdPrimary, {
-          [classes.tdPrimaryNegative]: utils.getTotalROI(ico, currency) <= 0
+          [classes.tdPrimaryNegative]: utils.getTotalROI(ico, currency) < 0
         })}>
             {getPrettyPercentage(utils.getTotalROI(ico, currency))}
         </div>
       }
       {type === types.ROI_VS_BTC &&
         <div className={classNames(classes.td, classes.tdPrimary, {
-          [classes.tdPrimaryNegative]: ico.btc_roi_during_period <= 0
+          [classes.tdPrimaryNegative]: ico.btc_roi_during_period < 0
         })}>
             {getPrettyPercentage(ico.btc_roi_during_period)}
         </div>
@@ -156,10 +156,40 @@ const Row = ({ classes, ico, currency = 'USD', type = types.ROI_TOTAL, onTouchSt
       {type === types.ROI_VS_BTC &&
         <div
           className={classNames(classes.td, classes.tdPrimary, {
-            [classes.tdPrimaryNegative]: ico.roi_vs_btc <= 0
+            [classes.tdPrimaryNegative]: ico.roi_vs_btc < 0
           })}
         >
           {getPrettyPercentage(ico.roi_vs_btc)}
+        </div>
+      }
+      {type === types.RECENT_PERFORMANCE &&
+        <div
+          className={classNames(classes.td, classes.tdPrimary, {
+            [classes.tdPrimaryNegative]: ico.recentStats.roi.day < 0,
+            [classes.tdNA]: ico.recentStats.roi.day === null
+          })}
+        >
+          {getPrettyPercentage(ico.recentStats.roi.day)}
+        </div>
+      }
+      {type === types.RECENT_PERFORMANCE &&
+        <div
+          className={classNames(classes.td, classes.tdPrimary, {
+            [classes.tdPrimaryNegative]: ico.recentStats.roi.week < 0,
+            [classes.tdNA]: ico.recentStats.roi.week === null
+          })}
+        >
+          {getPrettyPercentage(ico.recentStats.roi.week)}
+        </div>
+      }
+      {type === types.RECENT_PERFORMANCE &&
+        <div
+          className={classNames(classes.td, classes.tdPrimary, {
+            [classes.tdPrimaryNegative]: ico.recentStats.roi.month < 0,
+            [classes.tdNA]: ico.recentStats.roi.month === null
+          })}
+        >
+          {getPrettyPercentage(ico.recentStats.roi.month)}
         </div>
       }
     </div>
@@ -172,6 +202,10 @@ function getPrettyPercentage(n) {
   const prefix = (n > 0) && '+' || '';
   const label = `${prefix}${percentage.toFixed(2)}%`;
 
+  if (n === null) {
+    return 'N/A';
+  }
+
   return (
     <CSSTransitionGroup
       transitionName="percentage"
@@ -183,7 +217,7 @@ function getPrettyPercentage(n) {
   );
 }
 
-Row.propTypes = propTypes;
+TableRow.propTypes = propTypes;
 
 const styles = {
   tr: {
@@ -252,6 +286,9 @@ const styles = {
   },
   tdPrimaryNegative: {
     color: 'hsl(15, 75%, 60%)',
+  },
+  tdNA: {
+    color: 'hsl(0, 0%, 60%)'
   },
   tdSmall: {
     width: '65%'
@@ -333,4 +370,4 @@ const styles = {
   }
 };
 
-export default injectSheet(styles)(Row);
+export default injectSheet(styles)(TableRow);

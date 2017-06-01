@@ -1,15 +1,19 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import classNames from 'classnames';
-import * as types from './constants';
+import { connect } from 'react-redux';
+import { setFilters } from '../actions';
 
-const propTypes = {
-  filters: PropTypes.object,
-  onUpdate: PropTypes.func.isRequired
+type Props = {
+  classes: Object,
+  filters: {
+    erc20: boolean
+  },
+  onUpdate: (newVal: Object) => void
 };
 
-const Filters = ({ classes, filters, onUpdate }) => {
+function Filters({ classes, filters, onUpdate }: Props) {
   const erc20Checkbox = (
     <div className={classes.checkWrapper}>
       <input
@@ -110,6 +114,16 @@ const styles = {
   }
 };
 
-Filters.propTypes = propTypes;
+const withStyles = injectSheet(styles)(Filters);
 
-export default injectSheet(styles)(Filters);
+/* =============================================================================
+=    Redux
+============================================================================= */
+const mapStateToProps = state => ({
+  filters: state.rankings.filters
+});
+const mapDispatchToProps = dispatch => ({
+  onChange: filters => dispatch(setFilters(filters))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles);

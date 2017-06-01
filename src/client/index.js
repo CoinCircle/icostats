@@ -3,11 +3,17 @@ import 'isomorphic-fetch';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import createHistory from 'history/createBrowserHistory';
+import { routerReducer, routerMiddleware } from 'react-router-redux';
 import ApolloClient from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
 import App from 'app/components/App';
 import appReducer from 'app/reducers';
 import compareReducer from 'compare/reducers';
+import rankingsReducer from '~/rankings/reducers';
+
+// eslint-disable-next-line
+export const history = createHistory();
 
 /* =============================================================================
 =    Redux
@@ -16,11 +22,16 @@ const client = new ApolloClient();
 const reducer = combineReducers({
   app: appReducer,
   compare: compareReducer,
-  apollo: client.reducer()
+  apollo: client.reducer(),
+  router: routerReducer,
+  rankings: rankingsReducer
 });
 const initialState = {};
 const enhancer = compose(
-  applyMiddleware(client.middleware()),
+  applyMiddleware(
+    client.middleware(),
+    routerMiddleware(history)
+  ),
   // eslint-disable-next-line
   (typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined') ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f
 );
