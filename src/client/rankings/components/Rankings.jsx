@@ -135,7 +135,7 @@ const styles = {
   },
   header: {
     padding: '15px',
-    flex: '0 0 100px',
+    flex: '0 0 120px',
     width: '100%',
     display: 'flex',
     alignItems: 'flex-start',
@@ -176,6 +176,9 @@ const styles = {
       padding: '0 15px',
       overflow: 'auto',
       width: '100%'
+    },
+    header: {
+      flex: '0 0 100px'
     }
   }
 };

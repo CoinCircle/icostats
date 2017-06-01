@@ -212,7 +212,7 @@ function getPrettyPercentage(n) {
       transitionLeave={false}
       transitionEnterTimeout={800}
     >
-      <span key={moment.now()}>{label}</span>
+      <span key={n}>{label}</span>
     </CSSTransitionGroup>
   );
 }
