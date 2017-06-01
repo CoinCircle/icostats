@@ -1,6 +1,20 @@
 /* eslint-disable max-lines */
 module.exports = [
   {
+    id: 'bitcrystals',
+    is_erc20: false,
+    name: 'Bitcrystals',
+    symbol: 'BCY',
+    eth_price_at_launch: 0.30,
+    btc_price_at_launch: 288,
+    raise: 269029.44, // 934.13 BTC
+    amount_sold_in_ico: 13521238.01,
+    implied_token_price: 0.0199,
+    start_date: '07/29/2015',
+    ticker: 'bitcrystals',
+    supported_changelly: true
+  },
+  {
     id: 'swarm-city',
     is_erc20: true,
     contract_address: '0xb9e7f8568e08d5659f5d29c4997173d84cdf2607',
