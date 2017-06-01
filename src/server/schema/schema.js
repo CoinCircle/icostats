@@ -44,11 +44,22 @@ type Price {
   ticker: String
 }
 
+type RecentPriceItem {
+  week: Float
+  day: Float
+  month: Float
+}
+type RecentPrice {
+  ticker: String
+  recent_prices: RecentPriceItem
+}
+
 # the schema allows the following query:
 type Query {
   icos: [ICO]
   ico(id: String!): ICO
   prices(tickers: [String!]): [Price]
+  recentPrices: [RecentPrice]
 }
 
 # this schema allows the following mutation:
