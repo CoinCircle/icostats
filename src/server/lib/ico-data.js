@@ -1,6 +1,22 @@
 /* eslint-disable max-lines */
 module.exports = [
   {
+    id: 'basic-attention-token',
+    is_erc20: true,
+    contract_address: '0x0D8775F648430679A709E98d2b0Cb6250d2887EF',
+    name: 'Basic Attention Token',
+    symbol: 'BAT',
+    eth_price_at_launch: 224.90,
+    btc_price_at_launch: 2271.35,
+    raise: 35000000,
+    amount_sold_in_ico: 1000000000,
+    implied_token_price: 0.035,
+    start_date: '05/31/2017',
+    ticker: 'basic-attention-token',
+    supported_changelly: false,
+    icon_ext: 'svg'
+  },
+  {
     id: 'bitcrystals',
     is_erc20: false,
     name: 'Bitcrystals',

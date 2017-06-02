@@ -21,7 +21,7 @@ export default {
       const SIX_HOURS = ONE_HOUR * 6;
       let recents = cache.get('recentPrices');
 
-      if (!recents) {
+      if (!recents || !recents.length) {
         const doc = await Price.find();
 
         recents = recentPrices(doc);

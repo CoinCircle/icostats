@@ -28,7 +28,8 @@ export default function appendRecentStats(
 
   return icos.map((ico) => {
     const { price_usd: icoPrice, ticker } = ico;
-    const { recent_prices: data } = recentPrices.find(r => r.ticker === ticker);
+    const recent = recentPrices.find(r => r.ticker === ticker);
+    const data = recent && recent.recent_prices;
 
     return {
       ...ico,
