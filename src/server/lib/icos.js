@@ -59,7 +59,7 @@ function roiVsEth(ico, ethPrice) {
   const ethROI = ethROISinceICO(ico, ethPrice);
   const isDecrease = altROI < ethROI;
   const diff = isDecrease ? (ethROI - altROI) : (altROI - ethROI);
-  const delta = diff / ethROI;
+  const delta = Math.abs(diff / ethROI);
 
   return isDecrease ? (0 - delta) : delta;
 }
@@ -69,7 +69,7 @@ function roiVsBtc(ico, btcPrice) {
   const ethROI = btcROISinceICO(ico, btcPrice);
   const isDecrease = altROI < ethROI;
   const diff = isDecrease ? (ethROI - altROI) : (altROI - ethROI);
-  const delta = diff / ethROI;
+  const delta = Math.abs(diff / ethROI);
 
   return isDecrease ? (0 - delta) : delta;
 }

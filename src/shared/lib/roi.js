@@ -5,7 +5,7 @@
 export default function ROI(a: number, b: number) {
   const isDecrease = b < a;
   const diff = isDecrease ? (a - b) : (b - a);
-  const delta = diff / a;
+  const delta = Math.abs(diff / a);
 
   if (a === null || b === null) {
     return null;
