@@ -17,15 +17,15 @@ export default {
     },
     async recentPrices() {
       const ONE_MINUTE = 60;
-      const ONE_HOUR = ONE_MINUTE * 60;
-      const SIX_HOURS = ONE_HOUR * 6;
+      const FIFTEEN_MINUTES = ONE_MINUTE * 15;
+
       let recents = cache.get('recentPrices');
 
       if (!recents || !recents.length) {
         const doc = await Price.find();
 
         recents = recentPrices(doc);
-        cache.set('recentPrices', recents, SIX_HOURS);
+        cache.set('recentPrices', recents, FIFTEEN_MINUTES);
       }
 
       return recents;
