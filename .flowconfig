@@ -10,4 +10,5 @@ suppress_type=$FlowTODO
 suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe
 module.name_mapper='^~/\(.*\)' -> '<PROJECT_ROOT>/src/client/\1'
 module.name_mapper='^~/\(.*\)' -> '<PROJECT_ROOT>/src/server/\1'
+module.name_mapper='^shared/\(.*\)' -> '<PROJECT_ROOT>/src/shared/\1'
 module.name_mapper='^settings$' -> '<PROJECT_ROOT>/settings.js'
