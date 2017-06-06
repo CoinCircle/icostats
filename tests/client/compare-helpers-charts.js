@@ -91,7 +91,7 @@ describe('generateDatasets', function () {
       {
         ticker: 'golem',
         price_usd: [
-          [1494000000000, 1.5],
+          [1494000000000, 1],
           [1495000000000, 3.0],
           [1496000000000, 3.5],
           [1497000000000, 1.7],
@@ -99,14 +99,24 @@ describe('generateDatasets', function () {
         ]
       },
     ];
+    const icos = [
+      {
+        ticker: 'golem',
+        implied_token_price: 1.0
+      },
+      {
+        ticker: 'humaniq',
+        implied_token_price: 3.5
+      }
+    ]
     const colors = ['hsl(0, 50%, 50%)', 'hsl(260, 50%, 50%)'];
-    const actual = generateLineChartData(prices, colors);
+    const actual = generateLineChartData(prices, colors, icos);
     const { labels, datasets } = actual;
     const golem = datasets.find(d => d.label === 'golem');
 
-    assert(golem.data.length === 5);
-    assert(golem.data[0] === 1.5);
-    assert(golem.data[4] === 3.7);
+    expect(golem.data.length).to.equal(5);
+    expect(golem.data[0]).to.equal(0);
+    expect(golem.data[4]).to.equal(2.7);
   });
 
   it('returns the right data with differing time scales', function () {
