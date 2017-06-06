@@ -3,10 +3,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import classNames from 'classnames';
+import { connect } from 'react-redux';
 import moment from 'moment';
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import * as types from '../constants';
 import * as utils from '~/app/utils';
+import exchange from '~/exchange';
 
 const propTypes = {
   ico: PropTypes.object,
@@ -15,7 +17,15 @@ const propTypes = {
   active: PropTypes.bool
 };
 
-const TableRow = ({ classes, ico, currency = 'USD', type = types.ROI_TOTAL, onTouchStart, active }) => {
+const TableRow = ({
+  classes,
+  ico,
+  currency = 'USD',
+  type = types.ROI_TOTAL,
+  onTouchStart,
+  active,
+  onClickBuy
+}) => {
   const $ = <span className={classes.dollar}>$</span>;
   const PRECISION = {
     USD: 3,
@@ -38,7 +48,7 @@ const TableRow = ({ classes, ico, currency = 'USD', type = types.ROI_TOTAL, onTo
       </div>
       <div className={classNames(classes.td, classes.tdName)}>
         {ico.name}
-        {ico.supported_changelly &&
+        {!ico.supported_shapeshift && ico.supported_changelly &&
           <a
             className={classes.buyNow}
             href={`https://changelly.com/exchange/ETH/${ico.symbol}/1?ref_id=861e5d1e1238`}
@@ -50,6 +60,14 @@ const TableRow = ({ classes, ico, currency = 'USD', type = types.ROI_TOTAL, onTo
           >
             Buy Instantly
           </a>
+        }
+        {ico.supported_shapeshift &&
+          <button
+            className={classes.buyNow}
+            onClick={() => onClickBuy(ico.symbol)}
+          >
+            Buy Instantly
+          </button>
         }
       </div>
       <div className={classNames(classes.td, classes.tdDate)}>
@@ -316,7 +334,13 @@ const styles = {
     position: 'absolute',
     fontSize: '8px',
     fontWeight: '400',
-    textDecoration: 'none'
+    textDecoration: 'none',
+    background: 'none',
+    border: 'none',
+    textAlign: 'right',
+    padding: '0',
+    cursor: 'pointer',
+    outline: 'none'
   },
   tooltip: {
     position: 'absolute',
@@ -353,7 +377,7 @@ const styles = {
       width: '70%'
     },
     logo: {
-      maxWidth: '50px',
+      maxWidth: '95%',
       maxHeight: '30px',
     }
   },
@@ -370,4 +394,13 @@ const styles = {
   }
 };
 
-export default injectSheet(styles)(TableRow);
+const withStyles = injectSheet(styles)(TableRow);
+
+/* =============================================================================
+=    Redux
+============================================================================= */
+const mapDispatchToProps = dispatch => ({
+  onClickBuy: symbol => dispatch(exchange.actions.initExchange(symbol))
+});
+
+export default connect(null, mapDispatchToProps)(withStyles);

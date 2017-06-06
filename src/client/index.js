@@ -6,11 +6,14 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import createHistory from 'history/createBrowserHistory';
 import { routerReducer, routerMiddleware } from 'react-router-redux';
 import ApolloClient from 'apollo-client';
+import thunk from 'redux-thunk';
 import { ApolloProvider } from 'react-apollo';
 import App from 'app/components/App';
 import appReducer from 'app/reducers';
 import compareReducer from 'compare/reducers';
 import rankingsReducer from '~/rankings/reducers';
+import exchangeReducer from '~/exchange/reducers';
+
 
 // eslint-disable-next-line
 export const history = createHistory();
@@ -24,13 +27,15 @@ const reducer = combineReducers({
   compare: compareReducer,
   apollo: client.reducer(),
   router: routerReducer,
-  rankings: rankingsReducer
+  rankings: rankingsReducer,
+  exchange: exchangeReducer
 });
 const initialState = {};
 const enhancer = compose(
   applyMiddleware(
     client.middleware(),
-    routerMiddleware(history)
+    routerMiddleware(history),
+    thunk
   ),
   // eslint-disable-next-line
   (typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined') ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f

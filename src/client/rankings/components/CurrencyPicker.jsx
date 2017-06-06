@@ -80,7 +80,7 @@ const withStyles = injectSheet(styles)(CurrencyPicker);
 const mapStateToProps = state => ({
   activeCurrency: state.rankings.currency
 });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: $FlowTODO) => ({
   onSelect: currency => dispatch(setCurrency(currency))
 });
 

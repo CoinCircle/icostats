@@ -39,7 +39,8 @@ const QUERY = gql`
       btc_price_usd,
       supported_changelly,
       raise,
-      amount_sold_in_ico
+      amount_sold_in_ico,
+      supported_shapeshift
     }
     recentPrices {
       ticker
@@ -95,7 +96,8 @@ const mapStateToProps = (state, ownProps) => ({
   icos: selectors.selectICOs(state, ownProps),
   filters: state.rankings.filters,
   currency: state.rankings.currency,
-  maxPages: selectors.selectMaxPages(state, ownProps)
+  maxPages: selectors.selectMaxPages(state, ownProps),
+  isExchangeActive: state.exchange.isActive
 });
 const mapDispatchToProps = dispatch => ({
   toggleNav: () => dispatch(app.actions.toggleNav()),

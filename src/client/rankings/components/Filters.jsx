@@ -7,9 +7,7 @@ import { setFilters } from '../actions';
 
 type Props = {
   classes: Object,
-  filters: {
-    erc20: boolean
-  },
+  filters: $FlowTODO,
   onUpdate: (newVal: Object) => void
 };
 
@@ -122,7 +120,7 @@ const withStyles = injectSheet(styles)(Filters);
 const mapStateToProps = state => ({
   filters: state.rankings.filters
 });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: $FlowTODO) => ({
   onChange: filters => dispatch(setFilters(filters))
 });
 

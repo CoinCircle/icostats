@@ -2,10 +2,12 @@
 import winston from 'winston';
 import fetch from 'isomorphic-fetch';
 import { cache } from 'app';
+import GraphQLJSON from 'graphql-type-json';
 import { normalize as normalizeICO } from 'lib/icos';
 import { sendMail } from 'lib/mail';
 import recentPrices from 'lib/recentPrices';
 import Price from 'models/price';
+import * as shapeshift from 'shared/lib/shapeshift';
 import icos from './icos';
 
 export default {
@@ -39,6 +41,11 @@ export default {
       const data = Array.isArray(json) ? json[0] : json;
 
       return normalizeICO(data);
+    },
+    async shapeshiftCoins() {
+      const coins = await shapeshift.getCoins();
+
+      return coins;
     }
   },
   Mutation: {
@@ -47,5 +54,6 @@ export default {
 
       return success ? 'success' : 'failed';
     }
-  }
+  },
+  JSON: GraphQLJSON
 };
