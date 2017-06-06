@@ -3,7 +3,7 @@ import React from 'react';
 import injectSheet from 'react-jss';
 import classNames from 'classnames';
 import Modal from '~/app/components/Modal';
-import * as types from '../constants';
+import getColumns from '../lib/getColumns';
 
 type Props = {
   sortBy: string,
@@ -19,125 +19,6 @@ class TableHeader extends React.Component {
     isModalOpen: false
   };
 
-  getItems(type) {
-    const { classes } = this.props;
-    const items = [{
-      key: 'name',
-      label: 'Name',
-      addClass: classes.thName
-    }, {
-      key: 'start_date',
-      label: 'ICO Date',
-      addClass: classes.thDate
-    }, {
-      key: 'implied_token_price',
-      label: 'ICO Price',
-      addClass: classes.thPrice,
-      extra: (
-        <i
-          className={classNames('material-icons', classes.help)}
-          onClick={() => this.setState({ isModalOpen: true })}
-        >help</i>
-      )
-    }, {
-      key: 'current_price',
-      label: 'Curr. Price',
-      addClass: classes.thPrice
-    }];
-
-    switch (type) {
-      case types.RECENT_PERFORMANCE: {
-        items.push({
-          key: 'recentStats.roi.day',
-          label: '24 Hr ROI',
-          addClass: classes.thPrimary
-        });
-        items.push({
-          key: 'recentStats.roi.week',
-          label: 'ROI Since Last Week',
-          addClass: [classes.thPrimary, classes.hideMobile]
-        });
-        items.push({
-          key: 'recentStats.roi.month',
-          label: 'ROI Since Last Month',
-          addClass: [classes.thPrimary, classes.hideMobile]
-        });
-        break;
-      }
-      case types.ROI_OVER_TIME: {
-        items.push({
-          key: 'roi_per_day',
-          label: 'Daily ROI',
-          addClass: [classes.thPrimary, classes.hideMobile]
-        });
-        items.push({
-          key: 'roi_per_week',
-          label: 'Weekly ROI',
-          addClass: [classes.thPrimary, classes.hideMobile]
-        });
-        items.push({
-          key: 'roi_per_month',
-          label: 'Monthly ROI',
-          addClass: classes.thPrimary
-        });
-        break;
-      }
-      case types.ROI_VS_ETH: {
-        items.push({
-          key: 'roi_since_ico',
-          label: 'ROI since ICO',
-          addClass: classes.thPrimary
-        });
-        items.push({
-          key: 'eth_roi_during_period',
-          label: 'ETH ROI since ICO',
-          addClass: classes.thPrimary
-        });
-        items.push({
-          key: 'roi_vs_eth',
-          label: 'ROI vs ETH',
-          addClass: classes.thPrimary
-        });
-        break;
-      }
-      case types.ROI_VS_BTC: {
-        items.push({
-          key: 'roi_since_ico',
-          label: 'ROI since ICO',
-          addClass: classes.thPrimary
-        });
-        items.push({
-          key: 'btc_roi_during_period',
-          label: 'BTC ROI since ICO',
-          addClass: classes.thPrimary
-        });
-        items.push({
-          key: 'roi_vs_btc',
-          label: 'ROI vs BTC',
-          addClass: classes.thPrimary
-        });
-        break;
-      }
-      case types.ROI_TOTAL: {
-        items.push({
-          key: 'roi_since_ico',
-          label: 'Change (%)',
-          addClass: classes.thPrimary
-        });
-        break;
-      }
-      default: {
-        items.push({
-          key: 'roi_since_ico',
-          label: 'Change (%)',
-          addClass: classes.thPrimary
-        });
-      }
-    }
-
-    return items;
-  }
-
   render() {
     const {
       classes,
@@ -146,6 +27,7 @@ class TableHeader extends React.Component {
       ascending,
       type
     } = this.props;
+    const onClickHint = () => this.setState({ isModalOpen: true });
     const sortedCell = item => (
       <span
         className={classes.sortActive}
@@ -185,7 +67,7 @@ class TableHeader extends React.Component {
     return (
       <div className={classes.tableheader}>
         <div className={classNames(classes.th, classes.thLogo)} />
-        {this.getItems(type).map(item =>
+        {getColumns(type, classes, onClickHint).map(item =>
           <Cell key={item.key} item={item} />
         )}
         {this.state.isModalOpen &&

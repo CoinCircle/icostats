@@ -7,13 +7,15 @@ type ICO = {
   price_usd: number
 };
 
+type $RecentPrices = {
+  day: number,
+  week: number,
+  month: number
+};
+
 type RecentPrice = {
   ticker: string,
-  recent_prices: {
-    day: number,
-    week: number,
-    month: number
-  }
+  recent_prices: $RecentPrices
 };
 
 export default function appendRecentStats(
@@ -38,12 +40,17 @@ export default function appendRecentStats(
   });
 }
 
-function calculateRecentStats(recent, currPrice, eth, btc) {
+function calculateRecentStats(
+  recent: $RecentPrices,
+  currPrice: number,
+  eth,
+  btc
+) {
   return {
     prices: {
       usd: recent,
-      eth: eth && mapValues(recent, (v, k) => v / eth[k]),
-      btc: btc && mapValues(recent, (v, k) => v / btc[k])
+      eth: mapValues(recent, (v, k) => eth && (v / eth[k])),
+      btc: mapValues(recent, (v, k) => btc && (v / btc[k]))
     },
     roi: {
       day: ROI(recent.day, currPrice),
