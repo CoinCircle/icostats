@@ -113,7 +113,8 @@
     "max-len": [1, {
       "code": 80,
       "tabWidth": 2,
-      "ignoreUrls": true
+      "ignoreUrls": true,
+      "ignoreStrings": true
     }],
     "max-lines": ["error", {
       "max": 200,
