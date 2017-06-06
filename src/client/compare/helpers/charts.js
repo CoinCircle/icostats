@@ -1,8 +1,8 @@
-/* eslint-disable import/prefer-default-export */
 /**
  * Helpers for generating data required to render charts.
  * @flow
  */
+/* eslint-disable import/prefer-default-export */
 import moment from 'moment';
 
 type ChartJSLineChartDataset = {
@@ -40,12 +40,7 @@ export function generateLineChartData(
 ): ChartJSLineChartData {
 
   // Find the longest range
-  const longest = items.slice().sort((_a, _b) => {
-    const a = _a.price_usd[_a.price_usd.length - 1][0] - _a.price_usd[0][0];
-    const b = _b.price_usd[_b.price_usd.length - 1][0] - _b.price_usd[0][0];
-
-    return b - a;
-  })[0];
+  const longest = items.slice().sort(sortByTimeRange)[0];
   let labels = [];
 
   longest.price_usd.forEach((datapoint) => {
@@ -74,33 +69,51 @@ export function generateLineChartData(
     fill: false,
     lineTension: 0.5,
     pointRadius: 0,
-    data: labels.map((ts) => {
-      const match = item.price_usd.find((datapoint, j) =>
-        datapoint[0] === ts ||
-        (j > 0 &&
-          (item.price_usd[j-1][0] < ts && ts <= datapoint[0])
-        )
-      );
-
-      if (match) {
-        const price = match[1];
-        const ico = icos.find((el) => el.ticker === item.ticker);
-
-        if (ico) {
-          const startPrice = ico.implied_token_price;
-
-          return roi(startPrice, price);
-        }
-      }
-
-      return null;
-    })
+    data: labels.map(ts => mapLabel(ts, item, icos))
   }));
 
   return {
     labels: formatLabels(labels),
     datasets
   };
+}
+
+function mapLabel(ts, item, icos) {
+  const match = item.price_usd && item.price_usd.find((datapoint, j) =>
+    // Time exactly matches, or...
+    datapoint[0] === ts ||
+    // this is the closest timestamp we can find
+    (j > 0 &&
+      (item.price_usd[j - 1][0] < ts && ts <= datapoint[0])
+    )
+  );
+
+  if (match) {
+    const price = match[1];
+    const ico = icos && icos.find(el => el.ticker === item.ticker);
+
+    if (ico) {
+      const startPrice = ico.implied_token_price;
+
+      return roi(startPrice, price);
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Sorts ICOs by how long they it has been since their ICO, in descending order.
+ */
+function sortByTimeRange(_a, _b) {
+  const aLast = _a.price_usd[_a.price_usd.length - 1][0];
+  const aFirst = _a.price_usd[0][0];
+  const bLast = _b.price_usd[_b.price_usd.length - 1][0];
+  const bFirst =  _b.price_usd[0][0];
+  const a = aLast - aFirst;
+  const b = bLast - bFirst;
+
+  return b - a;
 }
 
 function formatLabels(labels) {
