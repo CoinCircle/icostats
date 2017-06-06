@@ -30,7 +30,7 @@ module.exports = [
       * Access config from anywhere via `import settings from 'settings'``
       */
       alias: {
-        settings: path.resolve(__dirname, './settings.js'),
+        settings: path.resolve(__dirname, './settings-public.js'),
         shared: path.resolve(__dirname, './src/shared'),
         '~': path.resolve(__dirname, './src/client')
       }
