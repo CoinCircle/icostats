@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import winston from 'winston';
 import { normalize as normalizeICO } from 'lib/icos';
 import icoData from 'lib/ico-data';
 import { fetchCurrentPrice } from 'lib/gdax';
@@ -24,7 +25,7 @@ export default async function icos() {
       const ticker = tickers.find(t => t.symbol === 'ETH');
 
       ethPrice = ticker.price_usd;
-      console.log('Fetched fallback ETH price (%s) from db.', ethPrice);
+      winston.info('Fetched fallback ETH price (%s) from db.', ethPrice);
     }
     cache.set('ethPrice', ethPrice);
   }
@@ -36,7 +37,7 @@ export default async function icos() {
       const ticker = tickers.find(t => t.symbol === 'BTC');
 
       btcPrice = ticker.price_usd;
-      console.log('Fetched fallback BTC price (%s) from db.', btcPrice);
+      winston.info('Fetched fallback BTC price (%s) from db.', btcPrice);
     }
     cache.set('btcPrice', btcPrice);
   }

@@ -5,6 +5,7 @@
  * @flow
  */
 import moment from 'moment';
+import winston from 'winston';
 
 type Item = {
   ticker: string,
@@ -12,7 +13,11 @@ type Item = {
 };
 
 
-function findPrice(prices, targetMoment) {
+function findPrice(item, targetMoment) {
+  const { price_usd: prices } = item;
+  // TODO
+  // let dayMatch; <-- assign the first match with same day
+  // Then, look for a match with same hour. If none found, fall back to dayMatch
   const match = prices.find((data) => {
     const [ts] = data;
     const momentPrice = moment(ts);
@@ -20,7 +25,17 @@ function findPrice(prices, targetMoment) {
     return momentPrice.isSame(targetMoment, 'day');
   });
 
-  return match && match[1];
+  const res = match && match[1];
+
+  if (!res) {
+    winston.warn(
+      'No recent price found for %s for targetMoment: %s',
+      item.ticker,
+      targetMoment.format()
+    );
+  }
+
+  return res;
 }
 
 export default function recentPrices(items: Item[]) {
@@ -32,9 +47,9 @@ export default function recentPrices(items: Item[]) {
   return items.map(item => ({
     ticker: item.ticker,
     recent_prices: {
-      day: findPrice(item.price_usd, dayAgo),
-      week: findPrice(item.price_usd, weekAgo),
-      month: findPrice(item.price_usd, monthAgo)
+      day: findPrice(item, dayAgo),
+      week: findPrice(item, weekAgo),
+      month: findPrice(item, monthAgo)
     }
   }));
 }

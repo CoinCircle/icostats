@@ -1,9 +1,19 @@
 /* eslint-disable */
+const winston = require('winston');
 const mongoose = require('mongoose');
 const Promise = require('bluebird');
 const fetch = require('isomorphic-fetch');
 const settings = require('../settings.js');
 const icoData = require('../src/server/lib/ico-data.js');
+
+require('winston-loggly-bulk');
+
+winston.add(winston.transports.Loggly, {
+  inputToken: settings.LOGGLY_TOKEN,
+  subdomain: settings.LOGGLY_SUBDOMAIN,
+  tags: ['Winston-NodeJS', settings.LOGGLY_TAG],
+  json: true
+});
 
 mongoose.Promise = Promise;
 mongoose.connect(settings.MONGO_URI);
@@ -16,7 +26,7 @@ const tickers = [
   'ethereum'
 ];
 
-console.log('Fetching %s graphs...', tickers.length);
+winston.info('Fetching %s graphs...', tickers.length);
 
 recursiveFetch(tickers, 0).then(() => console.log('done'))
 
@@ -24,7 +34,7 @@ function recursiveFetch(tickers, i) {
   const ticker = tickers[i];
   const url = `https://graphs.coinmarketcap.com/currencies/${ticker}/`;
 
-  console.log('Fetching graph for %s', ticker);
+  winston.info('Fetching graph for %s', ticker);
 
   return fetch(url).then(res => res.json()).then((json) => {
     const query = {
@@ -45,5 +55,8 @@ function recursiveFetch(tickers, i) {
         return recursiveFetch(tickers, i + 1);
       }
     })
-  });
+  })
+  .catch(err =>
+    winston.error('Failed to fetch graph for %s: %s', ticker, err.message)
+  );
 }

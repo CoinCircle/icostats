@@ -2,12 +2,14 @@
 import 'babel-polyfill';
 import express from 'express';
 import bodyParser from 'body-parser';
+import winston from 'winston';
+import expressWinston from 'express-winston';
+import 'winston-loggly-bulk';
 import mongoose from 'mongoose';
 import { graphqlExpress, graphiqlExpress } from 'graphql-server-express';
 import settings from 'settings';
 import schema from 'schema';
 import NodeCache from 'node-cache';
-import morgan from 'morgan';
 import initTickerWorker from 'lib/ticker-worker';
 
 /**
@@ -42,9 +44,21 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 /**
- * HTTP logger
+ * Setup logging
  */
-app.use(morgan('short'));
+winston.add(winston.transports.Loggly, {
+  inputToken: settings.LOGGLY_TOKEN,
+  subdomain: settings.LOGGLY_SUBDOMAIN,
+  tags: ['Winston-NodeJS', settings.LOGGLY_TAG],
+  json: true,
+  handleExceptions: true,
+  humanReadableUnhandledException: true,
+  exitOnError: false
+});
+
+app.use(expressWinston.logger({
+  winstonInstance: winston
+}));
 
 /**
  * GraphQL
@@ -65,7 +79,9 @@ app.use(express.static('public'));
 /**
  * Byh default, serve our index.html file
  */
-app.get('*', (req, res) => res.sendFile(`${settings.APP_ROOT}/public/index.html`));
+app.get('*', (req, res) =>
+  res.sendFile(`${settings.APP_ROOT}/public/index.html`)
+);
 
 /**
  * Run the server
@@ -74,3 +90,11 @@ app.listen(settings.APP_PORT, () => {
   console.log(`App listening on port ${settings.APP_PORT}!`);
   initTickerWorker();
 });
+
+
+/**
+ * Handle errors
+ */
+app.use(expressWinston.errorLogger({
+  winstonInstance: winston
+}));

@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import winston from 'winston';
 import fetch from 'isomorphic-fetch';
 import { cache } from 'app';
 import { normalize as normalizeICO } from 'lib/icos';
@@ -24,6 +25,7 @@ export default {
       if (!recents || !recents.length) {
         const doc = await Price.find();
 
+        winston.info('No recent prices in cache - re-calculating.');
         recents = recentPrices(doc);
         cache.set('recentPrices', recents, FIFTEEN_MINUTES);
       }

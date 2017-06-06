@@ -8,8 +8,8 @@
     "start-production": "nodemon server.js",
     "dev": "webpack --config webpack.config.dev.js --watch",
     "build": "webpack --config webpack.config.prod.js",
-    "test": "mocha-webpack --webpack-config webpack.config.test.js --require babel-polyfill \"tests/server/**/*.js\"",
-    "test-client": "mocha-webpack --watch --growl --webpack-config webpack.config.test.js --require babel-polyfill \"tests/client/**/*.js\""
+    "test-server": "mocha-webpack --webpack-config webpack.config.test.js --require babel-polyfill \"tests/server/**/*.js\"",
+    "test": "mocha-webpack --watch --growl --webpack-config webpack.config.test.js --require babel-polyfill \"tests/client/**/*.js\" \"tests/shared/**/*.js\""
   },
   "repository": {
     "type": "git",
@@ -25,11 +25,13 @@
     "classnames": "^2.2.5",
     "dotenv": "^4.0.0",
     "express": "^4.14.0",
+    "express-winston": "^2.4.0",
     "gdax": "^0.4.2",
     "graphql": "^0.9.1",
     "graphql-server-express": "^0.7.2",
     "graphql-tag": "^2.1.0",
     "graphql-tools": "^0.11.0",
+    "graphql-type-json": "^0.1.4",
     "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
@@ -48,7 +50,10 @@
     "react-router-redux": "5.0.0-alpha.6",
     "react-transition-group": "^1.1.3",
     "redux": "^3.6.0",
-    "reselect": "^3.0.1"
+    "redux-thunk": "^2.2.0",
+    "reselect": "^3.0.1",
+    "winston": "^2.3.1",
+    "winston-loggly-bulk": "^1.4.2"
   },
   "devDependencies": {
     "babel-core": "^6.21.0",
