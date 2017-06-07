@@ -7,13 +7,11 @@ import { setFilters } from '../actions';
 
 type Props = {
   classes: Object,
-  filters: {
-    erc20: boolean
-  },
-  onUpdate: (newVal: Object) => void
+  filters: $FlowTODO,
+  onChange: (newVal: Object) => void
 };
 
-function Filters({ classes, filters, onUpdate }: Props) {
+function Filters({ classes, filters, onChange }: Props) {
   const erc20Checkbox = (
     <div className={classes.checkWrapper}>
       <input
@@ -33,7 +31,7 @@ function Filters({ classes, filters, onUpdate }: Props) {
   const erc20 = (
     <div
       className={classes.erc20}
-      onClick={() => onUpdate({
+      onClick={() => onChange({
         ...filters,
         erc20: !filters.erc20
       })}
