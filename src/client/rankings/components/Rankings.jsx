@@ -144,6 +144,7 @@ const styles = {
   table: {
     overflowX: 'auto',
     display: 'flex',
+    paddingTop: '22px',
     flexDirection: 'column',
     width: '100%',
     WebkitOverflowScrolling: 'touch',

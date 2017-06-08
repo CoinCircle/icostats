@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import moment from 'moment';
+import { absoluteDifference, relativeDifference } from 'shared/lib/calc';
 
 const WEEK = 7;
 const MONTH = 30;
@@ -17,6 +18,9 @@ function roiSinceICO(ico) {
   return diff;
 }
 
+/**
+ * Return the ROI since ICO, denomianted in ETH.
+ */
 function roiSinceICOEth(ico, ethPrice) {
   const exchangeRateLaunch = ico.implied_token_price / ico.eth_price_at_launch;
   const exchangeRate = ico.price_usd / ethPrice;
@@ -26,6 +30,9 @@ function roiSinceICOEth(ico, ethPrice) {
   return diff;
 }
 
+/**
+ * Return the ROI since ICO, denomianted in BTC.
+ */
 function roiSinceICOBtc(ico, btcPrice) {
   const exchangeRateLaunch = ico.implied_token_price / ico.btc_price_at_launch;
   const exchangeRate = ico.price_usd / btcPrice;
@@ -54,24 +61,27 @@ function roiPerDays(ico, numDays) {
   return diff / periodsElapsed;
 }
 
-function roiVsEth(ico, ethPrice) {
+function roiVsEth(ico, ethPrice, abs = false) {
   const altROI = roiSinceICO(ico);
   const ethROI = ethROISinceICO(ico, ethPrice);
-  const isDecrease = altROI < ethROI;
-  const diff = isDecrease ? (ethROI - altROI) : (altROI - ethROI);
-  const delta = Math.abs(diff / ethROI);
 
-  return isDecrease ? (0 - delta) : delta;
+  if (abs) {
+    return absoluteDifference(ethROI, altROI);
+  }
+
+  return relativeDifference(ethROI, altROI);
 }
 
-function roiVsBtc(ico, btcPrice) {
-  const altROI = roiSinceICO(ico);
-  const ethROI = btcROISinceICO(ico, btcPrice);
-  const isDecrease = altROI < ethROI;
-  const diff = isDecrease ? (ethROI - altROI) : (altROI - ethROI);
-  const delta = Math.abs(diff / ethROI);
 
-  return isDecrease ? (0 - delta) : delta;
+function roiVsBtc(ico, btcPrice, abs = false) {
+  const altROI = roiSinceICO(ico);
+  const btcROI = btcROISinceICO(ico, btcPrice);
+
+  if (abs) {
+    return absoluteDifference(btcROI, altROI);
+  }
+
+  return relativeDifference(btcROI, altROI);
 }
 
 function ethROISinceICO(ico, ethPrice) {
@@ -107,5 +117,7 @@ export const normalize = (ico, ethPrice, btcPrice) => ({
   eth_roi_during_period: ethROISinceICO(ico, ethPrice),
   btc_roi_during_period: btcROISinceICO(ico, btcPrice),
   roi_vs_eth: roiVsEth(ico, ethPrice),
-  roi_vs_btc: roiVsBtc(ico, btcPrice)
+  roi_vs_btc: roiVsBtc(ico, btcPrice),
+  roi_vs_eth_abs: roiVsEth(ico, ethPrice, true),
+  roi_vs_btc_abs: roiVsBtc(ico, btcPrice, true)
 });

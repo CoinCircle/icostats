@@ -20,3 +20,11 @@ export const changePageNumber = pageNumber => ({
   type: types.CHANGE_PAGE_NUMBER,
   pageNumber
 });
+
+export const selectAbsolute = () => ({
+  type: types.SELECT_ABSOLUTE
+});
+
+export const selectRelative = () => ({
+  type: types.SELECT_RELATIVE
+});

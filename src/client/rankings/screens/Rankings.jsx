@@ -34,6 +34,8 @@ const QUERY = gql`
       btc_roi_during_period,
       roi_vs_eth,
       roi_vs_btc,
+      roi_vs_eth_abs,
+      roi_vs_btc_abs,
       is_erc20,
       eth_price_usd,
       btc_price_usd,

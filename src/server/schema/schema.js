@@ -31,6 +31,8 @@ type ICO {
   btc_roi_during_period: Float
   roi_vs_eth: Float
   roi_vs_btc: Float
+  roi_vs_eth_abs: Float
+  roi_vs_btc_abs: Float
   is_erc20: Boolean
   eth_price_usd: Float!
   btc_price_usd: Float!
