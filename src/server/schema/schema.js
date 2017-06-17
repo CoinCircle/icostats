@@ -62,6 +62,7 @@ type Query {
   ico(id: String!): ICO
   prices(tickers: [String!]): [Price]
   recentPrices: [RecentPrice]
+  getPrice(a: String, b: String): Float
 }
 
 # this schema allows the following mutation:

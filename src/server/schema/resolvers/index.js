@@ -7,6 +7,7 @@ import { sendMail } from 'lib/mail';
 import recentPrices from 'lib/recentPrices';
 import Price from 'models/price';
 import icos from './icos';
+import getExchangeService from 'shared/lib/exchange.service';
 
 export default {
   Query: {
@@ -39,6 +40,12 @@ export default {
       const data = Array.isArray(json) ? json[0] : json;
 
       return normalizeICO(data);
+    },
+    async getPrice(obj, { a, b }) {
+      const exchangeService = getExchangeService();
+      const price = await exchangeService.fetchPrice(a, b);
+
+      return price;
     }
   },
   Mutation: {

@@ -1,8 +1,8 @@
 /* eslint-disable import/prefer-default-export */
-import EthPrice from 'models/eth-price';
-import BtcPrice from 'models/btc-price';
+import EthPrice from '~/models/eth-price';
+import BtcPrice from '~/models/btc-price';
 
-export async function fetchCurrentPrice(ticker = 'ETH') {
+export async function fetchTicker(ticker = 'ETH') {
   const url = `https://api.gdax.com/products/${ticker}-USD/ticker`;
 
   try {

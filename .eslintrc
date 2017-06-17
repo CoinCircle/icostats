@@ -135,6 +135,7 @@
     "import/no-unresolved": [2, {
       "ignore": ['^(~|shared|app|settings|models|api|lib|schema|compare|server|client)']
     }],
+    "import/prefer-default-export": 0,
     "import/no-extraneous-dependencies": [0],
     "import/extensions": [0],
     "react/prop-types": [1, {

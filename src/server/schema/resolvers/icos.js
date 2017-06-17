@@ -2,7 +2,7 @@
 import winston from 'winston';
 import { normalize as normalizeICO } from 'lib/icos';
 import icoData from 'lib/ico-data';
-import { fetchCurrentPrice } from 'lib/gdax';
+import { fetchTicker } from '~/lib/gdax';
 import { cache } from 'app';
 import Ticker from 'models/ticker';
 
@@ -20,7 +20,7 @@ export default async function icos() {
 
   if (!ethPrice) {
     try {
-      ethPrice = await fetchCurrentPrice('ETH');
+      ethPrice = await fetchTicker('ETH');
     } catch (e) {
       const ticker = tickers.find(t => t.symbol === 'ETH');
 
@@ -32,7 +32,7 @@ export default async function icos() {
 
   if (!btcPrice) {
     try {
-      btcPrice = await fetchCurrentPrice('BTC');
+      btcPrice = await fetchTicker('BTC');
     } catch (e) {
       const ticker = tickers.find(t => t.symbol === 'BTC');
 
