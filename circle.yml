@@ -11,7 +11,7 @@ machine:
   environment:
     TEST_ALL: true
     CIRCLE_ENV: test
-    DATABASE_URL: mongodb://icostats:icostats@ds131492.mlab.com:31492/icostats-circleci
+    MONGO_TEST_URI: mongodb://icostats:icostats@ds131492.mlab.com:31492/icostats-circleci
 
 ## Customize dependencies
 dependencies:
