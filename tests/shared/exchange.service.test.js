@@ -3,6 +3,10 @@ import { expect } from 'chai';
 import exchangeService, { EXCHANGES } from 'shared/lib/exchange.service';
 
 describe('Exchange Service', function () {
+  const FIVE_MINUTES = 1000 * 60 * 5;
+
+  this.timeout(FIVE_MINUTES);
+
   before(async function () {
     this.exchangeService = exchangeService();
     await this.exchangeService.generatePricemap();
