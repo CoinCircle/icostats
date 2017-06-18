@@ -15,7 +15,7 @@ describe('Poloniex API Integration', function () {
   });
 
   it('should support price map', async function () {
-    const priceMap = await poloniex.fetchPrices();
+    const priceMap = await poloniex.fetchBoundPriceMap();
     const BTC_STRAT = priceMap.BTC_STRAT;
     const price = await BTC_STRAT();
 

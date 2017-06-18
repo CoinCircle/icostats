@@ -15,7 +15,7 @@ describe('Liqui API Integration', function () {
   });
 
   it('should support price map', async function () {
-    const priceMap = await liqui.fetchPrices();
+    const priceMap = await liqui.fetchBoundPriceMap();
     const eth_btc = priceMap.eth_btc;
     const price = await eth_btc();
 

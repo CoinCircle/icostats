@@ -15,7 +15,7 @@ describe('HitBTC API Integration', function () {
   });
 
   it('should support price map', async function () {
-    const priceMap = await hitbtc.fetchPrices();
+    const priceMap = await hitbtc.fetchBoundPriceMap();
     const ETHBTC = priceMap.ETHBTC;
     const price = await ETHBTC();
 

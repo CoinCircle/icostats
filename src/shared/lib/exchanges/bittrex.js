@@ -27,17 +27,15 @@ export async function fetchPairs(raw = false) {
   return json.result.map(el => el.MarketName);
 }
 
-export async function fetchPrices() {
+export async function fetchBoundPriceMap() {
   const url = `${baseUrl}/getmarkets`;
   const res = await fetch(url);
   const json = await res.json();
   const pairs = json.result.map(el => el.MarketName);
   const priceMap = {};
 
-  pairs.forEach((data) => {
-    const { MarketName, BaseCurrency, MarketCurrency } = data;
-
-    priceMap[MarketName] = fetchTicker.bind(null, BaseCurrency, MarketCurrency);
+  pairs.forEach((pair) => {
+    priceMap[pair] = fetchTicker.bind(null, pair);
   });
 
   return priceMap;
@@ -46,5 +44,5 @@ export async function fetchPrices() {
 export default {
   fetchPairs,
   fetchTicker,
-  fetchPrices
+  fetchBoundPriceMap
 };

@@ -1,10 +1,11 @@
+/* eslint-disable camelcase */
 import { expect } from 'chai';
 import exchangeService, { EXCHANGES } from 'shared/lib/exchange.service';
 
-// TODO ONLY
-describe.only('Exchange Service', function () {
-  beforeEach(function () {
+describe('Exchange Service', function () {
+  before(async function () {
     this.exchangeService = exchangeService();
+    await this.exchangeService.generatePricemap();
   });
 
   it('has a default', function () {
@@ -23,23 +24,30 @@ describe.only('Exchange Service', function () {
     expect(EXCHANGES.BITTREX).to.equal(this.exchangeService.exchange);
   });
 
-  it('can fetch all possible pairs', async function () {
-    const priceMap = await this.exchangeService.fetchPrices();
-    const fetchTKNBTC = priceMap.tkn_btc;
-    const TKNBTC = await fetchTKNBTC();
+  it('can fetch a map of pairs by exchange', async function () {
+    const priceMapByExchange = await this.exchangeService.fetchBoundPriceMap();
+    const polo = priceMapByExchange.POLONIEX;
+    const fetchBTC_STRAT = polo.BTC_STRAT;
+    const price = await fetchBTC_STRAT();
 
-    expect(Object.keys(priceMap)).to.include('tkn_btc');
-    expect(TKNBTC).to.be.a('number');
+    expect(Object.keys(polo)).to.include('BTC_STRAT');
+    expect(price).to.be.a('number');
+  });
+
+  it('can get a price fetcher for any pair', async function () {
+    const fetcher = this.exchangeService.getPriceFetcherForPair('strat', 'btc');
+
+    expect(fetcher).to.be.a('function');
   });
 
   it('can fetch price of a single pair in a versatile manner', async function () {
-    const price = await this.exchangeService.fetchPrice('eth', 'usd');
+    const price = await this.exchangeService.fetchPrice('strat', 'btc');
 
     expect(price).to.be.a('number');
   });
 
   it('can fetch USD price of any symbol', async function () {
-    const price = await this.exchangeService.fetchUSDPrice('PTOY');
+    const price = await this.exchangeService.fetchUSDPrice('STRAT');
 
     expect(price).to.be.a('number');
   });

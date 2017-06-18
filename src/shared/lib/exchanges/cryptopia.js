@@ -1,33 +1,34 @@
 import fetch from 'isomorphic-fetch';
 
-const baseUrl = 'https://api.liqui.io/api/3';
+const baseUrl = 'https://www.cryptopia.co.nz/api';
 
 export async function fetchTicker(a, b, raw = false) {
-  const pair = `${a}_${b}`;
-  const url = `${baseUrl}/ticker/${pair}`;
+  const pair = `${a.toUpperCase()}_${b.toUpperCase()}`;
+  const url = `${baseUrl}/GetMarket/${pair}`;
   const res = await fetch(url);
   const json = await res.json();
 
   if (raw) {
-    return json;
+    return json.result;
   }
 
-  return json[pair].last;
+  return json.Data.LastPrice;
 }
 
-export async function fetchPairs() {
-  const url = `${baseUrl}/info`;
+export async function fetchPairs(raw = false) {
+  const url = `${baseUrl}/GetTradePairs`;
   const res = await fetch(url);
   const json = await res.json();
 
-  return json.pairs;
+  if (raw) {
+    return json.result;
+  }
+
+  return json.Data.map(el => el.Label.replace('/', '_'));
 }
 
 export async function fetchBoundPriceMap() {
-  const url = `${baseUrl}/info`;
-  const res = await fetch(url);
-  const json = await res.json();
-  const pairs = Object.keys(json.pairs);
+  const pairs = await fetchPairs();
   const priceMap = {};
 
   pairs.forEach((pair) => {

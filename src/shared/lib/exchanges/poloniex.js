@@ -24,7 +24,7 @@ export async function fetchPairs() {
   return Object.keys(json);
 }
 
-export async function fetchPrices() {
+export async function fetchBoundPriceMap() {
   const url = `${baseUrl}?command=returnTicker`;
   const res = await fetch(url);
   const json = await res.json();
@@ -44,5 +44,5 @@ export async function fetchPrices() {
 export default {
   fetchPairs,
   fetchTicker,
-  fetchPrices
+  fetchBoundPriceMap
 };

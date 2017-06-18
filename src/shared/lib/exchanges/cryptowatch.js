@@ -2,10 +2,16 @@ import fetch from 'isomorphic-fetch';
 
 const baseUrl = 'https://api.cryptowat.ch';
 
+class TooManyRequestsError extends Error {};
+
 export async function fetchTicker(a, b, exchange = 'coinbase', raw = false) {
   const url = `${baseUrl}/markets/${exchange}/${a}${b}/summary`;
   const res = await fetch(url);
   const json = await res.json();
+
+  if (json.error === 'Out of allowance') {
+    throw new TooManyRequestsError();
+  }
 
   if (raw) {
     return json.result;
@@ -18,6 +24,10 @@ export async function fetchPairs(raw = false) {
   const url = `${baseUrl}/markets`;
   const res = await fetch(url);
   const json = await res.json();
+
+  if (json.error === 'Out of allowance') {
+    throw new TooManyRequestsError();
+  }
 
   if (raw) {
     return json.result;
@@ -36,12 +46,15 @@ export async function fetchPairs(raw = false) {
   return priceMap;
 }
 
-export async function fetchPrices() {
+export async function fetchBoundPriceMap() {
   const url = `${baseUrl}/markets`;
   const res = await fetch(url);
   const json = await res.json();
-
   const priceMap = {};
+
+  if (json.error === 'Out of allowance') {
+    throw new TooManyRequestsError();
+  }
 
   json.result.forEach((data) => {
     const { exchange, currencyPair } = data;
@@ -57,5 +70,5 @@ export async function fetchPrices() {
 export default {
   fetchPairs,
   fetchTicker,
-  fetchPrices
+  fetchBoundPriceMap
 };
