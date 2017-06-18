@@ -1,6 +1,23 @@
 /* eslint-disable max-lines */
 module.exports = [
   {
+    id: 'patientory',
+    is_erc20: true,
+    contract_address: '0x8ae4bf2c33a8e667de34b54938b0ccd03eb8cc06',
+    name: 'Patientory',
+    symbol: 'PTOY',
+    eth_price_at_launch: 223,
+    btc_price_at_launch: 2303,
+    raise: 7254161.01, // based on ETH raise
+    raise_currency: 'ETH',
+    raise_amount: 32529.87,
+    amount_sold_in_ico: 70000000,
+    implied_token_price: 0.103630872,
+    start_date: '05/31/2017',
+    ticker: 'patientory',
+    supported_changelly: false
+  },
+  {
     id: 'basic-attention-token',
     is_erc20: true,
     contract_address: '0x0D8775F648430679A709E98d2b0Cb6250d2887EF',
