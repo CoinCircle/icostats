@@ -17,8 +17,6 @@ machine:
 dependencies:
   pre:
     - npm install -g yarn
-    - npm install -g webpack
-    - npm install -g mocha-webpack
   override:
     - yarn install
 
@@ -29,7 +27,7 @@ test:
     - node bin/importEtherDeltaPairs.js
   override:
     - npm run test-server
-    - mocha-webpack --webpack-config webpack.config.test.js --require babel-polyfill \"tests/client/**/*.js\" \"tests/shared/**/*.js\"
+    - ./node-modules/mocha-webpack/bin/mocha-webpack --webpack-config webpack.config.test.js --require babel-polyfill \"tests/client/**/*.js\" \"tests/shared/**/*.js\"
 
 ## Customize deployment commands
 # deployment:
