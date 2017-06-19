@@ -9,7 +9,12 @@ import classNames from 'classnames';
 import type { Action, ReduxState } from '../types';
 import GetQuote from './GetQuote';
 import Finalize from './Finalize';
-import { fetchLimit, fetchShift, fetchOrderStatus } from '../actions';
+import {
+  fetchLimit,
+  fetchShift,
+  fetchOrderStatus,
+  hideExchange
+} from '../actions';
 
 type Props = {
   classes: Object,
@@ -24,7 +29,8 @@ type Props = {
   orderStatus: string,
   receivingAddress: string,
   fetchShift: (receivingAddress: string, pair: string) => void,
-  depositAddress: string
+  depositAddress: string,
+  hideExchange: () => void
 };
 
 type State = {
@@ -49,6 +55,11 @@ class Exchange extends React.Component {
     const pair = `${from}_${to}`;
 
     this.props.fetchLimit(pair);
+    document.addEventListener('keyup', this.handleKeyup);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keyup', this.handleKeyup);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -86,6 +97,12 @@ class Exchange extends React.Component {
       const pair = `${nextProps.from}_${nextProps.to}`;
 
       this.props.fetchLimit(pair);
+    }
+  }
+
+  handleKeyup = (event: Event) => {
+    if (event.key === 'Escape') {
+      this.props.hideExchange();
     }
   }
 
@@ -185,7 +202,8 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>) => ({
   fetchLimit: pair => dispatch(fetchLimit(pair)),
   fetchShift: (receivingAddress, pair) =>
     dispatch(fetchShift(receivingAddress, pair)),
-  fetchOrderStatus: orderId => dispatch(fetchOrderStatus(orderId))
+  fetchOrderStatus: orderId => dispatch(fetchOrderStatus(orderId)),
+  hideExchange: () => dispatch(hideExchange())
 });
 
 export default compose(

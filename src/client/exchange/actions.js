@@ -21,6 +21,10 @@ export const initExchange = (toSymbol: string): InitExchangeAction => {
   };
 };
 
+export const hideExchange = () => ({
+  type: types.HIDE_EXCHANGE
+});
+
 export const setAmount = (amount: number): SetAmountAction => ({
   type: types.SET_AMOUNT,
   amount

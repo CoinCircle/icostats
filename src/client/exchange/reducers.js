@@ -31,6 +31,12 @@ const exchangeReducer = (
       };
     }
 
+    case types.HIDE_EXCHANGE:
+      return {
+        ...state,
+        isActive: false
+      };
+
     case types.SELECT_COIN:
       return {
         ...state,

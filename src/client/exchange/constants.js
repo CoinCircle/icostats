@@ -1,4 +1,5 @@
 export const INIT_EXCHANGE = 'exchange/INIT_EXCHANGE';
+export const HIDE_EXCHANGE = 'exchange/HIDE_EXCHANGE';
 export const SELECT_COIN = 'exchange/SELECT_COIN';
 export const SET_AMOUNT = 'exchange/SET_AMOUNT';
 export const REQUEST_QUOTE = 'exchange/REQUEST_QUOTE';
