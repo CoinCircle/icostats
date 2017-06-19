@@ -1,8 +1,10 @@
+// @flow
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import injectSheet from 'react-jss';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import { openFeedback } from '../actions';
 
 const styles = {
   container: {
@@ -106,7 +108,13 @@ const styles = {
   }
 };
 
-const Navigation = ({ classes, isNavOpen = true }) => (
+type Props = {
+  classes: Object,
+  onClickFeedback: () => void,
+  isNavOpen: boolean
+};
+
+const Navigation = ({ classes, onClickFeedback, isNavOpen = true }: Props) => (
   <div
     className={classNames(classes.container, { [classes.hide]: !isNavOpen })}
   >
@@ -162,9 +170,7 @@ const Navigation = ({ classes, isNavOpen = true }) => (
 
     <a
       className={classes.btnFeedback}
-      href="https://cooperm1.typeform.com/to/VYgHPt"
-      target="_blank"
-      rel="noopener noreferrer"
+      onClick={onClickFeedback}
     >Feedback</a>
 
     <a
@@ -196,7 +202,9 @@ const mapStateToProps = (state, ownProps) => ({
   isNavOpen: state.app.isNavOpen,
   pathname: ownProps.location
 });
-const connected = connect(mapStateToProps)(withStyles);
-import { withRouter } from 'react-router-dom';
+const mapDispatchToProps = dispatch => ({
+  onClickFeedback: () => dispatch(openFeedback())
+});
+const connected = connect(mapStateToProps, mapDispatchToProps)(withStyles);
 
 export default withRouter(connected);

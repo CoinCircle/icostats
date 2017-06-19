@@ -67,7 +67,12 @@ type Query {
 
 # this schema allows the following mutation:
 type Mutation {
-  sendMail(name: String!, email: String!, message: String!): Boolean
+  sendMail(
+    name: String!,
+    email: String!,
+    message: String!,
+    subject: String
+  ): Boolean
 }
 
 # we need to tell the server which types represent the root query

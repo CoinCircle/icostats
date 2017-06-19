@@ -200,7 +200,7 @@ const styles = {
     fontSize: '13px',
     fontWeight: '400',
     color: 'hsl(0, 0%, 30%)',
-    paddingTop: '20px'
+    margin: '0 30px'
   },
   absDelta: {
     position: 'absolute',
