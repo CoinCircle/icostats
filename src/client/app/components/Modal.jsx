@@ -7,11 +7,18 @@ type Props = {
   title: string,
   classes: Object,
   onClose: Function,
-  children: Node
+  children: Node,
+  actions: Node | Node[],
+  className?: string,
+  hideFooter?: boolean
 };
 
 class Modal extends React.Component {
   props: Props;
+  static defaultProps = {
+    className: '',
+    hideFooter: false
+  }
 
   componentDidMount() {
     document.addEventListener('keyup', this.handleKeyup);
@@ -28,32 +35,37 @@ class Modal extends React.Component {
   }
 
   render() {
-    const { classes, title } = this.props;
+    const { classes: c, title } = this.props;
     const close = (
       <i
         onClick={this.props.onClose}
-        className={classNames('material-icons', classes.close)}
+        className={classNames('material-icons', c.close)}
       >close</i>
+    );
+    const actions = this.props.actions || (
+      <button
+        onClick={this.props.onClose}
+        className={c.btnPrimary}
+      >
+        OK
+      </button>
     );
 
     return (
-      <div className={classes.bg}>
-        <div className={classes.container}>
+      <div className={c.bg}>
+        <div className={classNames(c.container, this.props.className)}>
           {close}
-          <div className={classes.title}>
+          <div className={classNames(c.title, 'Modal-title')}>
             {title}
           </div>
-          <div className={classes.body}>
+          <div className={c.body}>
             {this.props.children}
           </div>
-          <div className={classes.footer}>
-            <button
-              onClick={this.props.onClose}
-              className={classes.btnPrimary}
-            >
-              OK
-            </button>
-          </div>
+          {!this.props.hideFooter &&
+            <div className={c.footer}>
+              {actions}
+            </div>
+          }
         </div>
       </div>
     );
@@ -66,7 +78,6 @@ const styles = {
     width: '500px',
     height: '300px',
     borderRadius: '3px',
-    padding: '30px',
     position: 'relative',
     display: 'flex',
     flexDirection: 'column',
@@ -83,6 +94,12 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 9
+  },
+  title: {
+    margin: '30px'
+  },
+  footer: {
+    margin: '30px'
   },
   btnPrimary: {
     background: 'none',
@@ -108,6 +125,7 @@ const styles = {
     cursor: 'pointer'
   },
   body: {
+    display: 'flex',
     flexGrow: 2
   }
 };

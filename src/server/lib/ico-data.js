@@ -1,6 +1,23 @@
 /* eslint-disable max-lines */
 module.exports = [
   {
+    id: 'patientory',
+    is_erc20: true,
+    contract_address: '0x8ae4bf2c33a8e667de34b54938b0ccd03eb8cc06',
+    name: 'Patientory',
+    symbol: 'PTOY',
+    eth_price_at_launch: 223,
+    btc_price_at_launch: 2303,
+    raise: 7254161.01, // based on ETH raise
+    raise_currency: 'ETH',
+    raise_amount: 32529.87,
+    amount_sold_in_ico: 70000000,
+    implied_token_price: 0.103630872,
+    start_date: '05/31/2017',
+    ticker: 'patientory',
+    supported_changelly: false
+  },
+  {
     id: 'basic-attention-token',
     is_erc20: true,
     contract_address: '0x0D8775F648430679A709E98d2b0Cb6250d2887EF',
@@ -125,6 +142,7 @@ module.exports = [
   },
   {
     id: 'waves',
+    symbol: 'WAVES',
     is_erc20: false,
     name: 'Waves',
     eth_price_at_launch: 7.44,
@@ -168,6 +186,7 @@ module.exports = [
   },
   {
     id: 'tokencard',
+    symbol: 'TKN',
     is_erc20: true,
     contract_address: '0xaaaf91d9b90df800df4f55c205fd6989c977e73a',
     btc_price_at_launch: 1315,
@@ -212,6 +231,7 @@ module.exports = [
   },
   {
     id: 'gnosis',
+    symbol: 'GNO',
     name: 'Gnosis',
     is_erc20: true,
     btc_price_at_launch: 1155.05,
@@ -255,6 +275,7 @@ module.exports = [
   },
   {
     id: 'rlc',
+    symbol: 'RLC',
     name: 'iEx.ec',
     is_erc20: true,
     btc_price_at_launch: 1127.85,
@@ -298,6 +319,7 @@ module.exports = [
   },
   {
     id: 'iconomi',
+    symbol: 'ICN',
     name: 'Iconomi',
     is_erc20: true,
     btc_price_at_launch: 510.91,
@@ -341,6 +363,7 @@ module.exports = [
   },
   {
     id: 'golem',
+    symbol: 'GNT',
     name: 'Golem',
     is_erc20: true,
     btc_price_at_launch: 661.99,
@@ -385,6 +408,7 @@ module.exports = [
   },
   {
     id: 'taas',
+    symbol: 'TAAS',
     name: 'TaaS',
     is_erc20: true,
     contract_address: '0xe7775a6e9bcf904eb39da2b68c5efb4f9360e08c',
@@ -429,6 +453,7 @@ module.exports = [
   },
   {
     id: 'singulardtv',
+    symbol: 'SNGLS',
     name: 'SingularDTV',
     is_erc20: true,
     contract_address: '0xaec2e87e0a235266d9c5adc9deb4b2e29b54d009',
@@ -473,6 +498,7 @@ module.exports = [
   },
   {
     name: 'Lisk',
+    symbol: 'LSK',
     is_erc20: false,
     status: 'Completed',
     type: 'Decentralized Applications Platform',
@@ -516,6 +542,7 @@ module.exports = [
   },
   {
     id: 'matchpool',
+    symbol: 'GUP',
     name: 'Matchpool',
     is_erc20: true,
     contract_address: '0xf7b098298f7c69fc14610bf71d5e02c60792894c',
@@ -560,6 +587,7 @@ module.exports = [
   },
   {
     id: 'digixdao',
+    symbol: 'DGD',
     name: 'DigixDAO',
     is_erc20: true,
     contract_address: '0xe0b7927c4af23765cb51314a0e0521a9645f0e2a',
@@ -604,6 +632,7 @@ module.exports = [
   },
   {
     id: 'firstblood',
+    symbol: '1ST',
     name: 'FirstBlood',
     is_erc20: true,
     contract_address: '0xAf30D2a7E90d7DC361c8C4585e9BB7D2F6f15bc7',
@@ -648,6 +677,7 @@ module.exports = [
   },
   {
     name: 'ChronoBank',
+    symbol: 'TIME',
     status: 'Completed',
     is_erc20: true,
     contract_address: '0x6531f133e6DeeBe7F2dcE5A0441aA7ef330B4e53',
@@ -692,6 +722,7 @@ module.exports = [
   },
   {
     name: 'Augur',
+    symbol: 'REP',
     status: 'Completed',
     is_erc20: true,
     eth_price_at_launch: 1.26,
@@ -736,6 +767,7 @@ module.exports = [
   },
   {
     id: 'wetrust',
+    symbol: 'TRST',
     name: 'WeTrust',
     is_erc20: true,
     contract_address: '0xcb94be6f13a1182e4a4b6140cb7bf2025d28e41b',
@@ -780,6 +812,7 @@ module.exports = [
   },
   {
     name: 'Antshares',
+    symbol: 'ANS',
     status: 'Completed',
     is_erc20: false,
     type: 'Real World Assets',
@@ -824,6 +857,7 @@ module.exports = [
   },
   {
     name: 'Lunyr',
+    symbol: 'LUN',
     status: 'Completed',
     is_erc20: true,
     contract_address: '0xfa05A73FfE78ef8f1a739473e462c54bae6567D9',
@@ -868,6 +902,7 @@ module.exports = [
   },
   {
     id: 'melonport',
+    symbol: 'MLN',
     name: 'Melonport',
     is_erc20: true,
     contract_address: '0xBEB9eF514a379B997e0798FDcC901Ee474B6D9A1',
@@ -912,6 +947,7 @@ module.exports = [
   },
   {
     id: 'lykke',
+    symbol: 'LKK',
     name: 'Lykke',
     is_erc20: false,
     status: 'Completed',
@@ -956,6 +992,7 @@ module.exports = [
   },
   {
     name: 'Edgeless',
+    symbol: 'EDG',
     status: 'Completed',
     is_erc20: true,
     contract_address: '0x08711d3b02c8758f2fb3ab4e80228418a7f8e39c',
@@ -1001,6 +1038,7 @@ module.exports = [
   },
   {
     name: 'Wings',
+    symbol: 'WINGS',
     status: 'Completed',
     is_erc20: true,
     contract_address: '0x667088b212ce3d06a1b553a7221E1fD19000d9aF',
@@ -1045,6 +1083,7 @@ module.exports = [
   },
   {
     name: 'Komodo',
+    symbol: 'KMD',
     is_erc20: false,
     status: 'Completed',
     type: 'Cryptocurrency',
@@ -1089,6 +1128,7 @@ module.exports = [
   },
   {
     name: 'vDice',
+    symbol: 'VSL',
     status: 'Completed',
     is_erc20: true,
     contract_address: '0x5c543e7AE0A1104f78406C340E9C64FD9fCE5170',
@@ -1133,6 +1173,7 @@ module.exports = [
   },
   {
     name: 'Incent',
+    symbol: 'INCNT',
     is_erc20: false,
     status: 'Completed',
     type: 'Loyalty Program',
@@ -1176,6 +1217,7 @@ module.exports = [
   },
   {
     name: 'Ark',
+    symbol: 'ARK',
     status: 'Completed',
     is_erc20: false,
     type: 'Cryptocurrency',
@@ -1219,6 +1261,7 @@ module.exports = [
   },
   {
     name: 'BlockPay',
+    symbol: 'BLOCKPAY',
     status: 'Completed',
     is_erc20: false,
     type: 'Retail',
@@ -1262,6 +1305,7 @@ module.exports = [
   },
   {
     id: 'hackergold',
+    symbol: 'HKG',
     name: 'Virtual Accelerator',
     is_erc20: true,
     contract_address: '0x14f37b574242d366558db61f3335289a5035c506',
@@ -1306,6 +1350,7 @@ module.exports = [
   },
   {
     id: 'golos',
+    symbol: 'GOLOS',
     name: 'Golos',
     status: 'Completed',
     is_erc20: false,
@@ -1349,6 +1394,7 @@ module.exports = [
   },
   {
     id: 'storj',
+    symbol: 'SJCX',
     name: 'Storj',
     is_erc20: false,
     status: 'Completed',
@@ -1393,6 +1439,7 @@ module.exports = [
   },
   {
     id: 'nexium',
+    symbol: 'NXC',
     name: 'Beyond the Void',
     is_erc20: false,
     status: 'Completed',
@@ -1436,6 +1483,7 @@ module.exports = [
   },
   {
     id: 'tokes',
+    symbol: 'TKS',
     name: 'Tokes',
     is_erc20: false,
     status: 'Completed',
@@ -1479,6 +1527,7 @@ module.exports = [
   },
   {
     id: 'aragon',
+    symbol: 'ANT',
     name: 'Aragon',
     is_erc20: true,
     contract_address: '0x960b236A07cf122663c4303350609A66A7B288C0',
@@ -1523,6 +1572,7 @@ module.exports = [
   },
   {
     id: 'spectrecoin',
+    symbol: 'XSPEC',
     name: 'Spectrecoin',
     is_erc20: false,
     status: 'Completed',

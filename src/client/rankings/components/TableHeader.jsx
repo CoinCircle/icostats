@@ -1,23 +1,51 @@
 // @flow
 import React from 'react';
 import injectSheet from 'react-jss';
+import { connect } from 'react-redux';
 import classNames from 'classnames';
 import Modal from '~/app/components/Modal';
 import getColumns from '../lib/getColumns';
+import { selectRelative, selectAbsolute } from '../actions';
 
 type Props = {
   sortBy: string,
   ascending: boolean,
   onSort: Function,
   type: string,
-  classes: Object
+  classes: Object,
+  onClickAbsolute: Function,
+  onClickRelative: Function,
+  isAbsolute: boolean
 }
 
 class TableHeader extends React.Component {
   props: Props;
   state = {
-    isModalOpen: false
+    isModalOpen: false,
+    isAbsolute: false
   };
+
+  renderAbsDiff() {
+    const { classes: c, isAbsolute } = this.props;
+
+    return (
+      <div className={c.absDelta}>
+        <div
+          onClick={() => this.props.onClickAbsolute()}
+          className={classNames(c.absDeltaItem, isAbsolute && 'is-active')}
+        >
+          Abs
+        </div>
+        <div style={{ margin: '0 6px' }}>|</div>
+        <div
+          onClick={() => this.props.onClickRelative()}
+          className={classNames(c.absDeltaItem, !isAbsolute && 'is-active')}
+        >
+          Rel
+        </div>
+      </div>
+    );
+  }
 
   render() {
     const {
@@ -61,6 +89,7 @@ class TableHeader extends React.Component {
           </span>
         }
         {item.extra}
+        {/roi_vs_(eth|btc)/.test(item.key) && this.renderAbsDiff()}
       </div>
     );
 
@@ -78,7 +107,7 @@ class TableHeader extends React.Component {
             <p className={classes.helpText}>
               ICO price is calculated according to the following formula:
               <pre>
-                USD raised in ICO ÷ # of tokens sold in ICO
+                (USD raised in ICO) / (# of tokens sold in ICO)
               </pre>
               <br />
               You can hover over the ICO price of any listing to see these
@@ -171,7 +200,25 @@ const styles = {
     fontSize: '13px',
     fontWeight: '400',
     color: 'hsl(0, 0%, 30%)',
-    paddingTop: '20px'
+    margin: '0 30px'
+  },
+  absDelta: {
+    position: 'absolute',
+    top: '-17px',
+    right: '0',
+    width: '100px',
+    display: 'flex',
+    justifyContent: 'center',
+    fontSize: '10px',
+    color: 'hsl(0, 0%, 100%)',
+    fontWeight: '300'
+  },
+  absDeltaItem: {
+    cursor: 'pointer',
+    '&.is-active': {
+      color: 'hsl(200, 90%, 50%)',
+      fontWeight: '700'
+    }
   },
   '@media (min-width: 768px)': {
     tableheader: {
@@ -189,4 +236,17 @@ const styles = {
   }
 };
 
-export default injectSheet(styles)(TableHeader);
+const styled = injectSheet(styles)(TableHeader);
+
+/* =============================================================================
+=    Redux
+============================================================================= */
+const mapStateToProps = state => ({
+  isAbsolute: state.rankings.ROICalcType === 'ABSOLUTE'
+});
+const mapDispatchToProps = dispatch => ({
+  onClickAbsolute: () => dispatch(selectAbsolute()),
+  onClickRelative: () => dispatch(selectRelative())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(styled);

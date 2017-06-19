@@ -1,8 +1,10 @@
+// @flow
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import injectSheet from 'react-jss';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import { openFeedback } from '../actions';
 
 const styles = {
   container: {
@@ -66,24 +68,40 @@ const styles = {
     }
   },
   tipjar: {
-    wordWrap: 'break-word',
-    textAlign: 'left',
-    padding: '6px 10px',
-    fontSize: '9px',
-    fontWeight: '400',
-    color: 'hsl(0, 0%, 63%)',
-    marginTop: '1px',
-    borderRadius: '2px',
+    color: 'hsl(180, 14%, 52%)',
     width: '90%',
+    padding: '6px 10px',
+    display: 'flex',
+    fontSize: '11px',
+    wordWrap: 'break-word',
+    marginTop: '1px',
     alignSelf: 'center',
-    marginBottom: '10px'
+    textAlign: 'center',
+    fontWeight: '400',
+    alignItems: 'center',
+    borderRadius: '2px',
+    marginBottom: '7px',
+    letterSpacing: '0.3px',
+    justifyContent: 'center'
   },
   tipjarAddress: {
-    color: 'hsl(0, 0%, 51%)',
+    color: 'hsl(180, 0%, 90%)',
+    cursor: 'pointer',
+    fontSize: '12px',
+    marginLeft: '4px',
     textDecoration: 'none',
-    '&:hover': {
-      color: 'hsl(220, 50%, 60%)',
-      textDecoration: 'underline'
+    background: 'hsla(0, 0%, 0%, 0.2)',
+    padding: '5px 16px 8px',
+    margin: '0 0 0 5px',
+    borderRadius: '3px',
+    '&::selection': {
+      background: 'hsl(148, 41%, 40%)'
+    },
+    '& > .material-icons': {
+      top: '-1px',
+      position: 'relative',
+      fontSize: '9px',
+      left: '2px'
     }
   },
   roadmap: {
@@ -106,7 +124,16 @@ const styles = {
   }
 };
 
-const Navigation = ({ classes, isNavOpen = true }) => (
+type Props = {
+  classes: Object,
+  onClickFeedback: () => void,
+  isNavOpen: boolean
+};
+
+let tipjarRef;
+
+const Navigation = ({ classes, onClickFeedback, isNavOpen = true }: Props) => (
+
   <div
     className={classNames(classes.container, { [classes.hide]: !isNavOpen })}
   >
@@ -162,9 +189,7 @@ const Navigation = ({ classes, isNavOpen = true }) => (
 
     <a
       className={classes.btnFeedback}
-      href="https://cooperm1.typeform.com/to/VYgHPt"
-      target="_blank"
-      rel="noopener noreferrer"
+      onClick={onClickFeedback}
     >Feedback</a>
 
     <a
@@ -176,16 +201,16 @@ const Navigation = ({ classes, isNavOpen = true }) => (
       Trello Roadmap
     </a>
 
-    <div className={classes.tipjar}>
+    <div
+      className={classes.tipjar}
+      onClick={() => tipjarRef && selectElementText(tipjarRef, window)}
+    >
       <span className={classes.tipjarTitle}>
-        Tipjar:{' '}
+        tipjar:{' '}
       </span>
-      <a
-        href="https://etherscan.io/address/0x2B981863A0FBf4e07c8508623De8Bd6d4b28419C"
-        className={classes.tipjarAddress}
-      >
-        0x2B981863A0FBf4e07c8508623De8Bd6d4b28419C
-      </a>
+      <pre className={classes.tipjarAddress} ref={c => tipjarRef = c}>
+        icostats.eth
+      </pre>
     </div>
   </div>
 );
@@ -196,7 +221,29 @@ const mapStateToProps = (state, ownProps) => ({
   isNavOpen: state.app.isNavOpen,
   pathname: ownProps.location
 });
-const connected = connect(mapStateToProps)(withStyles);
-import { withRouter } from 'react-router-dom';
+const mapDispatchToProps = dispatch => ({
+  onClickFeedback: () => dispatch(openFeedback())
+});
+const connected = connect(mapStateToProps, mapDispatchToProps)(withStyles);
 
 export default withRouter(connected);
+
+
+/* =============================================================================
+=    Selection function
+============================================================================= */
+function selectElementText(el, win) {
+  win = win || window;
+  var doc = win.document, sel, range;
+  if (win.getSelection && doc.createRange) {
+    sel = win.getSelection();
+    range = doc.createRange();
+    range.selectNodeContents(el);
+    sel.removeAllRanges();
+    sel.addRange(range);
+  } else if (doc.body.createTextRange) {
+    range = doc.body.createTextRange();
+    range.moveToElementText(el);
+    range.select();
+  }
+}

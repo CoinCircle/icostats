@@ -41,6 +41,7 @@
     "no-magic-numbers": [0, {
       "ignore": [-1, 0, 1, 2]
     }],
+    "no-trailing-spaces": 0,
     "no-multi-spaces": 2,
     "no-multi-str": 2,
     "no-unused-expressions": 2,
@@ -59,9 +60,7 @@
       "after": true
     }],
     "comma-dangle": [0, "always-multiline"],
-    "no-underscore-dangle": [1, {
-        "allow": ["_id", "_doc"]
-    }],
+    "no-underscore-dangle": 0,
     "no-mixed-spaces-and-tabs": 0,
     "comma-style": [2, "last"],
     "computed-property-spacing": [2, "never"],
@@ -86,6 +85,7 @@
     "newline-after-var": [1, "always"],
     "no-inline-comments": 0,
     "no-lonely-if": 0,
+    "no-plusplus": 0,
     "padded-blocks": [0, "always"],
     "one-var": [1, "never"],
     "operator-assignment": [1, "never"],
@@ -135,6 +135,7 @@
     "import/no-unresolved": [2, {
       "ignore": ['^(~|shared|app|settings|models|api|lib|schema|compare|server|client)']
     }],
+    "import/prefer-default-export": 0,
     "import/no-extraneous-dependencies": [0],
     "import/extensions": [0],
     "react/prop-types": [1, {

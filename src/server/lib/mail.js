@@ -13,14 +13,19 @@ const transporter = nodemailer.createTransport({
 
 Promise.promisifyAll(transporter);
 
-export async function sendMail(name, email, message) {
+export async function sendMail(
+  name,
+  email,
+  message,
+  subject = 'ICO Stats Feedback'
+) {
   const options = {
+    subject,
     from: `"${name}" <${email}>`,
     replyTo: email,
     to: 'me@cooperm.com',
-    subject: 'ICO Stats Feedback',
     text: message,
-    html: message
+    html: message.replace(/\n/g, '<br/>')
   };
 
   try {

@@ -1,61 +1,64 @@
-# Express/Mongo/React/Webpack/Docker
+# ICO Stats
 
-Yet another boilerplate because none of the other ones out there were satisfying.
+## Running the app
 
-## Run your app
-
-**NOTE:**  make sure you are running node 7 or later.
-
-### Terminal #1:
-
-```
-npm install
-npm run dev
-```
-
-### Terminal #2:
+#### Terminal #1:
 ```
 docker-compose up
 ```
 
-### Flavors
+#### Terminal #2:
+```
+npm run dev
+```
 
-Choose a flavor: These branches include extra features which you can merge together.
+### Seed the graph data
+```
+# This runs once a day in the production server with crontab. Locally it must
+  be run manually
+make shell
 
-* [with-flow](https://github.com/coopermaruyama/express-react-boilerplate/tree/with-flow): With flow type-checker.
-* [with-typescript](https://github.com/coopermaruyama/express-react-boilerplate/tree/with-typescript): With Typescript
-* [with-graphql](https://github.com/coopermaruyama/express-react-boilerplate/tree/with-graphql): With GraphQL
-* [with-mobx](https://github.com/coopermaruyama/express-react-boilerplate/tree/with-mobx): With MobX
+# Once inside the container:
+node bin/importGraphData.js
+```
+
+## Explore the API
+
+Once the app is running you can view/query the graphql API explorer at: http://localhost:3000/graphiql
+
+![GraphQL](https://d3vv6lp55qjaqc.cloudfront.net/items/3L2j0v3j3J1X0v3i2D37/Screenshot%202017-05-30%2013.31.40.png?X-CloudApp-Visitor-Id=1754851&v=b2deb243)
+
+
+## Debugging
+
+Chrome canary now ships with a node debugger button as shown below:
+
+![debugger](https://d3vv6lp55qjaqc.cloudfront.net/items/1i0C2O2n1G2F370V2r2N/%5Ba59661ea9da99b4d5a5739016404bb34%5D_Screenshot%25202017-05-23%252005.05.21.png?X-CloudApp-Visitor-Id=1754851&v=e920ded3)
+
+Click on that, and make sure you have localhost:9229 as a source. A console for
+the app should show up when it starts.
 
 ## Helpers
-
-### npm
 ```
-npm run build   # Create production build
-```
+# Create a production build
+npm run build   
 
-### Makefile
+# Log into the container shell
+make shell
 
-Log into container shell
-```
-$ make shell
+# Run node console inside docker
+make console
 ```
 
 Run tests
 ```
-$ make test
+make test
 ```
 
-## Features
+## Notes
 
-* Mongo linked via docker. Won't collide with your local running mongo.
-* Webpack on both client and server side, so you can run stuff like async/await on both.
-* Native Node inspector (this is why you need node 7 or later).
-* Absolute imports for `client` and `server` directories, so you can do `import thing from 'app/module/thing'`.
-* Using `dotenv` with a `settings.js` in such a way that you can set default settings values but override them with stuff in `.env` which is useful when deploying/environments.
+* In client code, `import '~/foo'` refers to `src/client/foo`. In server code,
+  the same code refers to `src/server/foo`. In other words, '~' is an alias for
+  the respective code's "home" directory.
 
-## Reasonings
-
-* Other boilerplates have way too much stuff that is irrelevant to development experience, like routers, css plugins, etc.
-* Most apps don't need SSR. I don't think it's worth the added complexity for most apps.
-* Not having HMR is a personal thing. I don't like the idea of spinning up another server/port just for HMR, and the way I develop, I don't have to refresh often enough to where it's worth the extra complexity.
+* We follow the [airbnb style guide](https://github.com/airbnb/javascript) (with some changes) for javascript and the [airbnb react style guide](https://github.com/airbnb/javascript/tree/master/react) for React.

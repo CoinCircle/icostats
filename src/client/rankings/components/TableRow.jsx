@@ -14,7 +14,8 @@ const propTypes = {
   ico: PropTypes.object,
   type: PropTypes.string,
   onTouchStart: PropTypes.func,
-  active: PropTypes.bool
+  active: PropTypes.bool,
+  isAbsolute: PropTypes.bool
 };
 
 const TableRow = ({
@@ -24,7 +25,8 @@ const TableRow = ({
   type = types.ROI_TOTAL,
   onTouchStart,
   active,
-  onClickBuy
+  onClickBuy,
+  isAbsolute
 }) => {
   const $ = <span className={classes.dollar}>$</span>;
   const PRECISION = {
@@ -154,7 +156,7 @@ const TableRow = ({
             [classes.tdPrimaryNegative]: ico.roi_vs_eth < 0
           })}
         >
-          {getPrettyPercentage(ico.roi_vs_eth)}
+          {getPrettyPercentage(ico[isAbsolute ? 'roi_vs_eth_abs' : 'roi_vs_eth'])}
         </div>
       }
       {type === types.ROI_VS_BTC &&
@@ -177,7 +179,7 @@ const TableRow = ({
             [classes.tdPrimaryNegative]: ico.roi_vs_btc < 0
           })}
         >
-          {getPrettyPercentage(ico.roi_vs_btc)}
+          {getPrettyPercentage(ico[isAbsolute ? 'roi_vs_btc_abs' : 'roi_vs_btc'])}
         </div>
       }
       {type === types.RECENT_PERFORMANCE &&
@@ -399,8 +401,11 @@ const withStyles = injectSheet(styles)(TableRow);
 /* =============================================================================
 =    Redux
 ============================================================================= */
+const mapStateToProps = state => ({
+  isAbsolute: state.rankings.ROICalcType === 'ABSOLUTE'
+});
 const mapDispatchToProps = dispatch => ({
   onClickBuy: symbol => dispatch(exchange.actions.initExchange(symbol))
 });
 
-export default connect(null, mapDispatchToProps)(withStyles);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles);

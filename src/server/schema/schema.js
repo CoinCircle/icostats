@@ -34,6 +34,8 @@ type ICO {
   btc_roi_during_period: Float
   roi_vs_eth: Float
   roi_vs_btc: Float
+  roi_vs_eth_abs: Float
+  roi_vs_btc_abs: Float
   is_erc20: Boolean
   eth_price_usd: Float!
   btc_price_usd: Float!
@@ -66,11 +68,17 @@ type Query {
   prices(tickers: [String!]): [Price]
   recentPrices: [RecentPrice]
   shapeshiftCoins: JSON
+  getPrice(a: String, b: String): Float
 }
 
 # this schema allows the following mutation:
 type Mutation {
-  sendMail(name: String!, email: String!, message: String!): Boolean
+  sendMail(
+    name: String!,
+    email: String!,
+    message: String!,
+    subject: String
+  ): Boolean
 }
 
 # we need to tell the server which types represent the root query

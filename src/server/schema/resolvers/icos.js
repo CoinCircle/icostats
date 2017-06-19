@@ -2,7 +2,7 @@
 import winston from 'winston';
 import { normalize as normalizeICO } from 'lib/icos';
 import icoData from 'lib/ico-data';
-import { fetchCurrentPrice } from 'lib/gdax';
+import { fetchETHPrice, fetchBTCPrice } from 'shared/lib/exchanges/gdax';
 import { cache } from 'app';
 import Ticker from 'models/ticker';
 import * as shapeshift from 'shared/lib/shapeshift';
@@ -32,7 +32,7 @@ export default async function icos() {
 
   if (!ethPrice) {
     try {
-      ethPrice = await fetchCurrentPrice('ETH');
+      ethPrice = await fetchETHPrice();
     } catch (e) {
       const ticker = tickers.find(t => t.symbol === 'ETH');
 
@@ -44,7 +44,7 @@ export default async function icos() {
 
   if (!btcPrice) {
     try {
-      btcPrice = await fetchCurrentPrice('BTC');
+      btcPrice = await fetchBTCPrice();
     } catch (e) {
       const ticker = tickers.find(t => t.symbol === 'BTC');
 

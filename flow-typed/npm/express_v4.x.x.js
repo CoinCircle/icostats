@@ -1,5 +1,5 @@
-// flow-typed signature: 0a6a6906c197a7b95b251a16f7064bee
-// flow-typed version: f471f20d31/express_v4.x.x/flow_>=v0.32.x
+// flow-typed signature: 5ab2422f34a4867000a06e5093ff423a
+// flow-typed version: a46da1b82a/express_v4.x.x/flow_>=v0.32.x
 
 import type { Server } from 'http';
 
@@ -136,7 +136,7 @@ declare class express$Route {
 declare class express$Router extends express$Route {
   constructor(options?: express$RouterOptions): void;
   route(path: string): express$Route;
-  static (): express$Router;
+  static (options?: express$RouterOptions): express$Router;
   use(middleware: express$Middleware): this;
   use(...middleware: Array<express$Middleware>): this;
   use(path: string|RegExp|string[], ...middleware: Array<express$Middleware>): this;

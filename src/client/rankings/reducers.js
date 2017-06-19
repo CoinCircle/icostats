@@ -9,7 +9,8 @@ const initialState = {
     erc20: false
   },
   pageNumber: 1,
-  itemsPerPage: 30
+  itemsPerPage: 30,
+  ROICalcType: 'RELATIVE'
 };
 const rankingsReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -38,6 +39,18 @@ const rankingsReducer = (state = initialState, action) => {
       return {
         ...state,
         pageNumber: action.pageNumber
+      };
+
+    case types.SELECT_ABSOLUTE:
+      return {
+        ...state,
+        ROICalcType: 'ABSOLUTE'
+      };
+
+    case types.SELECT_RELATIVE:
+      return {
+        ...state,
+        ROICalcType: 'RELATIVE'
       };
 
     default: return state;

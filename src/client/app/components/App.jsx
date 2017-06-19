@@ -1,22 +1,21 @@
+// @flow
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { ConnectedRouter } from 'react-router-redux';
-import injectSheet from 'react-jss';
+import { connect } from 'react-redux';
 import { history } from '~/index.js';
 import Navigation from '~/app/components/Navigation';
 import Rankings from '~/rankings/screens/Rankings';
 import Compare from '~/compare/components/Compare';
+import Feedback from './Feedback';
 
-const styles = {
-  container: {
-    display: 'flex',
-    height: '100%'
-  }
-};
+type Props = {
+  isFeedbackOpen: boolean
+}
 
-const App = ({ classes }) => (
+const App = ({ isFeedbackOpen }: Props) => (
   <ConnectedRouter history={history}>
-    <div className={classes.container}>
+    <div style={{ display: 'flex', height: '100%' }}>
       <Navigation />
 
       <Route exact path="/" component={Rankings} />
@@ -25,8 +24,14 @@ const App = ({ classes }) => (
       <Route exact path="/vs-eth" component={Rankings} />
       <Route exact path="/vs-btc" component={Rankings} />
       <Route exact path="/compare" component={Compare} />
+
+      {isFeedbackOpen && <Feedback />}
     </div>
   </ConnectedRouter>
 );
 
-export default injectSheet(styles)(App);
+const mapStateToProps = state => ({
+  isFeedbackOpen: state.app.isFeedbackOpen
+});
+
+export default connect(mapStateToProps)(App);
