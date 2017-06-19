@@ -61,7 +61,7 @@ const withStyles = injectSheet(styles)(Paginator);
 const mapStateToProps = state => ({
   current: state.rankings.pageNumber
 });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: $FlowTODO) => ({
   onChange: nextPage => dispatch(changePageNumber(nextPage))
 });
 

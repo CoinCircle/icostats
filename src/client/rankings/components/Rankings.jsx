@@ -2,6 +2,7 @@
 import React from 'react';
 import injectSheet from 'react-jss';
 import classNames from 'classnames';
+import Exchange from '~/exchange/components/Exchange';
 import TableHeader from './TableHeader';
 import TableRow from './TableRow';
 import Filters from './Filters';
@@ -23,8 +24,9 @@ type Props = {
   ascending: boolean,
   currency: string,
   toggleNav: () => void,
-  sort: string => void,
-  maxPages: number
+  sort: (sortBy: string, ascending: boolean) => void,
+  maxPages: number,
+  isExchangeActive: boolean
 };
 
 
@@ -106,6 +108,7 @@ class Rankings extends React.Component {
         {header}
         {table}
         <Paginator max={this.props.maxPages} />
+        {this.props.isExchangeActive && <Exchange />}
       </div>
     );
   }
@@ -117,7 +120,8 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    position: 'relative'
   },
   ico: {
     display: 'flex',

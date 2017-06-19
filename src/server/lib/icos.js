@@ -1,6 +1,20 @@
+// @flow
 /* eslint-disable import/prefer-default-export */
+import type { $ICO } from 'shared/types';
 import moment from 'moment';
 import { absoluteDifference, relativeDifference } from 'shared/lib/calc';
+
+type $ShapeshiftCoin = {
+  image: string,
+  imageSmall: string,
+  name: string,
+  status: 'available' | 'unavailable',
+  symbol: string
+}
+
+type $ShapeshiftCoins = {
+  [string]: $ShapeshiftCoin
+}
 
 const WEEK = 7;
 const MONTH = 30;
@@ -98,14 +112,22 @@ function btcROISinceICO(ico, btcPrice) {
   return diff;
 }
 
+function isSupportedShapeshift(ico, shapeshiftCoins: $ShapeshiftCoins) {
+  return Object.prototype.hasOwnProperty.call(shapeshiftCoins, ico.symbol);
+}
+
 /**
  * Normalize the coinmarketcap response
  * @param {Object} ico object as returned from coinmarketcap
  * @return {Object} Normalized object
  */
-export const normalize = (ico, ethPrice, btcPrice) => ({
+export const normalize = (
+  ico: $ICO,
+  ethPrice: number,
+  btcPrice: number,
+  shapeshiftCoins: $ShapeshiftCoins
+) => ({
   ...ico,
-  volume_usd_24h: ico['24h_volume_usd'],
   eth_price_usd: ethPrice,
   btc_price_usd: btcPrice,
   roi_since_ico: roiSinceICO(ico),
@@ -118,6 +140,7 @@ export const normalize = (ico, ethPrice, btcPrice) => ({
   btc_roi_during_period: btcROISinceICO(ico, btcPrice),
   roi_vs_eth: roiVsEth(ico, ethPrice),
   roi_vs_btc: roiVsBtc(ico, btcPrice),
+  supported_shapeshift: isSupportedShapeshift(ico, shapeshiftCoins),
   roi_vs_eth_abs: roiVsEth(ico, ethPrice, true),
   roi_vs_btc_abs: roiVsBtc(ico, btcPrice, true)
 });

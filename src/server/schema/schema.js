@@ -1,5 +1,9 @@
 /* eslint-disable */
+import GraphQLJSON from 'graphql-type-json';
+
 export default /* GraphQL */`
+
+scalar JSON
 
 type ICO {
   id: String!
@@ -7,7 +11,6 @@ type ICO {
   symbol: String!
   price_usd: Float!
   price_btc: Float!
-  volume_usd_24h: Float
   market_cap_usd: Float
   available_supply: Float
   total_supply: Float
@@ -39,6 +42,7 @@ type ICO {
   supported_changelly: Boolean
   raise: Float!
   amount_sold_in_ico: Float!
+  supported_shapeshift: Boolean
 }
 
 type Price {
@@ -56,12 +60,14 @@ type RecentPrice {
   recent_prices: RecentPriceItem
 }
 
+
 # the schema allows the following query:
 type Query {
   icos: [ICO]
   ico(id: String!): ICO
   prices(tickers: [String!]): [Price]
   recentPrices: [RecentPrice]
+  shapeshiftCoins: JSON
   getPrice(a: String, b: String): Float
 }
 

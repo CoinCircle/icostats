@@ -120,7 +120,7 @@ const withStyles = injectSheet(styles)(Filters);
 const mapStateToProps = state => ({
   filters: state.rankings.filters
 });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: $FlowTODO) => ({
   onChange: filters => dispatch(setFilters(filters))
 });
 

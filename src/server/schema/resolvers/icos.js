@@ -5,6 +5,7 @@ import icoData from 'lib/ico-data';
 import { fetchETHPrice, fetchBTCPrice } from 'shared/lib/exchanges/gdax';
 import { cache } from 'app';
 import Ticker from 'models/ticker';
+import * as shapeshift from 'shared/lib/shapeshift';
 
 export default async function icos() {
   const tickers = await Ticker.find();
@@ -13,6 +14,17 @@ export default async function icos() {
     ...( tickers.find(t => t.ticker === data.ticker)._doc ),
     id: data.id
   }));
+
+  // get shapeshift info
+  let shapeshiftCoins = cache.get('shapeshiftCoins');
+
+  if (!shapeshiftCoins) {
+    try {
+      shapeshiftCoins = await shapeshift.getCoins();
+    } catch (err) {
+      winston.error('Failed to fetch shapeshift coins: %s', err.message);
+    }
+  }
 
   // Get the current ETH price
   let ethPrice = cache.get('ethPrice');
@@ -42,5 +54,7 @@ export default async function icos() {
     cache.set('btcPrice', btcPrice);
   }
 
-  return results.map(ico => normalizeICO(ico, ethPrice, btcPrice));
+  return results.map(ico =>
+    normalizeICO(ico, ethPrice, btcPrice, shapeshiftCoins)
+  );
 }
