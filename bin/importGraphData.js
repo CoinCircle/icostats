@@ -6,6 +6,7 @@ const fetch = require('isomorphic-fetch');
 const settings = require('../settings.js');
 const icoData = require('../src/server/lib/ico-data.js');
 const Price = require('../src/server/models/price.js');
+const checkStatus = require('../src/shared/lib/fetch-check-status.js');
 
 // Connect to db.
 mongoose.Promise = Promise;
@@ -21,15 +22,15 @@ winston.add(winston.transports.Loggly, {
 });
 
 // Get our tickers, and add ETH/BTC
-const tickers = [
-  ...(icoData.map(ico => ico.ticker)),
-  'bitcoin',
-  'ethereum'
+const tokens = [
+  ...icoData.filter(ico => !!ico.ticker).map(({ ticker, symbol }) => ({ ticker, symbol })),
+  { ticker: 'ethereum', symbol: 'ETH' },
+  { ticker: 'bitcoin', symbol: 'BTC' }
 ];
 
 // Initialize!
-winston.info('Fetching %s graphs...', tickers.length);
-recursiveFetch(tickers, 0).then(() => console.log('done'));
+winston.info('Fetching %s graphs...', tokens.length);
+recursiveFetch(tokens, 0).then(() => console.log('done'));
 
 /**
  * Fetches a graph, saves it, and does it again if the counter is less than the
@@ -38,15 +39,16 @@ recursiveFetch(tickers, 0).then(() => console.log('done'));
  * @param {Number} i - counter
  * @return {Promise}
  */
-function recursiveFetch(tickers, i) {
-  const ticker = tickers[i];
+function recursiveFetch(tokens, i) {
+  const { ticker, symbol } = tokens[i];
   const url = `https://graphs.coinmarketcap.com/currencies/${ticker}/`;
 
   winston.info('Fetching graph for %s', ticker);
 
   return fetch(url)
+   .then(checkStatus)
    .then(res => res.json())
-   .then(json => saveData(json, ticker, i))
+   .then(json => saveData(json, ticker, symbol, i))
    .catch(err =>
      winston.error('Failed to fetch graph for %s: %s', ticker, err.message)
    );
@@ -55,11 +57,12 @@ function recursiveFetch(tickers, i) {
 /**
  * Save graph data to db.
  */
-function saveData(json, ticker, i) {
+function saveData(json, ticker, symbol, i) {
   const query = {
     ticker
   };
   const doc = {
+    symbol,
     price_usd: json.price_usd
   };
   const options = {
@@ -81,13 +84,13 @@ function saveData(json, ticker, i) {
  */
 function recurseOrFinish(ticker, i) {
   // If we are at the last one, kill recursion.
-  if (i === tickers.length - 1) {
+  if (i === tokens.length - 1) {
     console.log('Finished fetching all graphs');
     process.exit(0);
   } else {
 
     // Keep recursing.
     console.log('Fetched graph for %s', ticker);
-    return recursiveFetch(tickers, i + 1);
+    return recursiveFetch(tokens, i + 1);
   }
 }
