@@ -1,5 +1,23 @@
-/* eslint-disable max-lines */
+/* eslint-disable */
 module.exports = [
+  {
+    id: 'cofoundit',
+    is_erc20: true,
+    contract_address: '0x12FEF5e57bF45873Cd9B62E9DBd7BFb99e32D73e',
+    name: 'Cofound.it',
+    symbol: 'CFI',
+    eth_price_at_launch: 264.83,
+    btc_price_at_launch: 2690.02,
+    raise: 14980108.95,
+    raise_by_currency: {
+      eth: 56565
+    },
+    amount_sold_in_ico: 125000000,
+    implied_token_price: 0.1198,
+    start_date: '06/07/2017', // or june 3 for presale
+    ticker: null, // not yet on coinmarketcap
+    supported_changelly: false
+  },
   {
     id: 'patientory',
     is_erc20: true,
@@ -9,8 +27,9 @@ module.exports = [
     eth_price_at_launch: 223,
     btc_price_at_launch: 2303,
     raise: 7254161.01, // based on ETH raise
-    raise_currency: 'ETH',
-    raise_amount: 32529.87,
+    raise_by_currency: {
+      eth: 32529.87
+    },
     amount_sold_in_ico: 70000000,
     implied_token_price: 0.103630872,
     start_date: '05/31/2017',
