@@ -1,4 +1,5 @@
-/* eslint-disable no-console, newline-after-var, import/prefer-default-export */
+/* eslint-disable no-console, newline-after-var, import/prefer-default-export,
+no-multi-assign */
 import 'babel-polyfill';
 import express from 'express';
 import bodyParser from 'body-parser';
@@ -6,16 +7,19 @@ import winston from 'winston';
 import expressWinston from 'express-winston';
 import 'winston-loggly-bulk';
 import mongoose from 'mongoose';
+import Promise from 'bluebird';
 import { graphqlExpress, graphiqlExpress } from 'graphql-server-express';
 import settings from 'settings';
 import schema from 'schema';
 import NodeCache from 'node-cache';
 import initTickerWorker from 'lib/ticker-worker';
+import initPriceWorker from '~/lib/price-worker';
 
 /**
  * Initialize the database.
  */
 mongoose.connect(settings.MONGO_URI);
+mongoose.Promise = Promise;
 
 /**
  * Initialize the application.
@@ -89,6 +93,7 @@ app.get('*', (req, res) =>
 app.listen(settings.APP_PORT, () => {
   console.log(`App listening on port ${settings.APP_PORT}!`);
   initTickerWorker();
+  initPriceWorker();
 });
 
 
