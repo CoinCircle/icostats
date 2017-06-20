@@ -201,7 +201,7 @@ const mapStateToProps = (state: {exchange: ReduxState}) => ({
 const mapDispatchToProps = (dispatch: Dispatch<Action>) => ({
   fetchLimit: pair => dispatch(fetchLimit(pair)),
   fetchShift: (receivingAddress, pair) =>
-    dispatch(fetchShift(receivingAddress, pair)),
+    dispatch(fetchShift(receivingAddress, pair, receivingAddress)),
   fetchOrderStatus: orderId => dispatch(fetchOrderStatus(orderId)),
   hideExchange: () => dispatch(hideExchange())
 });

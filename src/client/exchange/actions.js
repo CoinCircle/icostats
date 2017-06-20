@@ -126,10 +126,11 @@ const receiveShift = (payload): ReceiveShiftAction => ({
 
 export const fetchShift = (
   withdrawalAddress: string,
-  pair: string
+  pair: string,
+  returnAddress: string
 ): ThunkAction => (dispatch) => {
   dispatch(requestShift(withdrawalAddress, pair));
-  return shapeshift.shift(withdrawalAddress, pair)
+  return shapeshift.shift(withdrawalAddress, pair, returnAddress)
     .then(data => dispatch(receiveShift(data)));
 };
 
