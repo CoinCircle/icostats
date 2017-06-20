@@ -9,9 +9,9 @@ describe('Poloniex API Integration', function () {
   });
 
   it('should support fetching tickers', async function () {
-    const res = await poloniex.fetchTicker('btc', 'eth');
+    const res = await poloniex.fetchTicker('BTC_STRAT');
 
-    expect(res).not.to.be.empty;
+    expect(res).to.be.a('number');
   });
 
   it('should support price map', async function () {

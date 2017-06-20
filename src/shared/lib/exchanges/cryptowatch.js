@@ -2,10 +2,10 @@ import fetch from 'isomorphic-fetch';
 
 const baseUrl = 'https://api.cryptowat.ch';
 
-class TooManyRequestsError extends Error {};
+class TooManyRequestsError extends Error {}
 
-export async function fetchTicker(a, b, exchange = 'coinbase', raw = false) {
-  const url = `${baseUrl}/markets/${exchange}/${a}${b}/summary`;
+export async function fetchTicker(pair, exchange = 'coinbase', raw = false) {
+  const url = `${baseUrl}/markets/${exchange}/${pair}/summary`;
   const res = await fetch(url);
   const json = await res.json();
 
@@ -60,7 +60,7 @@ export async function fetchBoundPriceMap() {
     const { exchange, currencyPair } = data;
 
     if (!priceMap[currencyPair]) {
-      priceMap[currencyPair] = fetchTicker.bind(null, currencyPair, '', exchange);
+      priceMap[currencyPair] = fetchTicker.bind(null, currencyPair, exchange);
     }
   });
 

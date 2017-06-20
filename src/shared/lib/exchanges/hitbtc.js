@@ -2,9 +2,8 @@ import fetch from 'isomorphic-fetch';
 
 const baseUrl = 'http://api.hitbtc.com/api/1/public';
 
-export async function fetchTicker(a, b, raw = false) {
-  const symbol = `${a.toUpperCase()}${b.toUpperCase()}`;
-  const url = `${baseUrl}/${symbol}/ticker`;
+export async function fetchTicker(pair, raw = false) {
+  const url = `${baseUrl}/${pair}/ticker`;
   const res = await fetch(url);
   const json = await res.json();
 
@@ -31,7 +30,7 @@ export async function fetchBoundPriceMap() {
   const priceMap = {};
 
   pairs.forEach((pair) => {
-    priceMap[pair] = fetchTicker.bind(null, pair, '');
+    priceMap[pair] = fetchTicker.bind(null, pair);
   });
 
   return priceMap;

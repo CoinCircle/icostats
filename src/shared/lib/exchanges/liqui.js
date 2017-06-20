@@ -1,9 +1,9 @@
 import fetch from 'isomorphic-fetch';
+import winston from 'winston';
 
 const baseUrl = 'https://api.liqui.io/api/3';
 
-export async function fetchTicker(a, b, raw = false) {
-  const pair = `${a}_${b}`;
+export async function fetchTicker(pair, raw = false) {
   const url = `${baseUrl}/ticker/${pair}`;
   const res = await fetch(url);
   const json = await res.json();
@@ -25,16 +25,19 @@ export async function fetchPairs() {
 
 export async function fetchBoundPriceMap() {
   const url = `${baseUrl}/info`;
-  const res = await fetch(url);
-  const json = await res.json();
-  const pairs = Object.keys(json.pairs);
   const priceMap = {};
 
-  pairs.forEach((pair) => {
-    const [a, b] = pair.split('_');
+  try {
+    const res = await fetch(url);
+    const json = await res.json();
+    const pairs = Object.keys(json.pairs);
 
-    priceMap[pair] = fetchTicker.bind(null, a, b);
-  });
+    pairs.forEach((pair) => {
+      priceMap[pair] = fetchTicker.bind(null, pair);
+    });
+  } catch (err) {
+    winston.error(`Failed to fetch from liqui APIL ${err.message}`);
+  }
 
   return priceMap;
 }

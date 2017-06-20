@@ -2,8 +2,7 @@ import fetch from 'isomorphic-fetch';
 
 const baseUrl = 'https://bittrex.com/api/v1.1/public';
 
-export async function fetchTicker(a, b, raw = false) {
-  const pair = `${a.toUpperCase()}-${b.toUpperCase()}`;
+export async function fetchTicker(pair, raw = false) {
   const url = `${baseUrl}/getticker?market=${pair}`;
   const res = await fetch(url);
   const json = await res.json();

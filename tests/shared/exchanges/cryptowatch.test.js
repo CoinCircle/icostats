@@ -9,7 +9,7 @@ describe('Cryptowat.ch API Integration', function () {
   });
 
   it('should support fetching tickers', async function () {
-    const res = await cryptowatch.fetchTicker('eth', 'btc');
+    const res = await cryptowatch.fetchTicker('ethbtc');
 
     expect(res).to.be.a('number');
   });

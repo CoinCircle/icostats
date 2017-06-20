@@ -9,7 +9,7 @@ describe('Bittrex API Integration', function () {
   });
 
   it('should support fetching tickers', async function () {
-    const res = await bittrex.fetchTicker('btc', 'eth');
+    const res = await bittrex.fetchTicker('BTC-BAT');
 
     expect(res).to.be.a('number');
   });

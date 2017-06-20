@@ -3,8 +3,7 @@ import fetch from 'isomorphic-fetch';
 
 const baseUrl = 'https://poloniex.com/public';
 
-export async function fetchTicker(a, b, raw = false) {
-  const pair = `${a.toUpperCase()}_${b.toUpperCase()}`;
+export async function fetchTicker(pair, raw = false) {
   const url = `${baseUrl}?command=returnTicker`;
   const res = await fetch(url);
   const json = await res.json();
@@ -32,9 +31,7 @@ export async function fetchBoundPriceMap() {
   const priceMap = {};
 
   pairs.forEach((pair) => {
-    const [a, b] = pair.split('_');
-
-    priceMap[pair] = fetchTicker.bind(null, a, b);
+    priceMap[pair] = fetchTicker.bind(null, pair);
   });
 
 

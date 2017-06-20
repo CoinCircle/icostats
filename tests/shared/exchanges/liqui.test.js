@@ -9,7 +9,7 @@ describe('Liqui API Integration', function () {
   });
 
   it('should support fetching tickers', async function () {
-    const res = await liqui.fetchTicker('eth', 'btc');
+    const res = await liqui.fetchTicker('eth_btc');
 
     expect(res).not.to.be.empty;
   });

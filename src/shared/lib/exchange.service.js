@@ -102,7 +102,7 @@ class ExchangeService {
 
     switch (exchange) {
       case 'BITTREX':
-        return `${A}-${B}`;
+        return `${B}-${A}`;
       case 'CRYPTOPIA':
         return `${A}_${B}`;
       case 'CRYPTOWATCH':
@@ -218,7 +218,12 @@ class ExchangeService {
       const ethPrice = await fetchETHPrice();
 
       return price * ethPrice;
-    } catch (e) {}
+    } catch (e) {
+      winston.warn(
+        `ExchangeService: No integrated exchanges support ${symbol}. Consider
+        integrating an exchange that does.`
+      );
+    }
 
     // Nope, try coinmarketcap
     try {

@@ -8,7 +8,7 @@ const baseUrl = 'https://api.etherdelta.com';
 /**
  * NOTE You can't pass symbols, only ERC-20 contract addresses!
  */
-export async function fetchTicker(a: string, b: string, raw: boolean = false) {
+export async function fetchTicker(a: string, b: string = '', raw: boolean = false) {
   const url = `${baseUrl}/orders/${a}/${b}`;
 
   try {
