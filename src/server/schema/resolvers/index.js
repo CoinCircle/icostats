@@ -7,6 +7,7 @@ import { normalize as normalizeICO } from 'lib/icos';
 import { sendMail } from 'lib/mail';
 import recentPrices from 'lib/recentPrices';
 import Price from 'models/price';
+import PriceHistory from '~/models/price-history';
 import * as shapeshift from 'shared/lib/shapeshift';
 import icos from './icos';
 import getExchangeService from 'shared/lib/exchange.service';
@@ -26,10 +27,11 @@ export default {
       let recents = cache.get('recentPrices');
 
       if (!recents || !recents.length) {
-        const doc = await Price.find();
+        const doc = await Price.find().lean().exec();
+        const priceHistory = await PriceHistory.find().lean().exec();
 
         winston.info('No recent prices in cache - re-calculating.');
-        recents = recentPrices(doc);
+        recents = recentPrices(doc, priceHistory);
         cache.set('recentPrices', recents, FIFTEEN_MINUTES);
       }
 

@@ -10,7 +10,7 @@ type ICO {
   name: String!
   symbol: String!
   price_usd: Float!
-  price_btc: Float!
+  price_btc: Float
   market_cap_usd: Float
   available_supply: Float
   total_supply: Float
@@ -56,7 +56,7 @@ type RecentPriceItem {
   month: Float
 }
 type RecentPrice {
-  ticker: String
+  symbol: String
   recent_prices: RecentPriceItem
 }
 

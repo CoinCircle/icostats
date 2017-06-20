@@ -14,7 +14,7 @@ type $RecentPrices = {
 };
 
 type RecentPrice = {
-  ticker: string,
+  symbol: string,
   recent_prices: $RecentPrices
 };
 
@@ -22,15 +22,15 @@ export default function appendRecentStats(
   icos: ICO[],
   recentPrices: RecentPrice[]
 ) {
-  let eth = recentPrices.find(r => r.ticker === 'ethereum');
-  let btc = recentPrices.find(r => r.ticker === 'bitcoin');
+  let eth = recentPrices.find(r => r.symbol === 'ETH');
+  let btc = recentPrices.find(r => r.symbol === 'BTC');
 
   eth = eth && eth.recent_prices;
   btc = btc && btc.recent_prices;
 
   return icos.map((ico) => {
-    const { price_usd: icoPrice, ticker } = ico;
-    const recent = recentPrices.find(r => r.ticker === ticker);
+    const { price_usd: icoPrice, symbol } = ico;
+    const recent = recentPrices.find(r => r.symbol === symbol);
     const data = recent && recent.recent_prices;
 
     return {

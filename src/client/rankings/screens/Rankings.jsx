@@ -45,7 +45,7 @@ const QUERY = gql`
       supported_shapeshift
     }
     recentPrices {
-      ticker
+      symbol
       recent_prices {
         day
         week

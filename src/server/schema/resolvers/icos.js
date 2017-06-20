@@ -1,17 +1,25 @@
 /* eslint-disable no-console */
 import winston from 'winston';
+import has from 'lodash/has';
 import { normalize as normalizeICO } from 'lib/icos';
 import icoData from 'lib/ico-data';
 import { fetchETHPrice, fetchBTCPrice } from 'shared/lib/exchanges/gdax';
 import { cache } from 'app';
-import Ticker from 'models/ticker';
+import PriceHistory from 'models/price-history';
 import * as shapeshift from 'shared/lib/shapeshift';
 
 export default async function icos() {
-  const tickers = await Ticker.find();
-  const results = icoData.map(data => ({
+  const priceHistories = await PriceHistory.find().lean().exec();
+  const pricesBySymbol = priceHistories.reduce((obj, model) => ({
+    ...obj,
+    [model.symbol]: model.latest
+  }), {});
+  // when new tokens are added, it takes a bit for their price history to
+  // be added to the db. So just leave that token out for now if so.
+  const validICOs = icoData.filter(ico => has(pricesBySymbol, ico.symbol));
+  const results = validICOs.map(data => ({
     ...data,
-    ...( tickers.find(t => t.ticker === data.ticker)._doc ),
+    ...pricesBySymbol[data.symbol],
     id: data.id
   }));
 

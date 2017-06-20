@@ -9,6 +9,10 @@ const PriceSchema = new Schema({
     unique: true
   },
 
+  symbol: {
+    type: String
+  },
+
   price_usd: {
     type: Array,
     required: true
