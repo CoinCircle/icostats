@@ -5,7 +5,7 @@ import fetch from 'isomorphic-fetch';
 const baseUrl = 'https://api.coinmarketcap.com/v1';
 
 // Fetching all coinmarketcap assets is SLOW, so cache here.
-let assets;
+let cachedAssets;
 
 export async function fetchTicker(
   id: string,
@@ -32,27 +32,27 @@ export async function fetchTicker(
 }
 
 export async function fetchAssets() {
-  if (assets) {
-    return assets.map(item => item.id);
+  if (cachedAssets) {
+    return cachedAssets.map(item => item.id);
   }
 
   const url = `${baseUrl}/ticker`;
   const res = await fetch(url);
   const json = await res.json();
 
-  assets = json;
+  cachedAssets = dedupe(json);
 
-  return json.map(item => item.id);
+  return cachedAssets.map(item => item.id);
 }
 
 
 export async function fetchBoundPriceMap() {
-  if (!assets) {
+  if (!cachedAssets) {
     await fetchAssets();
   }
   const priceMap = {};
 
-  assets.forEach((asset) => {
+  cachedAssets.forEach((asset) => {
     const { symbol, id } = asset;
 
     priceMap[`${symbol}-USD`] = fetchTicker.bind(null, id, 'USD');
@@ -61,6 +61,32 @@ export async function fetchBoundPriceMap() {
 
 
   return priceMap;
+}
+
+/**
+ * Some symbols are used by multiple tokens. Find and keep just the highest
+ * ranked ones.
+ */
+function dedupe(assets) {
+  const res = [];
+
+  for (let i = 0; i < assets.length; i++) {
+    const asset = assets[i];
+    const indexDupe = res.findIndex(other => other.symbol === asset.symbol);
+
+    if (indexDupe > -1) {
+      const { rank: dupeRank } = res[indexDupe];
+      const { rank } = asset;
+
+      if (+rank < +dupeRank) {
+        res[indexDupe] = asset;
+      }
+    } else {
+      res.push(asset);
+    }
+  }
+
+  return res;
 }
 
 export default {
