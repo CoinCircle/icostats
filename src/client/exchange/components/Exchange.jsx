@@ -90,6 +90,9 @@ class Exchange extends React.Component {
     if (this.interval && nextProps.orderStatus === 'complete') {
       clearInterval(this.interval);
       delete this.interval;
+      if (window.ga) {
+        window.ga('send', 'event', 'Exchange', 'Completed Shapeshift Exchange');
+      }
     }
 
     // Fetch new limits if the selected coins change.
