@@ -2,6 +2,7 @@
 module.exports = [
   {
     id: 'cofoundit',
+    ticker: 'cofound-it',
     is_erc20: true,
     contract_address: '0x12FEF5e57bF45873Cd9B62E9DBd7BFb99e32D73e',
     name: 'Cofound.it',
@@ -15,7 +16,6 @@ module.exports = [
     amount_sold_in_ico: 125000000,
     implied_token_price: 0.1198,
     start_date: '06/07/2017', // or june 3 for presale
-    ticker: null, // not yet on coinmarketcap
     supported_changelly: false
   },
   {

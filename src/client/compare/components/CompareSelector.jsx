@@ -38,7 +38,10 @@ CompareSelector.propTypes = propTypes;
 const styles = {
   container: {
     display: 'flex',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    flex: '0 1 auto',
+    marginBottom: '10px',
+    marginTop: '20px'
   }
 };
 

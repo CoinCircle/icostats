@@ -90,8 +90,7 @@ class ComparisonChart extends React.Component {
      return (
        <div className={c.container}>
          <canvas
-           width="500"
-           height="300"
+           className={c.canvas}
            ref={this.renderChart.bind(this)}
          />
        </div>
@@ -136,12 +135,20 @@ const container = connect(mapStateToProps)(withData);
 
 const styles = {
   container: {
-    marginTop: '40px'
+    margin: '40px 10px 0 0px',
+    flexGrow: 2,
+    display: 'flex',
+    alignItems: 'center'
+  },
+  canvas: {
+    maxWidth: '100%',
+    height: '100%'
   },
   loadingWrapper: {
-    marginTop: '100px',
-    width: '80%',
-    margin: '0 auto'
+    width: '90%',
+    flexGrow: '2',
+    margin: '0 auto',
+    paddingTop: '50px'
   }
 };
 

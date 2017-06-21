@@ -105,7 +105,7 @@ const styles = {
   },
   title: {
     color: 'white',
-    fontSize: '35px',
+    fontSize: '30px',
     fontWeight: 900
   },
   hamburger: {

@@ -6,6 +6,7 @@
  */
 import moment from 'moment';
 import winston from 'winston';
+import merge from './merge-coinmarketcap-data';
 
 type Item = {
   symbol: string,
@@ -41,28 +42,6 @@ function findPrice(item, targetMoment) {
       item.symbol,
       targetMoment.format()
     );
-  }
-
-  return res;
-}
-
-function merge(coinmarketcapPrices, priceHistory) {
-  const res = [...coinmarketcapPrices];
-
-  for (let i = 0; i < priceHistory.length; i++) {
-    const { symbol, prices } = priceHistory[i];
-    const exists = res.some(el => el.symbol === symbol);
-
-    if (!exists) {
-      const item = {
-        symbol,
-        price_usd: prices.map(
-          ({ price_usd, timestamp }) => [timestamp, price_usd]
-        )
-      };
-
-      res.push(item);
-    }
   }
 
   return res;

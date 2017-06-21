@@ -9,8 +9,8 @@ import recentPrices from 'lib/recentPrices';
 import Price from 'models/price';
 import PriceHistory from '~/models/price-history';
 import * as shapeshift from 'shared/lib/shapeshift';
-import icos from './icos';
 import getExchangeService from 'shared/lib/exchange.service';
+import icos from './icos';
 
 export default {
   Query: {
