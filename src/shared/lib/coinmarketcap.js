@@ -36,13 +36,17 @@ export async function fetchAssets() {
     return cachedAssets.map(item => item.id);
   }
 
-  const url = `${baseUrl}/ticker`;
-  const res = await fetch(url);
-  const json = await res.json();
+  try {
+    const url = `${baseUrl}/ticker`;
+    const res = await fetch(url);
+    const json = await res.json();
 
-  cachedAssets = dedupe(json);
+    cachedAssets = dedupe(json);
 
-  return cachedAssets.map(item => item.id);
+    return cachedAssets.map(item => item.id);
+  } catch (e) {
+    throw new Error('Failed to fetch assets from coinmarketcap API');
+  }
 }
 
 

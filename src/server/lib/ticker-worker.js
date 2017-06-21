@@ -5,13 +5,14 @@
 /* eslint-disable camelcase */
 import Ticker from 'models/ticker';
 import icoData from 'lib/ico-data';
+import winston from 'winston';
 
 const FIVE_SECONDS = 5000;
 let ref;
 
 export default function initTickerWorker() {
   const tickers = [
-    ...icoData.map(ico => ico.ticker),
+    ...icoData.filter(ico => !!ico.ticker).map(ico => ico.ticker),
     'ethereum',
     'bitcoin'
   ];
@@ -24,10 +25,15 @@ export default function initTickerWorker() {
 
 async function recursiveSyncTicker(tickers, index) {
   const ticker = tickers[index];
-  const data = await fetchTicker(ticker);
-
-  await saveTicker(data);
   const nextIndex = (index === tickers.length - 1) ? 0 : (index + 1);
+
+  try {
+    const data = await fetchTicker(ticker);
+
+    await saveTicker(data);
+  } catch (err) {
+    winston.error(`Failed to fetch ticker for ${ticker}: ${err.message}`);
+  }
 
   setTimeout(() => recursiveSyncTicker(tickers, nextIndex), FIVE_SECONDS);
 }
