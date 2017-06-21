@@ -11,3 +11,9 @@ export const openFeedback = () => ({
 export const closeFeedback = () => ({
   type: types.CLOSE_FEEDBACK
 });
+
+export const trackEvent = (category, action, label) => {
+  if (window.ga && typeof window.ga === 'function') {
+    window.ga('send', 'event', category, action, label);
+  }
+};

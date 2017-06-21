@@ -1,21 +1,27 @@
+// @flow
 /* eslint-disable no-magic-numbers */
 import React from 'react';
-import PropTypes from 'prop-types';
 import injectSheet from 'react-jss';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
-import * as types from '../constants';
 import * as utils from '~/app/utils';
+import app from '~/app';
 import exchange from '~/exchange';
+import * as types from '../constants';
 
-const propTypes = {
-  ico: PropTypes.object,
-  type: PropTypes.string,
-  onTouchStart: PropTypes.func,
-  active: PropTypes.bool,
-  isAbsolute: PropTypes.bool
+
+type Props = {
+  classes: Object,
+  currency: string,
+  onClickBuy: Function,
+  ico: Object,
+  type: string,
+  onTouchStart: () => void,
+  active: boolean,
+  isAbsolute: boolean,
+  trackEvent: (c: string, a: string, l: string) => void
 };
 
 const TableRow = ({
@@ -26,8 +32,9 @@ const TableRow = ({
   onTouchStart,
   active,
   onClickBuy,
-  isAbsolute
-}) => {
+  isAbsolute,
+  trackEvent
+}: Props) => {
   const $ = <span className={classes.dollar}>$</span>;
   const PRECISION = {
     USD: 3,
@@ -56,8 +63,7 @@ const TableRow = ({
             href={`https://changelly.com/exchange/ETH/${ico.symbol}/1?ref_id=861e5d1e1238`}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => window.ga &&
-              window.ga('send', 'event', 'Changelly', 'Click Buy Now', ico.symbol)
+            onClick={() => trackEvent('Changelly', 'Click Buy Now', ico.symbol)
             }
           >
             Buy Instantly
@@ -66,7 +72,10 @@ const TableRow = ({
         {ico.supported_shapeshift &&
           <button
             className={classes.buyNow}
-            onClick={() => onClickBuy(ico.symbol)}
+            onClick={() => {
+              onClickBuy(ico.symbol);
+              trackEvent('Shapeshift Exchange', 'Initialize', ico.symbol);
+            }}
           >
             Buy Instantly
           </button>
@@ -237,8 +246,6 @@ function getPrettyPercentage(n) {
   );
 }
 
-TableRow.propTypes = propTypes;
-
 const styles = {
   tr: {
     height: '60px',
@@ -405,7 +412,8 @@ const mapStateToProps = state => ({
   isAbsolute: state.rankings.ROICalcType === 'ABSOLUTE'
 });
 const mapDispatchToProps = dispatch => ({
-  onClickBuy: symbol => dispatch(exchange.actions.initExchange(symbol))
+  onClickBuy: symbol => dispatch(exchange.actions.initExchange(symbol)),
+  trackEvent: app.actions.trackEvent
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles);

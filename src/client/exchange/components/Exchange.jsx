@@ -6,6 +6,7 @@ import { graphql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
 import gql from 'graphql-tag';
 import classNames from 'classnames';
+import app from '~/app';
 import type { Action, ReduxState } from '../types';
 import GetQuote from './GetQuote';
 import Finalize from './Finalize';
@@ -30,7 +31,8 @@ type Props = {
   receivingAddress: string,
   fetchShift: (receivingAddress: string, pair: string) => void,
   depositAddress: string,
-  hideExchange: () => void
+  hideExchange: () => void,
+  trackEvent: (c: string, a: string, l?: string) => void
 };
 
 type State = {
@@ -90,9 +92,7 @@ class Exchange extends React.Component {
     if (this.interval && nextProps.orderStatus === 'complete') {
       clearInterval(this.interval);
       delete this.interval;
-      if (window.ga) {
-        window.ga('send', 'event', 'Exchange', 'Completed Shapeshift Exchange');
-      }
+      this.props.trackEvent('Shapeshift Exchange', 'Complete', `${from}-${to}`);
     }
 
     // Fetch new limits if the selected coins change.
@@ -106,6 +106,7 @@ class Exchange extends React.Component {
   handleKeyup = (event: Event) => {
     if (event.key === 'Escape') {
       this.props.hideExchange();
+      this.props.trackEvent('Shapeshift Exchange', 'Close');
     }
   }
 
@@ -114,6 +115,10 @@ class Exchange extends React.Component {
     const pair = `${from}_${to}`;
 
     this.props.fetchShift(receivingAddress, pair);
+    this.props.trackEvent(
+      'Shapeshift Exchange',
+      'Input Valid Deposit Address'
+    );
   }
 
   render() {
@@ -206,7 +211,8 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>) => ({
   fetchShift: (receivingAddress, pair) =>
     dispatch(fetchShift(receivingAddress, pair, receivingAddress)),
   fetchOrderStatus: orderId => dispatch(fetchOrderStatus(orderId)),
-  hideExchange: () => dispatch(hideExchange())
+  hideExchange: () => dispatch(hideExchange()),
+  trackEvent: app.actions.trackEvent
 });
 
 export default compose(
