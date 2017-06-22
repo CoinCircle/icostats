@@ -4,8 +4,14 @@
 
 #### Terminal #1:
 ```
-docker-compose up
+docker-compose up -d
+make serve
 ```
+
+> Why `make serve` instead of `npm start`?
+
+Two reasons: 1) it does run `npm start` but logs into the container first, and 2) attaches to npm's tty so you can type `rs` to restart the server.
+
 
 #### Terminal #2:
 ```
