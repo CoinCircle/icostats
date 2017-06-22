@@ -222,8 +222,8 @@ const styles = {
   },
   '@media (min-width: 768px)': {
     tableheader: {
-      width: '100%',
-      boxShadow: 'none'
+      margin: '0 15px',
+      width: 'auto'
     }
   },
   '@media (min-width: 1024px)': {

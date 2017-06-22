@@ -161,7 +161,8 @@ const styles = {
     overflowY: 'scroll',
     flexGrow: '2',
     overflowX: 'hidden',
-    width: '180%'
+    width: '180%',
+    margin: '0 15px'
   },
   headerLeft: {
     flexGrow: 2
@@ -178,9 +179,8 @@ const styles = {
   '@media (min-width: 768px)': {
     tbody: {
       boxShadow: 'none',
-      padding: '0 15px',
       overflow: 'auto',
-      width: '100%'
+      width: 'auto'
     },
     header: {
       flex: '0 0 100px'
