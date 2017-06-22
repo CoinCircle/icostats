@@ -14,6 +14,7 @@ import schema from 'schema';
 import NodeCache from 'node-cache';
 import initTickerWorker from 'lib/ticker-worker';
 import initPriceWorker from '~/lib/price-worker';
+import initGraphWorker from '~/lib/graph-worker';
 
 /**
  * Initialize the database.
@@ -94,6 +95,7 @@ app.listen(settings.APP_PORT, () => {
   console.log(`App listening on port ${settings.APP_PORT}!`);
   initTickerWorker();
   initPriceWorker();
+  initGraphWorker();
 });
 
 
