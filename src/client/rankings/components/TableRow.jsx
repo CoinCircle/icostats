@@ -386,7 +386,7 @@ const styles = {
       width: '70%'
     },
     logo: {
-      maxWidth: '95%',
+      maxWidth: '50px',
       maxHeight: '30px',
     }
   },
