@@ -1,6 +1,25 @@
 /* eslint-disable */
 module.exports = [
   {
+    id: 'bancor',
+    ticker: 'bancor-network',
+    is_erc20: true,
+    contract_address: '0x1F573D6Fb3F13d689FF844B4cE37794d79a7FF1C',
+    name: 'Bancor',
+    symbol: 'BNT',
+    eth_price_at_launch: 390,
+    btc_price_at_launch: 2779.12,
+    raise: 153000000,
+    raise_by_currency: {
+      eth: 396720
+    },
+    amount_sold_in_ico: 39600000,
+    implied_token_price: 3.864,
+    total_supply: 79300000,
+    start_date: '06/12/2017',
+    supported_changelly: false
+  },
+  {
     id: 'cofoundit',
     ticker: 'cofound-it',
     is_erc20: true,
