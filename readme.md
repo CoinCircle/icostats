@@ -1,5 +1,7 @@
 # ICO Stats
 
+**[How to Contribute](docs/Contributing.md)**
+
 ## Running the app
 
 #### Terminal #1:
