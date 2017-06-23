@@ -10,25 +10,23 @@ docker-compose up -d
 make serve
 ```
 
-> Why `make serve` instead of `npm start`?
-
-Two reasons: 1) it does run `npm start` but logs into the container first, and 2) attaches to npm's tty so you can type `rs` to restart the server.
-
-
 #### Terminal #2:
 ```
-npm run dev
+make webpack
 ```
 
-### Seed the graph data
-```
-# This runs once a day in the production server with crontab. Locally it must
-  be run manually
-make shell
+> Why `make` instead of `npm`?
 
-# Once inside the container:
-node bin/importGraphData.js
-```
+These commands indeed do run npm commmands, but it runs it inside the docker
+container. This saves you the extra work of having to type out the docker
+commands every time.
+
+## Workers
+Once the app starts up, some workers will also start running that import
+required data such as token prices. These run on an interval, and need to
+have run at least once in order for the app to run properly. If you see
+errors when you first launch the app, and the app has been running less than
+5 minutes, try waiting a bit and refresh then see if it goes away.
 
 ## Explore the API
 

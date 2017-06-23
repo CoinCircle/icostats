@@ -1,16 +1,25 @@
 NAME := $(shell basename $$PWD | sed -e s/[\\.-]//g)
 
-serve: ## start server
+## start server
+serve:
 	docker exec -it ${NAME}_web_1 npm start
 
-shell: ## start docker shell
+## Runs webpack (development)
+make webpack:
+	docker exec -it ${NAME}_web_1 npm run dev
+
+## start docker shell
+shell:
 	docker exec -it ${NAME}_web_1 /bin/bash
 
-test-server:  ## Run tests
+## Run tests
+test-server:
 	docker exec -it ${NAME}_web_1 npm run test-server
 
-test:  ## Run tests
+## Run tests
+test:
 	docker exec -it ${NAME}_web_1 npm test
 
-test-client:  ## Run tests
+## Run tests
+test-client:
 	docker exec -it ${NAME}_web_1 npm run test-client
