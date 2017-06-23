@@ -2,6 +2,13 @@
 
 **[How to Contribute](docs/Contributing.md)**
 
+## Initial set up
+1) Download Docker.
+2) Download yarn.
+```
+yarn install
+```
+
 ## Running the app
 
 #### Terminal #1:
