@@ -149,6 +149,6 @@
     "class-methods-use-this": 0
   },
   "globals": {
-
+    "web3": true
   }
 }

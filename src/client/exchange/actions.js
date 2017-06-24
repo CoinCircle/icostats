@@ -1,5 +1,6 @@
 // @flow
 import * as shapeshift from 'shared/lib/shapeshift';
+import { EventTypes } from 'redux-segment';
 import type {
   ThunkAction,
   InitExchangeAction, SelectCoinAction, SetAmountAction, RequestQuoteAction,
@@ -12,23 +13,51 @@ import * as types from './constants';
 
 
 export const initExchange = (toSymbol: string): InitExchangeAction => {
-  if (window.ga) {
-    window.ga('send', 'event', 'Exchange', 'Click Buy Now', toSymbol);
-  }
+  const analytics = {
+    eventType: EventTypes.track,
+    eventPayload: {
+      event: types.INIT_EXCHANGE,
+      properties: {
+        toSymbol
+      }
+    }
+  };
+
   return {
     type: types.INIT_EXCHANGE,
-    to: toSymbol
+    to: toSymbol,
+    meta: { analytics }
   };
 };
 
-export const hideExchange = () => ({
-  type: types.HIDE_EXCHANGE
-});
+export function hideExchange() {
+  const analytics = {
+    eventType: EventTypes.track,
+    eventPayload: {
+      event: types.HIDE_EXCHANGE
+    }
+  };
 
-export const setAmount = (amount: number): SetAmountAction => ({
-  type: types.SET_AMOUNT,
-  amount
-});
+  return {
+    type: types.HIDE_EXCHANGE,
+    meta: { analytics }
+  };
+}
+
+export function setAmount(amount: number): SetAmountAction {
+  const analytics = {
+    eventType: EventTypes.track,
+    eventPayload: {
+      event: types.SET_AMOUNT
+    }
+  };
+
+  return {
+    type: types.SET_AMOUNT,
+    amount,
+    meta: { analytics }
+  };
+}
 
 export const selectCoin = (
   which: string,
@@ -36,13 +65,33 @@ export const selectCoin = (
 ): SelectCoinAction => ({
   type: types.SELECT_COIN,
   which,
-  symbol
+  symbol,
+  // analytics
+  meta: {
+    analytics: {
+      eventType: EventTypes.track,
+      eventPayload: {
+        event: types.SELECT_COIN,
+        properties: { which, symbol }
+      }
+    }
+  }
 });
 
 
 export const requestQuote = (amount: number): RequestQuoteAction => ({
   type: types.REQUEST_QUOTE,
-  amount
+  amount,
+  // analytics
+  meta: {
+    analytics: {
+      eventType: EventTypes.track,
+      eventPayload: {
+        event: types.REQUEST_COIN,
+        properties: { amount }
+      }
+    }
+  }
 });
 
 const receiveQuote = (quote): ReceiveQuoteAction => ({
@@ -80,7 +129,17 @@ export const setReceivingAddress = (
   address: string
 ): SetReceivingAddressAction => ({
   type: types.SET_RECEIVING_ADDRESS,
-  address
+  address,
+  // analytics
+  meta: {
+    analytics: {
+      eventType: EventTypes.track,
+      eventPayload: {
+        event: types.SET_RECEIVING_ADDRESS,
+        payload: { address }
+      }
+    }
+  }
 });
 
 const requestValidateAddress = (
@@ -94,12 +153,31 @@ const requestValidateAddress = (
 
 const receiveValidateAddress = (isValid): ReceiveValidateAddressAction => ({
   type: types.RECEIVE_VALIDATE_ADDRESS,
-  isValid
+  isValid,
+  // analytics
+  meta: {
+    analytics: {
+      eventType: EventTypes.track,
+      eventPayload: {
+        event: types.RECEIVE_VALIDATE_ADDRESS,
+        payload: { isValid }
+      }
+    }
+  }
 });
 
 const errorValidateAddress = (error): ErrorValidateAddressAction => ({
   type: types.ERROR_VALIDATE_ADDRESS,
-  error
+  error,
+  // analytics
+  meta: {
+    analytics: {
+      eventType: EventTypes.track,
+      eventPayload: {
+        event: types.ERROR_VALIDATE_ADDRESS
+      }
+    }
+  }
 });
 
 export const fetchValidateAddress = (
@@ -119,9 +197,19 @@ const requestShift = (withdrawalAddress, pair): RequestShiftAction => ({
   pair
 });
 
-const receiveShift = (payload): ReceiveShiftAction => ({
+const receiveShift = ({ apiPubKey, ...payload }): ReceiveShiftAction => ({
   type: types.RECEIVE_SHIFT,
-  payload
+  payload,
+  // analytics
+  meta: {
+    analytics: {
+      eventType: EventTypes.track,
+      eventPayload: {
+        event: types.RECEIVE_SHIFT,
+        payload
+      }
+    }
+  }
 });
 
 export const fetchShift = (
@@ -142,7 +230,17 @@ const requestOrderStatus = (orderId): RequestOrderStatusAction => ({
 
 const receiveOrderStatus = (orderStatus): ReceiveOrderStatusAction => ({
   type: types.RECEIVE_ORDER_STATUS,
-  orderStatus
+  orderStatus,
+  // analytics
+  meta: {
+    analytics: {
+      eventType: EventTypes.track,
+      eventPayload: {
+        event: types.RECEIVE_ORDER_STATUS,
+        payload: orderStatus
+      }
+    }
+  }
 });
 
 export const fetchOrderStatus =

@@ -1,10 +1,13 @@
 import 'babel-polyfill';
 import 'isomorphic-fetch';
+import '~/app/lib/set-web3';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import identifyUser from '~/app/lib/identify';
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import createHistory from 'history/createBrowserHistory';
 import { routerReducer, routerMiddleware } from 'react-router-redux';
+import { createTracker } from 'redux-segment';
 import ApolloClient from 'apollo-client';
 import thunk from 'redux-thunk';
 import { ApolloProvider } from 'react-apollo';
@@ -14,14 +17,21 @@ import compareReducer from 'compare/reducers';
 import rankingsReducer from '~/rankings/reducers';
 import exchangeReducer from '~/exchange/reducers';
 
-
-// eslint-disable-next-line
+// Create browser history
 export const history = createHistory();
 
-/* =============================================================================
-=    Redux
-============================================================================= */
+// Create segment analytics tracker
+const tracker = createTracker();
+
+// Support redux devtools extension
+const reduxDevtoolsExt = window.__REDUX_DEVTOOLS_EXTENSION__;
+const isReduxDevtoolsDefined = typeof reduxDevtoolsExt !== 'undefined';
+const reduxDevtools = isReduxDevtoolsDefined ? reduxDevtoolsExt() : f => f;
+
+// GraphQL Apollo Client
 const client = new ApolloClient();
+
+// Root redux reducer
 const reducer = combineReducers({
   app: appReducer,
   compare: compareReducer,
@@ -31,20 +41,16 @@ const reducer = combineReducers({
   exchange: exchangeReducer
 });
 const initialState = {};
-const enhancer = compose(
-  applyMiddleware(
-    client.middleware(),
-    routerMiddleware(history),
-    thunk
-  ),
-  // eslint-disable-next-line
-  (typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined') ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f
+const middlewares = applyMiddleware(
+  client.middleware(),
+  routerMiddleware(history),
+  thunk,
+  tracker // Should always go last to ensure it receives objects only
 );
+const enhancer = compose(middlewares, reduxDevtools);
 const store = createStore(reducer, initialState, enhancer);
 
-/* =============================================================================
-=    Apollo
-============================================================================= */
+// React
 const app = (
   <ApolloProvider store={store} client={client}>
     <App />
@@ -52,4 +58,9 @@ const app = (
 );
 const rootElement = document.getElementById('app');
 
-ReactDOM.render(app, rootElement);
+ReactDOM.render(app, rootElement, onRendered);
+
+// Anything that is lower priority than getting the app rendered should go here.
+function onRendered() {
+  identifyUser();
+}
