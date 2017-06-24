@@ -136,7 +136,7 @@ export const setReceivingAddress = (
       eventType: EventTypes.track,
       eventPayload: {
         event: types.SET_RECEIVING_ADDRESS,
-        payload: { address }
+        properties: { address }
       }
     }
   }
@@ -160,7 +160,7 @@ const receiveValidateAddress = (isValid): ReceiveValidateAddressAction => ({
       eventType: EventTypes.track,
       eventPayload: {
         event: types.RECEIVE_VALIDATE_ADDRESS,
-        payload: { isValid }
+        properties: { isValid }
       }
     }
   }
@@ -206,7 +206,7 @@ const receiveShift = ({ apiPubKey, ...payload }): ReceiveShiftAction => ({
       eventType: EventTypes.track,
       eventPayload: {
         event: types.RECEIVE_SHIFT,
-        payload
+        properties: payload
       }
     }
   }
@@ -237,7 +237,7 @@ const receiveOrderStatus = (orderStatus): ReceiveOrderStatusAction => ({
       eventType: EventTypes.track,
       eventPayload: {
         event: types.RECEIVE_ORDER_STATUS,
-        payload: orderStatus
+        properties: orderStatus
       }
     }
   }
