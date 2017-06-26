@@ -20,42 +20,28 @@ type RecentPrice = {
 
 export default function appendRecentStats(
   icos: ICO[],
-  recentPrices: RecentPrice[]
+  recentPrices: RecentPrice[],
+  currency: string
 ) {
-  let eth = recentPrices.find(r => r.symbol === 'ETH');
-  let btc = recentPrices.find(r => r.symbol === 'BTC');
-
-  eth = eth && eth.recent_prices;
-  btc = btc && btc.recent_prices;
-
   return icos.map((ico) => {
     const { price_usd: icoPrice, symbol } = ico;
-    const recent = recentPrices.find(r => r.symbol === symbol);
+    const recent = currency === 'USD'
+      ? recentPrices.find(r => r.symbol === symbol)
+      : recentPrices.find(r => r.symbol === currency)
     const data = recent && recent.recent_prices;
-
     return {
       ...ico,
-      recentStats: data && calculateRecentStats(data, icoPrice, eth, btc)
+      recentStats: data && calculateRecentStats(data, icoPrice)
     };
   });
 }
 
 function calculateRecentStats(
   recent: $RecentPrices,
-  currPrice: number,
-  eth,
-  btc
+  currPrice: number
 ) {
   return {
-    prices: {
-      usd: recent,
-      eth: mapValues(recent, (v, k) => eth && (v / eth[k])),
-      btc: mapValues(recent, (v, k) => btc && (v / btc[k]))
-    },
-    roi: {
-      day: ROI(recent.day, currPrice),
-      week: ROI(recent.week, currPrice),
-      month: ROI(recent.month, currPrice)
-    }
+    prices: recent,
+    roi: mapValues(recent, (v, k) => ROI(v, currPrice))
   };
 }
