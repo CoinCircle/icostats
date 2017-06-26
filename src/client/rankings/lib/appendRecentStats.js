@@ -24,7 +24,10 @@ export default function appendRecentStats(
   currency: string
 ) {
   return icos.map((ico) => {
-    const { price_usd: icoPrice, symbol } = ico;
+    const priceKey = currency === 'USD'
+      ? 'price_usd'
+      : `${currency.toLowerCase()}_price_usd`
+    const { [priceKey]: icoPrice, symbol } = ico;
     const recent = currency === 'USD'
       ? recentPrices.find(r => r.symbol === symbol)
       : recentPrices.find(r => r.symbol === currency)
