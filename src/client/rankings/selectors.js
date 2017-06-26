@@ -95,7 +95,7 @@ export const selectFilteredICOs = createSelector(
  * Append recent stats to ICOs
  */
 export const selectICOsWithRecentStats = createSelector(
-  [selectFilteredICOs, getRecentPrices], appendRecentStats
+  [selectFilteredICOs, getRecentPrices, getCurrency], appendRecentStats
 );
 
 
