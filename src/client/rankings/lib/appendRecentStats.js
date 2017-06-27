@@ -4,7 +4,8 @@ import mapValues from 'lodash/mapValues';
 
 type ICO = {
   ticker: string,
-  price_usd: number
+  price_usd: number,
+  symbol: string
 };
 
 type $RecentPrices = {
@@ -20,42 +21,43 @@ type RecentPrice = {
 
 export default function appendRecentStats(
   icos: ICO[],
-  recentPrices: RecentPrice[]
+  recentPrices: RecentPrice[],
+  currency: string
 ) {
-  let eth = recentPrices.find(r => r.symbol === 'ETH');
-  let btc = recentPrices.find(r => r.symbol === 'BTC');
-
-  eth = eth && eth.recent_prices;
-  btc = btc && btc.recent_prices;
-
   return icos.map((ico) => {
-    const { price_usd: icoPrice, symbol } = ico;
+    const { price_usd: symbolPrice, symbol } = ico;
     const recent = recentPrices.find(r => r.symbol === symbol);
-    const data = recent && recent.recent_prices;
+    let data;
+    let currPrice;
+
+    if (currency === 'USD') {
+      currPrice = symbolPrice;
+      data = recent && recent.recent_prices;
+    } else {
+      const currencyPrice = ico[`${currency.toLowerCase()}_price_usd`];
+      const currencyRecent = recentPrices.find(r => r.symbol === currency);
+      const symbolPriceData = recent && recent.recent_prices;
+      const currencyPriceData = currencyRecent && currencyRecent.recent_prices;
+
+      currPrice = symbolPrice / currencyPrice;
+      data = mapValues(currencyPriceData, (v, k) =>
+        symbolPriceData && symbolPriceData[k] && (symbolPriceData[k] / v)
+      );
+    }
 
     return {
       ...ico,
-      recentStats: data && calculateRecentStats(data, icoPrice, eth, btc)
+      recentStats: data && calculateRecentStats(data, currPrice)
     };
   });
 }
 
 function calculateRecentStats(
   recent: $RecentPrices,
-  currPrice: number,
-  eth,
-  btc
+  currPrice: number
 ) {
   return {
-    prices: {
-      usd: recent,
-      eth: mapValues(recent, (v, k) => eth && (v / eth[k])),
-      btc: mapValues(recent, (v, k) => btc && (v / btc[k]))
-    },
-    roi: {
-      day: ROI(recent.day, currPrice),
-      week: ROI(recent.week, currPrice),
-      month: ROI(recent.month, currPrice)
-    }
+    prices: recent,
+    roi: mapValues(recent, (v, k) => ROI(v, currPrice))
   };
 }
