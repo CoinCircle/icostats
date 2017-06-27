@@ -8,6 +8,7 @@ const initialState: State = {
   from: 'ETH',
   to: 'WINGS',
   amount: '',
+  receivingAddress: '',
   isFetchingQuote: false,
   didInvalidateQuote: false,
   isFetchingLimit: false,
