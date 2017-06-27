@@ -4,7 +4,8 @@ import mapValues from 'lodash/mapValues';
 
 type ICO = {
   ticker: string,
-  price_usd: number
+  price_usd: number,
+  symbol: string
 };
 
 type $RecentPrices = {
@@ -25,21 +26,23 @@ export default function appendRecentStats(
 ) {
   return icos.map((ico) => {
     const { price_usd: symbolPrice, symbol } = ico;
-    const recent = recentPrices.find(r => r.symbol === symbol)
-
-    let data
-    let currPrice
+    const recent = recentPrices.find(r => r.symbol === symbol);
+    let data;
+    let currPrice;
 
     if (currency === 'USD') {
-      currPrice = symbolPrice
-      data = recent && recent.recent_prices
+      currPrice = symbolPrice;
+      data = recent && recent.recent_prices;
     } else {
-      const currencyPrice = ico[`${currency.toLowerCase()}_price_usd`]
-      const currencyRecent = recentPrices.find(r => r.symbol === currency)
-      const symbolPriceData = recent && recent.recent_prices
-      const currencyPriceData = currencyRecent && currencyRecent.recent_prices
-      currPrice = symbolPrice / currencyPrice
-      data = mapValues(currencyPriceData, (v, k) => symbolPriceData[k] && (symbolPriceData[k] / v))
+      const currencyPrice = ico[`${currency.toLowerCase()}_price_usd`];
+      const currencyRecent = recentPrices.find(r => r.symbol === currency);
+      const symbolPriceData = recent && recent.recent_prices;
+      const currencyPriceData = currencyRecent && currencyRecent.recent_prices;
+
+      currPrice = symbolPrice / currencyPrice;
+      data = mapValues(currencyPriceData, (v, k) =>
+        symbolPriceData && symbolPriceData[k] && (symbolPriceData[k] / v)
+      );
     }
 
     return {
