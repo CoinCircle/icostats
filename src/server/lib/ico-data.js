@@ -2,7 +2,7 @@
 module.exports = [
   {
     id: 'bancor',
-    ticker: 'bancor-network',
+    ticker: 'bancor',
     is_erc20: true,
     contract_address: '0x1F573D6Fb3F13d689FF844B4cE37794d79a7FF1C',
     name: 'Bancor',
