@@ -24,17 +24,27 @@ export default function appendRecentStats(
   currency: string
 ) {
   return icos.map((ico) => {
-    const priceKey = currency === 'USD'
-      ? 'price_usd'
-      : `${currency.toLowerCase()}_price_usd`
-    const { [priceKey]: icoPrice, symbol } = ico;
-    const recent = currency === 'USD'
-      ? recentPrices.find(r => r.symbol === symbol)
-      : recentPrices.find(r => r.symbol === currency)
-    const data = recent && recent.recent_prices;
+    const { price_usd: symbolPrice, symbol } = ico;
+    const recent = recentPrices.find(r => r.symbol === symbol)
+
+    let data
+    let currPrice
+
+    if (currency === 'USD') {
+      currPrice = symbolPrice
+      data = recent && recent.recent_prices
+    } else {
+      const currencyPrice = ico[`${currency.toLowerCase()}_price_usd`]
+      const currencyRecent = recentPrices.find(r => r.symbol === currency)
+      const symbolPriceData = recent && recent.recent_prices
+      const currencyPriceData = currencyRecent && currencyRecent.recent_prices
+      currPrice = symbolPrice / currencyPrice
+      data = mapValues(currencyPriceData, (v, k) => symbolPriceData[k] && (symbolPriceData[k] / v))
+    }
+
     return {
       ...ico,
-      recentStats: data && calculateRecentStats(data, icoPrice)
+      recentStats: data && calculateRecentStats(data, currPrice)
     };
   });
 }
