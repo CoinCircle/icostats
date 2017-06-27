@@ -48,9 +48,10 @@ function recursiveFetch(tokens, i) {
    .then(checkStatus)
    .then(res => res.json())
    .then(json => saveData(json, ticker, symbol, i))
-   .catch(err =>
-     winston.error(`Failed to fetch graph for ${ticker}: ${err.message}`)
-   );
+   .catch(err => {
+     winston.error(`Failed to fetch graph for ${ticker}: ${err.message}`);
+     recurseOrFinish(ticker, i, true)
+   });
 }
 
 /**
@@ -81,15 +82,14 @@ function saveData(json, ticker, symbol, i) {
  * @param {Number} i
  * @return {Promise | void}
  */
-function recurseOrFinish(ticker, i) {
+function recurseOrFinish(ticker, i, didSkip = false) {
   // If we are at the last one, kill recursion.
   if (i === tokens.length - 1) {
     winston.info('Finished fetching all graphs');
     return;
   } else {
-
     // Keep recursing.
-    winston.info(`Fetched graph for ${ticker}`);
+    !didSkip && winston.info(`Fetched graph for ${ticker}`);
     return recursiveFetch(tokens, i + 1);
   }
 }
