@@ -1,20 +1,13 @@
 /**
- * get the coinbase if user is on a web 3 browser.
+ * if user is on a web 3 browser
+ * identify them in analytics via their coinbase
  */
-import Promise from 'bluebird';
+ import getAccount from './getAccount';
 
-export default function identify() {
-  if (window.web3 && window.web3.eth && window.web3.eth.getAccounts) {
-    const getAccountsAsync = Promise.promisify(window.web3.eth.getAccounts);
+ export default async function identify() {
+   const account = await getAccount();
 
-    return getAccountsAsync().then((accounts) => {
-      const account = accounts[0];
-
-      if (account) {
-        window.analytics.identify(account);
-      }
-    });
-  }
-
-  return false;
-}
+   if (account) {
+     window.analytics.identify(account);
+   }
+ }
