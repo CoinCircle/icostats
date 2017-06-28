@@ -31,8 +31,7 @@ module.exports = {
       ref: 'origin/master',
       repo: 'https://github.com/icostats/icostats.git',
       path: '/usr/app',
-      'post-setup': 'pwd && ls -la && cd /usr/app && git pull origin master',
-      'post-deploy': 'yarn install && npm run build && pm2 reload ecosystem.config.js --env production'
+      'post-deploy': 'cd /usr/app && git pull && yarn install && npm run build && pm2 reload ./ecosystem.config.js --env production'
     },
     dev: {
       user: 'root',
@@ -40,8 +39,7 @@ module.exports = {
       ref: 'origin/master',
       repo: 'https://github.com/icostats/icostats.git',
       path: '/usr/app',
-      'post-setup': 'pwd && ls -la && cd /usr/app && git pull origin master',
-      'post-deploy': 'yarn install && npm run build && pm2 reload ecosystem.config.js --env dev',
+      'post-deploy': 'cd /usr/app && git pull && yarn install && npm run build && pm2 reload ./ecosystem.config.js --env dev',
       env: {
         NODE_ENV: 'dev'
       }
