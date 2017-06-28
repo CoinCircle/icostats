@@ -10,6 +10,7 @@ import CheckIcon from '~/app/components/CheckIcon';
 import GetQuoteColumn from './GetQuoteColumn';
 import PoweredByShapeshift from './PoweredByShapeshift';
 import { fetchValidateAddress, setReceivingAddress } from '../actions';
+import getAccount from '../../app/lib/getAccount';
 
 type Props = {
   classes: Object,
@@ -25,6 +26,12 @@ type Props = {
 class GetQuote extends React.Component {
   props: Props;
   state = {};
+
+  async componentWillMount() {
+    const account = await getAccount();
+
+    this.props.setReceivingAddress(account || '');
+  }
 
   handleChangeReceivingAddress = (event) => {
     event.persist();
