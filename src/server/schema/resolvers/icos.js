@@ -5,6 +5,7 @@ import { normalize as normalizeICO } from 'lib/icos';
 import icoData from 'lib/ico-data';
 import { fetchETHPrice, fetchBTCPrice } from 'shared/lib/exchanges/gdax';
 import { cache } from 'app';
+import Ticker from '~/models/ticker';
 import PriceHistory from 'models/price-history';
 import * as shapeshift from 'shared/lib/shapeshift';
 
@@ -32,6 +33,7 @@ export default async function icos() {
     } catch (err) {
       winston.error('Failed to fetch shapeshift coins: %s', err.message);
     }
+    cache.set('shapeshiftCoins', shapeshiftCoins);
   }
 
   // Get the current ETH price
@@ -42,10 +44,14 @@ export default async function icos() {
     try {
       ethPrice = await fetchETHPrice();
     } catch (e) {
-      const ticker = tickers.find(t => t.symbol === 'ETH');
+      try {
+        const ticker = await Ticker.findOne({ ticker: 'ethereum' }).exec();
 
-      ethPrice = ticker.price_usd;
-      winston.info('Fetched fallback ETH price (%s) from db.', ethPrice);
+        ethPrice = ticker.price_usd;
+        winston.info('Fetched fallback ETH price (%s) from db.', ethPrice);
+      } catch (err) {
+        winston.error('Failed to fetch ETH price in ICO resolver.');
+      }
     }
     cache.set('ethPrice', ethPrice);
   }
@@ -54,14 +60,17 @@ export default async function icos() {
     try {
       btcPrice = await fetchBTCPrice();
     } catch (e) {
-      const ticker = tickers.find(t => t.symbol === 'BTC');
+      try {
+        const ticker = await Ticker.findOne({ ticker: 'bitcoin' }).exec();
 
-      btcPrice = ticker.price_usd;
-      winston.info('Fetched fallback BTC price (%s) from db.', btcPrice);
+        btcPrice = ticker.price_usd;
+        winston.info('Fetched fallback BTC price (%s) from db.', btcPrice);
+      } catch (err) {
+        winston.error('Failed to fetch BTC price in ICO resolver.');
+      }
     }
     cache.set('btcPrice', btcPrice);
   }
-
   return results.map(ico =>
     normalizeICO(ico, ethPrice, btcPrice, shapeshiftCoins)
   );
