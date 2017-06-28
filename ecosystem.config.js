@@ -6,7 +6,7 @@ module.exports = {
    */
   apps: [
     {
-      name: 'ICOStats',
+      name: 'server',
       script: 'server.js',
       instances: 0,
       exec_mode: 'cluster',
@@ -31,7 +31,7 @@ module.exports = {
       ref: 'origin/master',
       repo: 'https://github.com/icostats/icostats.git',
       path: '/usr/app',
-      'post-deploy': 'yarn install && pm2 reload ecosystem.config.js --env production'
+      'post-deploy': 'yarn install && npm run build && pm2 reload ecosystem.config.js --env production'
     },
     dev: {
       user: 'root',
@@ -39,7 +39,7 @@ module.exports = {
       ref: 'origin/master',
       repo: 'https://github.com/icostats/icostats.git',
       path: '/usr/app',
-      'post-deploy': 'yarn install && pm2 reload ecosystem.config.js --env dev',
+      'post-deploy': 'yarn install && npm run build && pm2 reload ecosystem.config.js --env dev',
       env: {
         NODE_ENV: 'dev'
       }
