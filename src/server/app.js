@@ -61,10 +61,6 @@ winston.add(winston.transports.Loggly, {
   exitOnError: false
 });
 
-app.use(expressWinston.logger({
-  winstonInstance: winston
-}));
-
 /**
  * GraphQL
  */
