@@ -38,7 +38,7 @@ module.exports = {
       ref: 'origin/master',
       repo: 'https://github.com/icostats/icostats.git',
       path: '/usr/app',
-      'pre-setup': 'npm install -g yarn',
+      'pre-setup': 'npm install -g yarn pm2',
       'post-deploy': 'cd /usr/app/current && yarn install && npm run build && pm2 reload ./ecosystem.config.js --env dev',
       env: {
         NODE_ENV: 'dev'
