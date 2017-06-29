@@ -10,7 +10,6 @@ module.exports = {
       script: 'server.js',
       instances: 0,
       exec_mode: 'cluster',
-      cwd: '/usr/app/current',
       env: {
         COMMON_VARIABLE: 'true'
       },
@@ -40,7 +39,7 @@ module.exports = {
       repo: 'https://github.com/icostats/icostats.git',
       path: '/usr/app',
       'pre-setup': 'npm install -g yarn',
-      'post-deploy': 'yarn install && npm run build && pm2 reload ./ecosystem.config.js --env dev',
+      'post-deploy': 'cd /usr/app/current && yarn install && npm run build && pm2 reload ./ecosystem.config.js --env dev',
       env: {
         NODE_ENV: 'dev'
       }
