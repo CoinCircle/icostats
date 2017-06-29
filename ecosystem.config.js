@@ -35,7 +35,7 @@ module.exports = {
     },
     staging: {
       user: 'root',
-      host: '165.227.5.48',
+      host: '165.227.6.170',
       ref: 'origin/master',
       repo: 'https://github.com/icostats/icostats.git',
       path: '/usr/app',
