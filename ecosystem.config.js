@@ -33,7 +33,7 @@ module.exports = {
       path: '/usr/app',
       'post-deploy': 'cd /usr/app && git pull && yarn install && npm run build && pm2 reload ./ecosystem.config.js --env production'
     },
-    dev: {
+    staging: {
       user: 'root',
       host: '165.227.5.48',
       ref: 'origin/master',
