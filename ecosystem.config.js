@@ -30,7 +30,8 @@ module.exports = {
       ref: 'origin/master',
       repo: 'https://github.com/icostats/icostats.git',
       path: '/usr/app',
-      'post-deploy': 'cd /usr/app && git pull && yarn install && npm run build && pm2 startOrReload ./ecosystem.config.js --env production'
+      'pre-setup': 'npm install -g yarn pm2',
+      'post-deploy': 'cp /usr/app/.env . && yarn install && npm run build && pm2 startOrReload ./ecosystem.config.js --env production'
     },
     staging: {
       user: 'root',
