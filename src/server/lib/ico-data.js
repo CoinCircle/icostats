@@ -1,6 +1,26 @@
 /* eslint-disable */
 module.exports = [
   {
+    id: 'status',
+    ticker: 'status',
+    name: 'Status',
+    is_erc20: true,
+    contract_address: '0x744d70FDBE2Ba4CF95131626614a1763DF805B9E',
+    symbol: 'SNT',
+    eth_price_at_launch: 364.96,
+    btc_price_at_launch: 2648.93,
+    raise: 109488000,
+    raise_by_currency: {
+      eth: 300000
+    },
+    amount_sold_in_ico: 750000000,
+    implied_token_price: 0.145984,
+    total_supply: 6804870174.87,
+    start_date: '06/20/2017',
+    supported_changelly: false,
+    icon_ext: 'svg'
+  },
+  {
     id: 'bancor',
     ticker: 'bancor',
     is_erc20: true,
