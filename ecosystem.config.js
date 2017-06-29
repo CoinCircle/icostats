@@ -26,7 +26,7 @@ module.exports = {
   deploy: {
     production: {
       user: 'root',
-      host: ['165.227.1.111'],
+      host: ['165.227.9.59'],
       ref: 'origin/master',
       repo: 'https://github.com/icostats/icostats.git',
       path: '/usr/app',
