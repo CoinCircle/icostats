@@ -13,8 +13,18 @@ module.exports = [
     raise_by_currency: {
       eth: 300000
     },
-    amount_sold_in_ico: 750000000,
-    implied_token_price: 0.145984,
+    // Total supply of SNT: 6804870174
+    // --- Breakdown ---
+    // Devs: 20%
+    // Reserve: 29%
+    // SGT: 6.9%
+    //     - Formula:
+    //        10& * (Total SGT supply / Max SGT Supply)
+    //        = 10% * (346447013 / 500000000)
+    //        = .069
+    // Contributors: 44.1% (100 - 20 - 29 - 6.9)
+    amount_sold_in_ico: 3000947746,
+    implied_token_price: 0.03648,
     total_supply: 6804870174.87,
     start_date: '06/20/2017',
     supported_changelly: false,
