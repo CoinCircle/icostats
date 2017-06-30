@@ -175,6 +175,12 @@ const Navigation = ({ classes, onClickFeedback, isNavOpen = true }: Props) => (
         className={classes.menuItem}
         activeClassName={classes.activeMenuItem}
       >Compare</NavLink>
+      <a
+        href="https://www.icoalert.com/"
+        target="_blank"
+        rel="noopener"
+        className={classes.menuItem}
+      >Upcoming ICOs</a>
       {/* <NavLink
         to="/token-holders"
         className={classes.menuItem}
