@@ -1,6 +1,133 @@
 /* eslint-disable */
 module.exports = [
   {
+    id: 'darcrus',
+    is_erc20: false,
+    name: 'Darcrus',
+    symbol: 'DAR',
+    eth_price_at_launch: 7.92,
+    btc_price_at_launch: 824.23,
+    raise: 285203,
+    amount_sold_in_ico: 14055048,
+    implied_token_price: 0.020,
+    start_date: '12/21/2016', // ref. https://trello.com/c/Osc4Bt1X/90-issue-32-coins-to-list
+    ticker: 'darcrus',
+    supported_changelly: true
+  },
+  {
+    id: 'qtum',
+    is_erc20: false,
+    name: 'QTUM',
+    symbol: 'QTUM',
+    eth_price_at_launch: 22.18,
+    btc_price_at_launch: 1181.17,
+    raise: 14887694.5638, // 11,156.766 BTC and 77,081.031 ETH $13178037.29622 + $1709657.26758
+    amount_sold_in_ico: 51000000, // ref https://qtum.org/en/crowdsale
+    implied_token_price: 0.292,
+    start_date: '03/12/2017', // ref. https://tokenmarket.net/blockchain/bitcoin/assets/qtum/
+    ticker: 'qtum',
+    supported_changelly: false
+  },
+  {
+    id: 'quantum-resistant-ledger',
+    is_erc20: true,
+    name: 'Quantum Resistant Ledger',
+    symbol: 'QRL',
+    eth_price_at_launch: 205.55,
+    btc_price_at_launch: 2252.71,
+    raise: 4000000, // Unknown BTC and ETH amount https://medium.com/the-quantum-resistant-ledger/without-you-there-is-no-qrl-182f7962e870
+    amount_sold_in_ico: 52000000, // ref https://steemit.com/qrl/@kevinternet/qrl-quantum-resistant-ledger-price-forecast
+    implied_token_price: 0.077, // ref https://steemit.com/qrl/@kevinternet/qrl-quantum-resistant-ledger-price-forecast
+    start_date: '05/01/2017', // ref. https://tokenmarket.net/blockchain/blockchain/assets/quantum-resistant/
+    ticker: 'quantum-resistant-ledger',
+    supported_changelly: false
+  },
+  {
+    id: 'mysterium',
+    is_erc20: true,
+    name: 'Mysterium',
+    symbol: 'MYST',
+    eth_price_at_launch: 205.55,
+    btc_price_at_launch: 2252.71,
+    raise: 14106690.95, // 68629 ETH
+    amount_sold_in_ico: 80000000, // ref https://twitter.com/MysteriumNet/status/869678853404454914
+    implied_token_price: 0.157, // Token supply was 90m while 80m tokens were distributed on ICO.
+    start_date: '05/30/2017', // ref. https://www.smithandcrown.com/sale/mysterium2/
+    ticker: 'mysterium',
+    supported_changelly: false
+  },
+  {
+    id: 'iota',
+    is_erc20: false,
+    name: 'IOTA',
+    symbol: 'MIOTA',
+    eth_price_at_launch: 0.883399,
+    btc_price_at_launch: 324.99,
+    raise: 434511.63, // 1337 BTC
+    amount_sold_in_ico: 999999999, // ref https://bitcointalk.org/index.php?topic=1262688.0
+    implied_token_price: 0.0004,
+    start_date: '11/25/2015', // ref. https://bitcointalk.org/index.php?topic=1262688.0 https://medium.com/@cryptojudgement/iota-promise-of-a-bright-crypto-future-6b7517349e32
+    ticker: 'iota',
+    supported_changelly: false
+  },
+  // No ICO info yet.
+  // {
+  //   id: 'adtoken',
+  //   is_erc20: true,
+  //   name: 'adToken',
+  //   symbol: 'ADT',
+  //   eth_price_at_launch: 0, // 2000 ETH = 1 BTC
+  //   btc_price_at_launch: 0,
+  //   raise: 0, // 25000 BTC
+  //   amount_sold_in_ico: 0, // Found approx amount ref https://blog.ethereum.org/2014/08/08/ether-sale-a-statistical-overview/
+  //   implied_token_price:0,
+  //   start_date: '07/22/2014', // ref. https://blog.ethereum.org/2014/07/22/launching-the-ether-sale/
+  //   ticker: 'adtoken',
+  //   supported_changelly: false
+  // },
+  {
+    id: 'ethereum',
+    is_erc20: false,
+    name: 'Ethereum',
+    symbol: 'ETH',
+    eth_price_at_launch: 0.31142, // 2000 ETH = 1 BTC
+    btc_price_at_launch: 622.84,
+    raise: 15571000, // 25000 BTC
+    amount_sold_in_ico: 50000000, // Found approx amount ref https://blog.ethereum.org/2014/08/08/ether-sale-a-statistical-overview/
+    implied_token_price: 0.248,
+    start_date: '07/22/2014', // ref. https://blog.ethereum.org/2014/07/22/launching-the-ether-sale/
+    ticker: 'ethereum',
+    supported_changelly: true
+  },
+  // {
+  //   id: 'aeternity-two',
+  //   is_erc20: false,
+  //   name: 'Aeternity Phase II',
+  //   symbol: 'AE',
+  //   eth_price_at_launch: 185.94,
+  //   btc_price_at_launch: 2183.63,
+  //   raise: 21844271.49391, // 104,148.741 ETH, 1,135.199 BTC raised // $19365416.90154 + $2478854.59237
+  //   amount_sold_in_ico: 88139450.839, // ref https://wallet.aeternity.com/
+  //   implied_token_price: 0.248,
+  //   start_date: '05/29/2017', // ref. https://tokenmarket.net/blockchain/aeternity/assets/aeternity/
+  //   ticker: 'aeternity',
+  //   supported_changelly: false
+  // },
+  {
+    id: 'aeternity',
+    is_erc20: false,
+    name: 'Aeternity Phase I',
+    symbol: 'AE',
+    eth_price_at_launch: 45.88,
+    btc_price_at_launch: 1129.90,
+    raise: 5940998.795, // 121,396.731 ETH, 328.628 BTC raised // $5569682.01828 + $371316.7772 https://wallet.aeternity.com/
+    amount_sold_in_ico: 139089935.082, // ref https://wallet.aeternity.com/
+    implied_token_price: 0.043, // raise/amount_sold_in_ico
+    start_date: '04/03/2017', // ref. https://www.smithandcrown.com/aeternity-token-sale-ico-oracle-machine/
+    ticker: 'aeternity',
+    supported_changelly: false
+  },
+  {
     id: 'status',
     ticker: 'status',
     name: 'Status',
