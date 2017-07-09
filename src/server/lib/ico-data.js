@@ -70,21 +70,20 @@ module.exports = [
     ticker: 'iota',
     supported_changelly: false
   },
-  // No ICO info yet.
-  // {
-  //   id: 'adtoken',
-  //   is_erc20: true,
-  //   name: 'adToken',
-  //   symbol: 'ADT',
-  //   eth_price_at_launch: 0, // 2000 ETH = 1 BTC
-  //   btc_price_at_launch: 0,
-  //   raise: 0, // 25000 BTC
-  //   amount_sold_in_ico: 0, // Found approx amount ref https://blog.ethereum.org/2014/08/08/ether-sale-a-statistical-overview/
-  //   implied_token_price:0,
-  //   start_date: '07/22/2014', // ref. https://blog.ethereum.org/2014/07/22/launching-the-ether-sale/
-  //   ticker: 'adtoken',
-  //   supported_changelly: false
-  // },
+  {
+    id: 'adtoken',
+    is_erc20: true,
+    name: 'adToken',
+    symbol: 'ADT',
+    eth_price_at_launch: 262.38,
+    btc_price_at_launch: 2508.52,
+    raise: 10000000,
+    amount_sold_in_ico: 1000000000,
+    implied_token_price:0,
+    start_date: '06/26/2017', // ref. http://www.blockchaindailynews.com/MetaX-Completes-10-Million-adToken-ADT-Sale_a25622.html
+    ticker: 'adtoken',
+    supported_changelly: false
+  },
   {
     id: 'ethereum',
     is_erc20: false,
