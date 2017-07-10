@@ -38,7 +38,7 @@ async function recursiveFetchPrice(symbols, index) {
     }
   } catch (err) {
     winston.error(
-      `Price worker failed to fetch price for ${symbol}: err.message`
+      `Price worker failed to fetch price for ${symbol}: ${err.message}`
     );
   }
   const nextIndex = (index === symbols.length - 1) ? 0 : (index + 1);
