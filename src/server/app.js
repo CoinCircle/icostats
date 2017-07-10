@@ -66,11 +66,9 @@ winston.add(winston.transports.Loggly, {
  */
 app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
 
-if (process.env.NODE_ENV !== 'production') {
-  app.use('/graphiql', graphiqlExpress({
-    endpointURL: '/graphql'
-  }));
-}
+app.use('/graphiql', graphiqlExpress({
+  endpointURL: '/graphql'
+}));
 
 /**
  * Serve files in the /public directory as static files.
