@@ -197,12 +197,22 @@ class ExchangeService {
   }
 
   async fetchUSDPrice(symbol: string) {
+
+    // Try coinmarketcap first.
+    try {
+      const map = await coinmarketcap.fetchBoundPriceMap();
+      const fetcher = map[`${symbol}-USD`];
+      const price = await fetcher();
+
+      return price;
+    } catch (err) { winston.warn(err.message); }
+
     // Try direct to USD
     try {
       const price = await this.fetchPrice(symbol, 'USD');
 
       return price;
-    } catch (e) {}
+    } catch (e) { winston.warn(e.message); }
 
     // Nope, go through BTC
     try {
@@ -210,7 +220,7 @@ class ExchangeService {
       const btcPrice = await fetchBTCPrice();
 
       return price * btcPrice;
-    } catch (e) {}
+    } catch (e) { winston.warn(e.message); }
 
     // Nope, try ETH
     try {
@@ -224,15 +234,6 @@ class ExchangeService {
         integrating an exchange that does.`
       );
     }
-
-    // Nope, try coinmarketcap
-    try {
-      const map = await coinmarketcap.fetchBoundPriceMap();
-      const fetcher = map[`${symbol}-USD`];
-      const price = await fetcher();
-
-      return price;
-    } catch (err) {}
 
     winston.error(`ExchangeService: Failed to find ${symbol} on any exchange!`);
     return null;
