@@ -77,9 +77,12 @@ module.exports = [
     symbol: 'ADT',
     eth_price_at_launch: 262.38,
     btc_price_at_launch: 2508.52,
-    raise: 10000000,
+    raise: 8746000.0017492,
+    raise_by_currency: {
+      eth: 33333.33334
+    },
     amount_sold_in_ico: 1000000000,
-    implied_token_price:0,
+    implied_token_price: 0.0087,
     start_date: '06/26/2017', // ref. http://www.blockchaindailynews.com/MetaX-Completes-10-Million-adToken-ADT-Sale_a25622.html
     ticker: 'adtoken',
     supported_changelly: false
