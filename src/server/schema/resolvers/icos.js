@@ -21,7 +21,7 @@ export default async function icos() {
   if (!priceHistories) {
     winston.warn(`Price histories not in cache: Querying mongo for new data`);
     try {
-      priceHistories = await PriceHistory.find().lean().exec();
+      priceHistories = await PriceHistory.find().select('-prices').lean().exec();
       const endPriceHistories = Date.now();
       const msPriceHistories = endPriceHistories - startAll;
 
