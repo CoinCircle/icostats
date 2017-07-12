@@ -9,14 +9,31 @@ import Ticker from '~/models/ticker';
 import PriceHistory from 'models/price-history';
 import * as shapeshift from 'shared/lib/shapeshift';
 
-const ONE_HOUR = 60 * 60;
+const ONE_MINUTE = 60;
+const ONE_HOUR = ONE_MINUTE * 60;
 const ONE_DAY = ONE_HOUR * 24;
 
 export default async function icos() {
   const startAll = Date.now();
-  const priceHistories = await PriceHistory.find().lean().exec();
-  const endPriceHistories = Date.now();
-  const msPriceHistories = endPriceHistories - startAll;
+
+  let priceHistories = cache.get('priceHistories');
+
+  if (!priceHistories) {
+    winston.warn(`Price histories not in cache: Querying mongo for new data`);
+    try {
+      priceHistories = await PriceHistory.find().lean().exec();
+      const endPriceHistories = Date.now();
+      const msPriceHistories = endPriceHistories - startAll;
+
+      winston.info(`Querying mongo for PriceHistory for icos resolver took ${msPriceHistories}ms`);
+
+      cache.set('priceHistories', ethPrice, ONE_MINUTE * 10);
+
+    } catch (err) {
+      winston.error(`Failed to get price histories from mongo: ${err.message}`);
+    }
+  }
+
   const pricesBySymbol = priceHistories.reduce((obj, model) => ({
     ...obj,
     [model.symbol]: model.latest
@@ -29,8 +46,6 @@ export default async function icos() {
     ...pricesBySymbol[data.symbol],
     id: data.id
   }));
-
-  winston.info(`Querying mongo for PriceHistory for icos resolver took ${msPriceHistories}ms`);
 
   // get shapeshift info
   let shapeshiftCoins = cache.get('shapeshiftCoins');
@@ -45,10 +60,12 @@ export default async function icos() {
       const ms = end - start;
 
       winston.info(`Fetched shapeshift coin list in ${ms}ms`);
+
+      cache.set('shapeshiftCoins', shapeshiftCoins, ONE_DAY);
     } catch (err) {
       winston.error('Failed to fetch shapeshift coins: %s', err.message);
+      shapeshiftCoins = {};
     }
-    cache.set('shapeshiftCoins', shapeshiftCoins, ONE_DAY);
   }
 
   // Get the current ETH price
