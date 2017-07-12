@@ -7,7 +7,9 @@ import Ticker from 'models/ticker';
 import icoData from 'lib/ico-data';
 import winston from 'winston';
 
-const FIVE_SECONDS = 5000;
+const ONE_SECOND = 1000;
+const ONE_MINUTE = ONE_SECOND * 60;
+const FIVE_MINUTES = ONE_MINUTE * 5;
 let ref;
 
 export default function initTickerWorker() {
@@ -35,7 +37,7 @@ async function recursiveSyncTicker(tickers, index) {
     winston.error(`Failed to fetch ticker for ${ticker}: ${err.message}`);
   }
 
-  setTimeout(() => recursiveSyncTicker(tickers, nextIndex), FIVE_SECONDS);
+  setTimeout(() => recursiveSyncTicker(tickers, nextIndex), FIVE_MINUTES);
 }
 
 async function fetchTicker(ticker) {
