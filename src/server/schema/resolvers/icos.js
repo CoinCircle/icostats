@@ -9,8 +9,14 @@ import Ticker from '~/models/ticker';
 import PriceHistory from 'models/price-history';
 import * as shapeshift from 'shared/lib/shapeshift';
 
+const ONE_HOUR = 60 * 60;
+const ONE_DAY = ONE_HOUR * 24;
+
 export default async function icos() {
+  const startAll = Date.now();
   const priceHistories = await PriceHistory.find().lean().exec();
+  const endPriceHistories = Date.now();
+  const msPriceHistories = endPriceHistories - startAll;
   const pricesBySymbol = priceHistories.reduce((obj, model) => ({
     ...obj,
     [model.symbol]: model.latest
@@ -24,16 +30,25 @@ export default async function icos() {
     id: data.id
   }));
 
+  winston.info(`Querying mongo for PriceHistory for icos resolver took ${msPriceHistories}ms`);
+
   // get shapeshift info
   let shapeshiftCoins = cache.get('shapeshiftCoins');
 
   if (!shapeshiftCoins) {
+    const start = Date.now();
+
+    winston.warn('Shapeshift data not in cache - refetching');
     try {
       shapeshiftCoins = await shapeshift.getCoins();
+      const end = Date.now();
+      const ms = end - start;
+
+      winston.info(`Fetched shapeshift coin list in ${ms}ms`);
     } catch (err) {
       winston.error('Failed to fetch shapeshift coins: %s', err.message);
     }
-    cache.set('shapeshiftCoins', shapeshiftCoins);
+    cache.set('shapeshiftCoins', shapeshiftCoins, ONE_DAY);
   }
 
   // Get the current ETH price
@@ -41,8 +56,15 @@ export default async function icos() {
   let btcPrice = cache.get('btcPrice');
 
   if (!ethPrice) {
+    const start = Date.now();
+
+    winston.warn('ETH price not in cache - refetching');
     try {
       ethPrice = await fetchETHPrice();
+      const end = Date.now();
+      const ms = end - start;
+
+      winston.info(`Fetched ETH price in ${ms}ms`);
     } catch (e) {
       try {
         const ticker = await Ticker.findOne({ ticker: 'ethereum' }).exec();
@@ -53,12 +75,19 @@ export default async function icos() {
         winston.error('Failed to fetch ETH price in ICO resolver.');
       }
     }
-    cache.set('ethPrice', ethPrice);
+    cache.set('ethPrice', ethPrice, ONE_HOUR);
   }
 
   if (!btcPrice) {
+    const start = Date.now();
+
+    winston.warn('BTC price not in cache - refetching');
     try {
       btcPrice = await fetchBTCPrice();
+      const end = Date.now();
+      const ms = end - start;
+
+      winston.info(`Fetched BTC price in ${ms}ms`);
     } catch (e) {
       try {
         const ticker = await Ticker.findOne({ ticker: 'bitcoin' }).exec();
@@ -69,9 +98,18 @@ export default async function icos() {
         winston.error('Failed to fetch BTC price in ICO resolver.');
       }
     }
-    cache.set('btcPrice', btcPrice);
+    cache.set('btcPrice', btcPrice, ONE_HOUR);
   }
-  return results.map(ico =>
+
+  const startNormalize = Date.now();
+  const res = results.map(ico =>
     normalizeICO(ico, ethPrice, btcPrice, shapeshiftCoins)
   );
+  const endNormalize = Date.now();
+  const msNormalize = endNormalize - startNormalize;
+
+  winston.info(`Normalized ICOs in ${msNormalize}ms`);
+  winston.info(`ICO resolver took ${startAll - Date.now()}ms`);
+
+  return res;
 }
