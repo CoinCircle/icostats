@@ -27,7 +27,7 @@ export default async function icos() {
 
       winston.info(`Querying mongo for PriceHistory for icos resolver took ${msPriceHistories}ms`);
 
-      cache.set('priceHistories', ethPrice, ONE_MINUTE * 10);
+      cache.set('priceHistories', priceHistories, ONE_MINUTE * 10);
 
     } catch (err) {
       winston.error(`Failed to get price histories from mongo: ${err.message}`);
