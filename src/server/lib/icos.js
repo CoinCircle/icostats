@@ -1,6 +1,6 @@
 // @flow
 /* eslint-disable import/prefer-default-export */
-import type { $ICO } from 'shared/types';
+import type { $ICO, $ICOData } from 'shared/types.flow';
 import moment from 'moment';
 import { absoluteDifference, relativeDifference } from 'shared/lib/calc';
 
@@ -21,22 +21,29 @@ const MONTH = 30;
 const DAY = 1;
 
 /**
- * Find the change in price since the ICO.
+ * Calculate the ICO price in USD.
+ */
+function icoPrice(ico: $ICOData) {
+  return ico.raise / ico.amount_sold_in_ico;
+}
+
+/**
+ * Total ROI since ICO in USD.
  * @param {Object} ico
  * @return {Number}
  */
 function roiSinceICO(ico) {
-  const roi = +ico.price_usd / ico.implied_token_price;
+  const roi = +ico.price_usd / icoPrice(ico);
   const diff = roi - 1;
 
   return diff;
 }
 
 /**
- * Return the ROI since ICO, denomianted in ETH.
+ * Total ROI Since ICO in USD, but denominated in ETH.
  */
 function roiSinceICOEth(ico, ethPrice) {
-  const exchangeRateLaunch = ico.implied_token_price / ico.eth_price_at_launch;
+  const exchangeRateLaunch = icoPrice(ico) / ico.eth_price_at_launch;
   const exchangeRate = ico.price_usd / ethPrice;
   const roi = exchangeRate / exchangeRateLaunch;
   const diff = roi - 1;
@@ -45,10 +52,10 @@ function roiSinceICOEth(ico, ethPrice) {
 }
 
 /**
- * Return the ROI since ICO, denomianted in BTC.
+ * Total ROI Since ICO in USD, but denominated in BTC.
  */
 function roiSinceICOBtc(ico, btcPrice) {
-  const exchangeRateLaunch = ico.implied_token_price / ico.btc_price_at_launch;
+  const exchangeRateLaunch = icoPrice(ico) / ico.btc_price_at_launch;
   const exchangeRate = ico.price_usd / btcPrice;
   const roi = exchangeRate / exchangeRateLaunch;
   const diff = roi - 1;
@@ -130,6 +137,7 @@ export const normalize = (
   ...ico,
   eth_price_usd: ethPrice,
   btc_price_usd: btcPrice,
+  implied_token_price: icoPrice(ico),
   roi_since_ico: roiSinceICO(ico),
   roi_since_ico_eth: roiSinceICOEth(ico, ethPrice),
   roi_since_ico_btc: roiSinceICOBtc(ico, btcPrice),
