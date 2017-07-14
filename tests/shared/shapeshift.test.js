@@ -2,7 +2,7 @@
 import { expect, assert } from 'chai';
 import * as shapeshift from 'shared/lib/shapeshift';
 
-describe.only('Shapeshift API Integration', function () {
+describe('Shapeshift API Integration', function () {
 
   describe('Get Coins', function () {
     it('returns the available coins', async function () {

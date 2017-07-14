@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import hitbtc from 'shared/lib/exchanges/hitbtc';
 
-describe.only('HitBTC API Integration', function () {
+describe('HitBTC API Integration', function () {
   it('should support fetching listed pairs', async function () {
     const res = await hitbtc.fetchPairs();
 
