@@ -1,7 +1,9 @@
-import relativeDifference from './relativeDifference';
-import absoluteDifference from './absoluteDifference';
+import relativeDifference from './relative-difference';
+import absoluteDifference from './absolute-difference';
+import interestRate from './interest-rate';
 
 module.exports = {
   relativeDifference,
-  absoluteDifference
+  absoluteDifference,
+  interestRate
 };
