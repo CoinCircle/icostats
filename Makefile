@@ -5,7 +5,7 @@ serve:
 	docker exec -it ${NAME}_web_1 npm start
 
 ## Runs webpack (development)
-make webpack:
+webpack:
 	docker exec -it ${NAME}_web_1 npm run dev
 
 ## start docker shell
