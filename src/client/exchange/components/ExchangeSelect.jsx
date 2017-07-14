@@ -18,7 +18,7 @@ type Props = {
   },
   active: string,
   which: string,
-  onSelect: (which: string, symbol: string) => void,
+  onSelectCoin: (which: string, symbol: string) => void,
   onClose: () => void,
   inputRef: (c: HTMLDivElement) => void
 };
@@ -44,8 +44,20 @@ class ExchangeSelect extends React.Component {
     }
   }
 
+  handleSelectCoin = (event: MouseEvent) => {
+    if (!(event.currentTarget instanceof HTMLDivElement)) return;
+    const el: HTMLDivElement = event.currentTarget;
+    const symbol = el.getAttribute('data-symbol');
+    const { which, onSelectCoin, onClose, active } = this.props;
+
+    if (symbol && symbol !== active) {
+      onSelectCoin(which, symbol);
+      onClose();
+    }
+  }
+
   render() {
-    const { which, classes, coins, active, onSelect } = this.props;
+    const { classes, coins, active } = this.props;
 
     return (
       <div
@@ -55,7 +67,8 @@ class ExchangeSelect extends React.Component {
         {Object.values(coins).map((coin: $FlowTODO) => (
           <div
             key={coin.symbol}
-            onClick={() => onSelect(coin.symbol, which)}
+            data-symbol={coin.symbol}
+            onClick={this.handleSelectCoin}
             className={classNames(classes.item, {
               'is-active': active === coin.symbol
             })}
