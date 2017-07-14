@@ -1,6 +1,7 @@
 # ICO Stats
 
 **[How to Contribute](docs/Contributing.md)**
+
 **[How to Add a Token](docs/Tokens.md)**
 
 ## Running the app
