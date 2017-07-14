@@ -2,7 +2,6 @@
 import React from 'react';
 import injectSheet from 'react-jss';
 import { connect } from 'react-redux';
-import mapValues from 'lodash/mapValues';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import classNames from 'classnames';
@@ -277,7 +276,7 @@ class Feedback extends React.Component {
         </div>
         <div className={c.fieldset}>
           <label className={c.label} htmlFor="email">
-            Enter your email if you&pos;d like a reply:
+            Enter your email if you&apos;d like a reply:
           </label>
           <input
             value={this.state.email}
