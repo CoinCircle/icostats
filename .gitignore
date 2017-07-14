@@ -6,4 +6,3 @@ public/bundle.js
 server.js
 dist/
 yarn-error.log
-tests/shared/__console.test.js
