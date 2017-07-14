@@ -68,55 +68,11 @@ export default async function icos() {
     }
   }
 
-  // Get the current ETH price
-  let ethPrice = cache.get('ethPrice');
-  let btcPrice = cache.get('btcPrice');
-
-  if (!ethPrice) {
-    const start = Date.now();
-
-    winston.warn('ETH price not in cache - refetching');
-    try {
-      ethPrice = await fetchETHPrice();
-      const end = Date.now();
-      const ms = end - start;
-
-      winston.info(`Fetched ETH price in ${ms}ms`);
-    } catch (e) {
-      try {
-        const ticker = await Ticker.findOne({ ticker: 'ethereum' }).exec();
-
-        ethPrice = ticker.price_usd;
-        winston.info('Fetched fallback ETH price (%s) from db.', ethPrice);
-      } catch (err) {
-        winston.error('Failed to fetch ETH price in ICO resolver.');
-      }
-    }
-    cache.set('ethPrice', ethPrice, ONE_HOUR);
-  }
-
-  if (!btcPrice) {
-    const start = Date.now();
-
-    winston.warn('BTC price not in cache - refetching');
-    try {
-      btcPrice = await fetchBTCPrice();
-      const end = Date.now();
-      const ms = end - start;
-
-      winston.info(`Fetched BTC price in ${ms}ms`);
-    } catch (e) {
-      try {
-        const ticker = await Ticker.findOne({ ticker: 'bitcoin' }).exec();
-
-        btcPrice = ticker.price_usd;
-        winston.info('Fetched fallback BTC price (%s) from db.', btcPrice);
-      } catch (err) {
-        winston.error('Failed to fetch BTC price in ICO resolver.');
-      }
-    }
-    cache.set('btcPrice', btcPrice, ONE_HOUR);
-  }
+  // Get the current ETH/BTC price
+  const eth = priceHistories.find(p => p.symbol === 'ETH');
+  const btc = priceHistories.find(p => p.symbol === 'BTC');
+  const ethPrice = eth.latest.price_usd;
+  const btcPrice = btc.latest.price_usd;
 
   const startNormalize = Date.now();
   const res = results.map(ico =>
