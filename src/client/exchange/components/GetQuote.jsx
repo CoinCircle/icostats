@@ -79,16 +79,21 @@ class GetQuote extends React.Component {
       <div className={c.footer}>
         <PoweredByShapeshift />
         <input
-          type="text"
+          list={'receiving-address'}
+          value={receivingAddress}
           spellCheck={false}
           placeholder="Input receiving address"
-          value={receivingAddress}
           onChange={this.handleChangeReceivingAddress}
           className={classNames(c.inputReceiving, {
             'is-valid': isReceivingAddressValid,
             'is-invalid': isReceivingAddressValid === false
           })}
         />
+        <datalist id={'receiving-address'}>{addresses.map(address => (
+          <option key={address}>
+            {address}
+          </option>
+        ))}</datalist>
         {isReceivingAddressValid && <CheckIcon />}
       </div>
     );
@@ -156,6 +161,7 @@ const styles = {
     borderRadius: '3px',
     padding: '4px 0',
     width: '45%',
+    textOverflow: 'ellipsis',
     borderBottom: '1px solid hsl(0, 0%, 84%)',
     alignSelf: 'flex-end',
     '&.is-valid': {
