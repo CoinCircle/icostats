@@ -27,6 +27,13 @@ export type ReceiveShiftAction = {
   type: types.RECEIVE_SHIFT,
   payload: { deposit: string, orderId: string }
 };
+export type RequestAddressesAction = {
+  type: types.REQUEST_ADDRESSES
+};
+export type ReceiveAddressesAction = {
+  type: types.RECEIVE_ADDRESSES,
+  addresses: Array<string>
+};
 export type SetReceivingAddressAction = {
   type: types.SET_RECEIVING_ADDRESS,
   address: string
@@ -63,6 +70,8 @@ export type Action =
   | ReceiveLimitAction
   | RequestShiftAction
   | ReceiveShiftAction
+  | RequestAddressesAction
+  | ReceiveAddressesAction
   | SetReceivingAddressAction
   | RequestValidateAddressAction
   | ReceiveValidateAddressAction
@@ -82,6 +91,8 @@ export type State = {
   isFetchingLimit: boolean,
   didInvalidateLimit: boolean,
   limit?: $Limit,
+  addresses?: Array<string>,
+  isFetchingAddresses?: boolean,
   depositAddress?: string,
   receivingAddress?: string,
   isFetchingValidateAddress: boolean,
