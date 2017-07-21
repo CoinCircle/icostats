@@ -12,10 +12,10 @@ export default async function getAccount() {
 
   if (web3Enabled) {
     const getAccounts = Promise.promisify(window.web3.eth.getAccounts);
-    const [account] = await getAccounts();
+    const accounts = await getAccounts();
 
-    return account;
+    return accounts;
   }
 
-  return false;
+  return [];
 }
