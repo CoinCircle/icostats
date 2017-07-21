@@ -10,6 +10,7 @@ import type {
   RequestOrderStatusAction, ReceiveOrderStatusAction, ErrorValidateAddressAction
 } from './types';
 import * as types from './constants';
+import getAddresses from '../app/lib/getAccounts';
 
 
 export const initExchange = (toSymbol: string): InitExchangeAction => {
@@ -123,6 +124,21 @@ export const fetchLimit = (pair: string): ThunkAction => (dispatch) => {
   dispatch(requestLimit(pair));
   return shapeshift.getLimit(pair)
     .then(limit => dispatch(receiveLimit(limit)));
+};
+
+const requestAddresses = (): RequestAddressesAction => ({
+  type: types.REQUEST_ADDRESSES
+});
+
+const receiveAddresses = (addresses): ReceiveAddressesAction => ({
+  type: types.RECEIVE_ADDRESSES,
+  addresses
+});
+
+export const fetchAddresses = (): ThunkAction => (dispatch) => {
+  dispatch(requestAddresses());
+  return getAddresses()
+    .then(addresses => dispatch(receiveAddresses(addresses)));
 };
 
 export const setReceivingAddress = (
