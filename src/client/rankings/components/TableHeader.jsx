@@ -11,7 +11,7 @@ type Props = {
   sortBy: string,
   ascending: boolean,
   onSort: Function,
-  type: string,
+  view: string,
   classes: Object,
   onClickAbsolute: Function,
   onClickRelative: Function,
@@ -53,7 +53,8 @@ class TableHeader extends React.Component {
       sortBy,
       onSort,
       ascending,
-      type
+      view,
+      isAbsolute
     } = this.props;
     const onClickHint = () => this.setState({ isModalOpen: true });
     const sortedCell = item => (
@@ -96,7 +97,7 @@ class TableHeader extends React.Component {
     return (
       <div className={classes.tableheader}>
         <div className={classNames(classes.th, classes.thLogo)} />
-        {getColumns(type, classes, onClickHint).map(item =>
+        {getColumns(view, classes, onClickHint).map(item =>
           <Cell key={item.key} item={item} />
         )}
         {this.state.isModalOpen &&
