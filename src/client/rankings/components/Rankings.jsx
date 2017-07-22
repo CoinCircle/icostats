@@ -82,7 +82,7 @@ class Rankings extends React.Component {
     const table = (
       <div className={classes.table}>
         <TableHeader
-          sortBy={this.props.sortBy}
+          sortBy={this.props.sortBy.replace('_abs', '')}
           onSort={(sortBy, ascending) => this.props.sort(sortBy, ascending)}
           ascending={this.props.ascending}
           type={view}
