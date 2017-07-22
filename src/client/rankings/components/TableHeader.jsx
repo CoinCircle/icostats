@@ -26,19 +26,19 @@ class TableHeader extends React.Component {
   };
 
   renderAbsDiff() {
-    const { classes: c, isAbsolute } = this.props;
+    const { classes: c, view, isAbsolute } = this.props;
 
     return (
       <div className={c.absDelta}>
         <div
-          onClick={() => this.props.onClickAbsolute()}
+          onClick={() => this.props.onClickAbsolute(view)}
           className={classNames(c.absDeltaItem, isAbsolute && 'is-active')}
         >
           Abs
         </div>
         <div style={{ margin: '0 6px' }}>|</div>
         <div
-          onClick={() => this.props.onClickRelative()}
+          onClick={() => this.props.onClickRelative(view)}
           className={classNames(c.absDeltaItem, !isAbsolute && 'is-active')}
         >
           Rel
@@ -246,8 +246,8 @@ const mapStateToProps = state => ({
   isAbsolute: state.rankings.ROICalcType === 'ABSOLUTE'
 });
 const mapDispatchToProps = dispatch => ({
-  onClickAbsolute: () => dispatch(selectAbsolute()),
-  onClickRelative: () => dispatch(selectRelative())
+  onClickAbsolute: view => dispatch(selectAbsolute(view)),
+  onClickRelative: view => dispatch(selectRelative(view))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(styled);
