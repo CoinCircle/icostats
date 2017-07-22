@@ -1,4 +1,5 @@
 /* eslint-disable newline-after-var */
+import { LOCATION_CHANGE } from 'react-router-redux';
 import * as types from './constants';
 
 const initialState = {
@@ -44,13 +45,23 @@ const rankingsReducer = (state = initialState, action) => {
     case types.SELECT_ABSOLUTE:
       return {
         ...state,
-        ROICalcType: 'ABSOLUTE'
+        ROICalcType: 'ABSOLUTE',
+        sortBy: `${action.view}_abs`.toLowerCase()
       };
 
     case types.SELECT_RELATIVE:
       return {
         ...state,
-        ROICalcType: 'RELATIVE'
+        ROICalcType: 'RELATIVE',
+        sortBy: action.view.toLowerCase()
+      };
+
+    case LOCATION_CHANGE:
+      return {
+        ...state,
+        sortBy: initialState.sortBy,
+        ascending: initialState.ascending,
+        ROICalcType: initialState.ROICalcType
       };
 
     default: return state;
