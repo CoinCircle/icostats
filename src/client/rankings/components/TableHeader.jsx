@@ -61,7 +61,9 @@ class TableHeader extends React.Component {
       <span
         className={classes.sortActive}
         onClick={() => onSort(
-          item.key,
+          (item.key === view.toLowerCase() && isAbsolute)
+            ? `${item.key}_abs`
+            : item.key,
           (sortBy === item.key) ? !ascending : ascending
         )}
       >
