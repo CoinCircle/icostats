@@ -1,4 +1,5 @@
 /* eslint-disable */
+import 'isomorphic-fetch';
 import mongoose from 'mongoose';
 import Promise from 'bluebird';
 import settings from 'settings';

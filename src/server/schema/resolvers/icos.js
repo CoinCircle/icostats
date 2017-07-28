@@ -3,9 +3,7 @@ import winston from 'winston';
 import has from 'lodash/has';
 import { normalize as normalizeICO } from 'lib/icos';
 import icoData from 'lib/ico-data';
-import { fetchETHPrice, fetchBTCPrice } from 'shared/lib/exchanges/gdax';
 import { cache } from 'app';
-import Ticker from '~/models/ticker';
 import PriceHistory from 'models/price-history';
 import * as shapeshift from 'shared/lib/shapeshift';
 
