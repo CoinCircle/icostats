@@ -90,6 +90,6 @@ function recurseOrFinish(ticker, i, didSkip = false) {
   } else {
     // Keep recursing.
     !didSkip && winston.info(`Fetched graph for ${ticker}`);
-    return recursiveFetch(tokens, i + 1);
+    return setTimeout(() => recursiveFetch(tokens, i + 1), 10000);
   }
 }
