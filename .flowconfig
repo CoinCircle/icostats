@@ -12,3 +12,7 @@ module.name_mapper='^~/\(.*\)' -> '<PROJECT_ROOT>/src/client/\1'
 module.name_mapper='^~/\(.*\)' -> '<PROJECT_ROOT>/src/server/\1'
 module.name_mapper='^shared/\(.*\)' -> '<PROJECT_ROOT>/src/shared/\1'
 module.name_mapper='^settings$' -> '<PROJECT_ROOT>/settings.js'
+suppress_comment=\\(.\\|\n\\)*\\$FlowFixMe
+suppress_type=$FlowTODO
+suppress_type=$FlowTodo
+suppress_type=$TODO
