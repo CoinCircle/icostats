@@ -229,7 +229,7 @@ function getPrettyPercentage(n) {
   const ONE_HUNDRED = 100;
   const percentage = n * ONE_HUNDRED;
   const prefix = (n > 0) && '+' || '';
-  const label = `${prefix}${percentage.toFixed(2)}%`;
+  const label = `${prefix}${Math.round(percentage)}%`;
 
   if (n === null) {
     return 'N/A';
