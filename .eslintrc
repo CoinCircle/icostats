@@ -91,7 +91,7 @@
     "operator-assignment": [1, "never"],
     "operator-linebreak": 0,
     "quote-props": 0,
-    "quotes": [1, "single", "avoid-escape"],
+    "quotes": [1, "single", { "allowTemplateLiterals": true }],
     "keyword-spacing": [1, {
       "before": true,
       "after": true,
