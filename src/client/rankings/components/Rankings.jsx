@@ -26,7 +26,8 @@ type Props = {
   toggleNav: () => void,
   sort: (sortBy: string, ascending: boolean) => void,
   maxPages: number,
-  isExchangeActive: boolean
+  isExchangeActive: boolean,
+  subscribe: () => $FlowTODO
 };
 
 
@@ -40,6 +41,10 @@ class Rankings extends React.Component {
     this.state = {
       indexHighlighted: null
     };
+  }
+
+  componentDidMount() {
+    // this.props.subscribe();
   }
 
   render() {

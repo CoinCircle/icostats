@@ -6,6 +6,43 @@ import Rankings from '../components/Rankings';
 import * as selectors from '../selectors';
 import { sort, setFilters, setCurrency } from '../actions';
 
+/**
+ * Fragment
+ */
+const ICOFragment = gql`
+fragment ICOFragment on ICO {
+  id,
+  name,
+  symbol,
+  price_usd,
+  price_btc,
+  implied_token_price,
+  roi_since_ico,
+  roi_since_ico_eth,
+  roi_since_ico_btc,
+  start_date,
+  icon_ext,
+  ticker,
+  eth_price_at_launch,
+  btc_price_at_launch,
+  roi_per_week,
+  roi_per_day,
+  roi_per_month,
+  eth_roi_during_period,
+  btc_roi_during_period,
+  roi_vs_eth,
+  roi_vs_btc,
+  roi_vs_eth_abs,
+  roi_vs_btc_abs,
+  is_erc20,
+  eth_price_usd,
+  btc_price_usd,
+  supported_changelly,
+  raise,
+  amount_sold_in_ico,
+  supported_shapeshift
+}
+`;
 
 /* =============================================================================
 =  GraphQL: Get ICOs
@@ -13,36 +50,7 @@ import { sort, setFilters, setCurrency } from '../actions';
 const QUERY = gql`
   query icos {
     icos {
-      id,
-      name,
-      symbol,
-      price_usd,
-      price_btc,
-      implied_token_price,
-      roi_since_ico,
-      roi_since_ico_eth,
-      roi_since_ico_btc,
-      start_date,
-      icon_ext,
-      ticker,
-      eth_price_at_launch,
-      btc_price_at_launch,
-      roi_per_week,
-      roi_per_day,
-      roi_per_month,
-      eth_roi_during_period,
-      btc_roi_during_period,
-      roi_vs_eth,
-      roi_vs_btc,
-      roi_vs_eth_abs,
-      roi_vs_btc_abs,
-      is_erc20,
-      eth_price_usd,
-      btc_price_usd,
-      supported_changelly,
-      raise,
-      amount_sold_in_ico,
-      supported_shapeshift
+      ...ICOFragment
     }
     recentPrices {
       symbol
@@ -53,20 +61,42 @@ const QUERY = gql`
       }
     }
   }
+  ${ICOFragment}
+`;
+const SUBSCRIPTION_QUERY = gql`
+  subscription icoPriceChanges {
+    icoPriceChanged {
+      ...ICOFragment
+    }
+  }
+  ${ICOFragment}
 `;
 const mapDataToProps = result => ({
   icos: result.data.icos,
   recentPrices: result.data.recentPrices,
-  isFetching: result.data.loading
+  isFetching: result.data.loading,
+  subscribe: () => result.data.subscribeToMore({
+    document: SUBSCRIPTION_QUERY,
+    updateQuery: (prevResult, { subscriptionData }) => {
+      const newIco = subscriptionData.data.icoPriceChanged;
+
+      return {
+        ...prevResult,
+        icos: prevResult.icos.map(ico =>
+          ico.id === newIco.id && newIco || ico
+        )
+      };
+    }
+  })
 });
-const ONE_SECOND = 1000;
-const ONE_MINUTE = ONE_SECOND * 60;
 const withData = graphql(QUERY, {
-  props: mapDataToProps,
-  options: {
-    pollInterval: ONE_MINUTE
-  }
+  props: mapDataToProps
 });
+
+/* =============================================================================
+=    Subscribe to updates
+============================================================================= */
+
 
 /* =============================================================================
 =  GraphQL: Upvote
