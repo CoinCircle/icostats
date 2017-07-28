@@ -8,7 +8,8 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import createHistory from 'history/createBrowserHistory';
 import { routerReducer, routerMiddleware } from 'react-router-redux';
 import { createTracker } from 'redux-segment';
-import ApolloClient from 'apollo-client';
+import { SubscriptionClient, addGraphQLSubscriptions } from 'subscriptions-transport-ws';
+import ApolloClient, { createNetworkInterface } from 'apollo-client';
 import thunk from 'redux-thunk';
 import { ApolloProvider } from 'react-apollo';
 import App from 'app/components/App';
@@ -29,7 +30,25 @@ const isReduxDevtoolsDefined = typeof reduxDevtoolsExt !== 'undefined';
 const reduxDevtools = isReduxDevtoolsDefined ? reduxDevtoolsExt() : f => f;
 
 // GraphQL Apollo Client
-const client = new ApolloClient();
+// Create regular NetworkInterface by using apollo-client's API:
+const networkInterface = createNetworkInterface({
+  uri: '/graphql' // Your GraphQL endpoint
+});
+// Create WebSocket client
+const wsClient = new SubscriptionClient(`ws://localhost:3000/subscriptions`, {
+  reconnect: true,
+  connectionParams: {
+    // Pass any arguments you want for initialization
+  }
+});
+// Extend the network interface with the WebSocket
+const networkInterfaceWithSubscriptions = addGraphQLSubscriptions(
+    networkInterface,
+    wsClient
+);
+const client = new ApolloClient({
+  networkInterface: networkInterfaceWithSubscriptions
+});
 
 // Root redux reducer
 const reducer = combineReducers({

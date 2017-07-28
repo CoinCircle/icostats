@@ -2,13 +2,17 @@
 no-multi-assign */
 import 'babel-polyfill';
 import express from 'express';
+import { createServer } from 'http';
+import cors from 'cors';
 import bodyParser from 'body-parser';
 import winston from 'winston';
 import expressWinston from 'express-winston';
 import 'winston-loggly-bulk';
 import mongoose from 'mongoose';
 import Promise from 'bluebird';
+import { execute, subscribe } from 'graphql';
 import { graphqlExpress, graphiqlExpress } from 'graphql-server-express';
+import { SubscriptionServer } from 'subscriptions-transport-ws';
 import settings from 'settings';
 import schema from 'schema';
 import NodeCache from 'node-cache';
@@ -32,6 +36,11 @@ const app = module.exports = express();
  * will contain the real IP.
  */
 app.enable('trust proxy');
+
+/**
+ * Allow CORS on localhost
+ */
+app.use('*', cors({ origin: `http://localhost:${settings.APP_PORT}` }));
 
 /**
  * Initialize a cache.
@@ -71,7 +80,8 @@ app.use(expressWinston.logger({
 app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
 
 app.use('/graphiql', graphiqlExpress({
-  endpointURL: '/graphql'
+  endpointURL: '/graphql',
+  subscriptionsEndpoint: `ws://localhost:${settings.APP_PORT}/subscriptions`
 }));
 
 /**
@@ -89,11 +99,21 @@ app.get('*', (req, res) =>
 /**
  * Run the server
  */
-app.listen(settings.APP_PORT, () => {
+const server = createServer(app);
+server.listen(settings.APP_PORT, () => {
   console.log(`App listening on port ${settings.APP_PORT}!`);
   initTickerWorker();
   initPriceWorker();
   initGraphWorker();
+  // Set up the WebSocket for handling GraphQL subscriptions
+  return new SubscriptionServer({
+    execute,
+    subscribe,
+    schema
+  }, {
+    server: server,
+    path: '/subscriptions'
+  });
 });
 
 

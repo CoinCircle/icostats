@@ -4,19 +4,17 @@
  */
  /* eslint-disable camelcase */
 import winston from 'winston';
+import pubsub from '~/lib/pubsub';
+import * as topics from '~/lib/pubsub.topics';
 import icoData from '~/lib/ico-data';
 import getExchangeService from 'shared/lib/exchange.service';
 import PriceHistory from '~/models/price-history';
 
 const ONE_SECOND = 1000;
 const FIVE_SECONDS = ONE_SECOND * 5;
-const TEN_MINUTES = ONE_SECOND * 60 * 10;
 
 // Delay between fetching each price.
-const DELAY_EACH = FIVE_SECONDS;
-
-// Delay between fetching the whole list of prices.
-const DELAY_ALL = TEN_MINUTES;
+const DELAY = FIVE_SECONDS;
 
 let ref;
 const exchangeService = getExchangeService();
@@ -54,9 +52,8 @@ async function recursiveFetchPrice(symbols, index) {
     );
   }
   const nextIndex = (index === symbols.length - 1) ? 0 : (index + 1);
-  const delay = (nextIndex === 0) ? DELAY_ALL : DELAY_EACH;
 
-  setTimeout(() => recursiveFetchPrice(symbols, nextIndex), delay);
+  setTimeout(() => recursiveFetchPrice(symbols, nextIndex), DELAY);
 }
 
 async function savePrice(price, symbol, ts) {
@@ -72,6 +69,9 @@ async function savePrice(price, symbol, ts) {
   //  Add to the history
   model.prices.push(data);
 
+  // Check if the price changed (if so, we'll publish that fact later.)
+  const didPriceChange = price !== model.latest.price_usd;
+
   // Cache this in 'latest' so we dont need to iterate the whole history to
   // find the latest price.
   model.set('latest', data);
@@ -83,5 +83,13 @@ async function savePrice(price, symbol, ts) {
       `Failed to save price for ${symbol}: returned price was ${price}, and
        error message: ${e.message}`
     );
+  }
+
+  if (didPriceChange) {
+    const payload = {
+      icoPriceChanged: { symbol, price }
+    };
+
+    pubsub.publish(topics.ICO_PRICE_CHANGED, payload);
   }
 }

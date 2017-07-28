@@ -79,12 +79,20 @@ type Mutation {
     message: String!,
     subject: String
   ): Boolean
+
+# ==============================================================================
+# Subscription
+# ==============================================================================
+type Subscription {
+  icoPriceChanged: ICO
 }
 
-# we need to tell the server which types represent the root query
-# and root mutation types. We call them RootQuery and RootMutation by convention.
+# ==============================================================================
+# Root
+# ==============================================================================
 schema {
   query: Query
   mutation: Mutation
+  subscription: Subscription
 }
 `;
