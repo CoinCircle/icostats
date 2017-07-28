@@ -9,6 +9,7 @@ import 'winston-loggly-bulk';
 import mongoose from 'mongoose';
 import Promise from 'bluebird';
 import { graphqlExpress, graphiqlExpress } from 'graphql-server-express';
+import OpticsAgent from 'optics-agent';
 import settings from 'settings';
 import schema from 'schema';
 import NodeCache from 'node-cache';
@@ -61,14 +62,28 @@ winston.add(winston.transports.Loggly, {
   exitOnError: false
 });
 
-app.use(expressWinston.logger({
-  winstonInstance: winston
-}));
+if (!settings.DEBUG) {
+  app.use(expressWinston.logger({
+    winstonInstance: winston
+  }));
+}
+
+/**
+ * Add optics to graphql
+ */
+OpticsAgent.configureAgent({ apiKey: settings.OPTICS_API_KEY });
+OpticsAgent.instrumentSchema(schema);
+app.use(OpticsAgent.middleware());
 
 /**
  * GraphQL
  */
-app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
+app.use('/graphql', bodyParser.json(), graphqlExpress(req => ({
+  schema,
+  context: {
+    opticsContext: OpticsAgent.context(req)
+  }
+})));
 
 app.use('/graphiql', graphiqlExpress({
   endpointURL: '/graphql'
