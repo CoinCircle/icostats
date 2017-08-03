@@ -78,18 +78,20 @@ class Rankings extends React.Component {
         menu
       </i>
     );
+    const tooltip = (
+      <span className={classes.searchTooltip}>
+        Include multiple queries by separating them with `<em>|</em>`.<br />
+        For example, `<pre>golem<em>|</em>status</pre>` would match both golem
+        and status.
+      </span>
+    );
     const search = (
       <SearchInput
         className={classes.search}
         onChange={this.handleSearch}
         value={this.props.searchQuery}
+        tooltip={tooltip}
       />
-    );
-    const searchHelp = (
-      <div className={classes.searchHelp}>
-        Include multiple queries by separating them with <em>|</em>.
-        Example: <pre>golem<em>|</em>status</pre>.
-      </div>
     );
     const header = (
       <div className={classes.header}>
@@ -101,7 +103,6 @@ class Rankings extends React.Component {
         <div className={classes.headerRight}>
           {showCurrencyPicker && <CurrencyPicker />}
           {search}
-          {this.props.searchQuery && searchHelp}
         </div>
       </div>
     );
@@ -210,14 +211,10 @@ const styles = {
     marginTop: '5px',
     width: 'auto'
   },
-  searchHelp: {
-    width: '180px',
+  searchTooltip: {
     color: 'hsl(0, 0%, 102%)',
-    fontSize: '8px',
-    textAlign: 'right',
+    fontSize: '10px',
     marginTop: '5px',
-    fontWeight: '300',
-    lineHeight: '13px',
     '& em': {
       color: 'hsl(201, 87%, 54%)',
       fontWeight: 'bold',

@@ -8,14 +8,16 @@ type Props = {
   classes: Object,
   className: string,
   sheet: any,
-  value: string
+  value: string,
+  tooltip: string
 };
 
 
 class SearchInput extends React.Component {
   props: Props;
   state = {
-    isOpen: false
+    isOpen: false,
+    focus: false
   };
 
   handleExpand = () => {
@@ -33,17 +35,34 @@ class SearchInput extends React.Component {
     });
   }
 
+  handleFocus = () => {
+    this.setState({
+      focus: true
+    });
+  }
+
   handleBlur = () => {
     if (!this.props.value && this.state.isOpen) {
       this.setState({
-        isOpen: false
+        isOpen: false,
+        focus: false
       });
     }
   }
 
+  renderTooltip() {
+    const { classes: c, tooltip } = this.props;
+
+    return (
+      <div className={c.tooltip}>
+        {tooltip}
+      </div>
+    )
+  }
+
   renderInput = (interpolatedStyles) => {
-    const { classes: c, className, sheet, ...rest } = this.props;
-    const { isOpen } = this.state;
+    const { classes: c, className, sheet, tooltip, ...rest } = this.props;
+    const { isOpen, focus } = this.state;
     const borderBottom = interpolatedStyles.borderBottom ?
       '1px solid hsl(0, 0%, 30%)' :
       'none';
@@ -54,6 +73,7 @@ class SearchInput extends React.Component {
         type="text"
         className={c.input}
         style={{ borderBottom }}
+        onFocus={this.handleFocus}
         onBlur={this.handleBlur}
       />
     );
@@ -76,6 +96,7 @@ class SearchInput extends React.Component {
         {input}
         {iconSearch}
         {isOpen && iconClose}
+        {tooltip && focus && this.renderTooltip()}
       </div>
     );
   }
@@ -141,6 +162,37 @@ const styles = {
     '&::placeholder': {
       color: 'hsl(0, 0%, 80%)',
       fontWeight: 300
+    }
+  },
+  tooltip: {
+    maxWidth: '200px',
+    height: 'auto',
+    whiteSpace: 'unset',
+    zIndex: '9',
+    color: 'hsl(0, 0%, 85%)',
+    fontSize: '10px',
+    marginTop: '8px',
+    lineHeight: '1.5em',
+    padding: '10px 15px',
+    position: 'relative',
+    background: 'hsl(0, 0%, 7%)',
+    MozBorderRadius: '3px',
+    WebkitBorderRadius: '3px',
+    borderRadius: '3px',
+    MozBoxShadow: 'inset 0 1px 0px #111, inset 0 2px 0px #444, 0 3px 2px rgba(0, 0, 0, 0.6)',
+    WebkitBoxShadow: 'inset 0 1px 0px #111, inset 0 2px 0px #444, 0 3px 2px rgba(0, 0, 0, 0.6)',
+    boxShadow: 'inset 0 1px 0px #111, inset 0 2px 0px #444, 0 3px 2px rgba(0, 0, 0, 0.6)',
+    '&:before': {
+      content: '" "',
+      height: '0',
+      width: '0',
+      position: 'absolute',
+      left: '50%',
+      top: '-14px',
+      marginLeft: '-8px',
+      border: '8px solid hsla(0, 0%, 0%, 0)',
+      borderBottomColor: 'hsl(0, 0%, 7%)',
+      zIndex: '1'
     }
   }
 };
