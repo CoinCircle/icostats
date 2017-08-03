@@ -7,7 +7,6 @@ import identifyUser from '~/app/lib/identify';
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import createHistory from 'history/createBrowserHistory';
 import { routerReducer, routerMiddleware } from 'react-router-redux';
-import { createTracker } from 'redux-segment';
 import ApolloClient from 'apollo-client';
 import thunk from 'redux-thunk';
 import { ApolloProvider } from 'react-apollo';
@@ -16,12 +15,12 @@ import appReducer from 'app/reducers';
 import compareReducer from 'compare/reducers';
 import rankingsReducer from '~/rankings/reducers';
 import exchangeReducer from '~/exchange/reducers';
+import analytics, { middleware as a7sMiddleware } from '~/app/lib/analytics';
 
 // Create browser history
 export const history = createHistory();
 
-// Create segment analytics tracker
-const tracker = createTracker();
+analytics.install(window);
 
 // Support redux devtools extension
 const reduxDevtoolsExt = window.__REDUX_DEVTOOLS_EXTENSION__;
@@ -45,7 +44,7 @@ const middlewares = applyMiddleware(
   client.middleware(),
   routerMiddleware(history),
   thunk,
-  tracker // Should always go last to ensure it receives objects only
+  a7sMiddleware // Should always go last to ensure it receives objects only
 );
 const enhancer = compose(middlewares, reduxDevtools);
 const store = createStore(reducer, initialState, enhancer);

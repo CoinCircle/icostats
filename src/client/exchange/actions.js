@@ -1,6 +1,6 @@
 // @flow
 import * as shapeshift from 'shared/lib/shapeshift';
-import { EventTypes } from 'redux-segment';
+import { EventTypes } from '~/app/lib/analytics';
 import type {
   ThunkAction,
   InitExchangeAction, SelectCoinAction, SetAmountAction, RequestQuoteAction,
@@ -14,12 +14,11 @@ import * as types from './constants';
 
 export const initExchange = (toSymbol: string): InitExchangeAction => {
   const analytics = {
-    eventType: EventTypes.track,
-    eventPayload: {
-      event: types.INIT_EXCHANGE,
-      properties: {
-        toSymbol
-      }
+    type: EventTypes.track,
+    payload: {
+      category: types.ANALYTICS_CATEGORY_SHAPESHIFT,
+      action: types.INIT_EXCHANGE,
+      label: toSymbol
     }
   };
 
@@ -32,9 +31,11 @@ export const initExchange = (toSymbol: string): InitExchangeAction => {
 
 export function hideExchange() {
   const analytics = {
-    eventType: EventTypes.track,
-    eventPayload: {
-      event: types.HIDE_EXCHANGE
+    type: EventTypes.track,
+    payload: {
+      category: types.ANALYTICS_CATEGORY_SHAPESHIFT,
+      action: types.HIDE_EXCHANGE,
+      label: 'Closed Exchange'
     }
   };
 
@@ -46,9 +47,13 @@ export function hideExchange() {
 
 export function setAmount(amount: number): SetAmountAction {
   const analytics = {
-    eventType: EventTypes.track,
-    eventPayload: {
-      event: types.SET_AMOUNT
+    type: EventTypes.track,
+    payload: {
+      category: types.ANALYTICS_CATEGORY_SHAPESHIFT,
+      action: types.SET_AMOUNT,
+      label: 'Set amount to send',
+      value: amount,
+      amount
     }
   };
 
@@ -69,10 +74,13 @@ export const selectCoin = (
   // analytics
   meta: {
     analytics: {
-      eventType: EventTypes.track,
-      eventPayload: {
-        event: types.SELECT_COIN,
-        properties: { which, symbol }
+      type: EventTypes.track,
+      payload: {
+        category: types.ANALYTICS_CATEGORY_SHAPESHIFT,
+        action: types.SELECT_COIN,
+        label: 'Select Coin',
+        which,
+        symbol
       }
     }
   }
@@ -85,10 +93,12 @@ export const requestQuote = (amount: number): RequestQuoteAction => ({
   // analytics
   meta: {
     analytics: {
-      eventType: EventTypes.track,
-      eventPayload: {
-        event: types.REQUEST_COIN,
-        properties: { amount }
+      type: EventTypes.track,
+      payload: {
+        category: types.ANALYTICS_CATEGORY_SHAPESHIFT,
+        action: types.REQUEST_COIN,
+        label: 'Request Quote',
+        amount
       }
     }
   }
@@ -133,10 +143,12 @@ export const setReceivingAddress = (
   // analytics
   meta: {
     analytics: {
-      eventType: EventTypes.track,
-      eventPayload: {
-        event: types.SET_RECEIVING_ADDRESS,
-        properties: { address }
+      type: EventTypes.track,
+      payload: {
+        category: types.ANALYTICS_CATEGORY_SHAPESHIFT,
+        action: types.SET_RECEIVING_ADDRESS,
+        label: 'Set receiving address',
+        address
       }
     }
   }
@@ -157,10 +169,12 @@ const receiveValidateAddress = (isValid): ReceiveValidateAddressAction => ({
   // analytics
   meta: {
     analytics: {
-      eventType: EventTypes.track,
-      eventPayload: {
-        event: types.RECEIVE_VALIDATE_ADDRESS,
-        properties: { isValid }
+      type: EventTypes.track,
+      payload: {
+        category: types.ANALYTICS_CATEGORY_SHAPESHIFT,
+        action: types.RECEIVE_VALIDATE_ADDRESS,
+        label: `Set receiving address (${isValid ? 'VALID' : 'INVALID'})`,
+        isValid
       }
     }
   }
@@ -172,9 +186,10 @@ const errorValidateAddress = (error): ErrorValidateAddressAction => ({
   // analytics
   meta: {
     analytics: {
-      eventType: EventTypes.track,
-      eventPayload: {
-        event: types.ERROR_VALIDATE_ADDRESS
+      type: EventTypes.track,
+      payload: {
+        category: types.ANALYTICS_CATEGORY_SHAPESHIFT,
+        action: types.ERROR_VALIDATE_ADDRESS
       }
     }
   }
@@ -203,9 +218,9 @@ const receiveShift = ({ apiPubKey, ...payload }): ReceiveShiftAction => ({
   // analytics
   meta: {
     analytics: {
-      eventType: EventTypes.track,
-      eventPayload: {
-        event: types.RECEIVE_SHIFT,
+      type: EventTypes.track,
+      payload: {
+        action: types.RECEIVE_SHIFT,
         properties: payload
       }
     }
@@ -234,9 +249,9 @@ const receiveOrderStatus = (orderStatus): ReceiveOrderStatusAction => ({
   // analytics
   meta: {
     analytics: {
-      eventType: EventTypes.track,
-      eventPayload: {
-        event: types.RECEIVE_ORDER_STATUS,
+      type: EventTypes.track,
+      payload: {
+        action: types.RECEIVE_ORDER_STATUS,
         properties: orderStatus
       }
     }

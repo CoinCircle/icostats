@@ -149,6 +149,10 @@
     "class-methods-use-this": 0
   },
   "globals": {
-    "web3": true
+    "web3": false,
+    "ga": false,
+    "mixpanel": false,
+    "analytics": true,
+    "window": true
   }
 }
