@@ -11,7 +11,6 @@ import app from '~/app';
 import exchange from '~/exchange';
 import * as types from '../constants';
 
-
 type Props = {
   classes: Object,
   currency: string,
@@ -41,6 +40,162 @@ const TableRow = ({
     ETH: 4,
     BTC: 8
   };
+  const logo = (
+    <div className={classNames(classes.td, classes.tdLogo)}>
+      <img
+        src={`/img/logos/${ico.id}.${ico.icon_ext || 'png'}`}
+        alt={ico.name}
+        className={classes.logo}
+      />
+    </div>
+  );
+  const name = (
+    <div className={classNames(classes.td, classes.tdName)}>
+      {ico.name}
+      {!ico.supported_shapeshift && ico.supported_changelly &&
+        <a
+          className={classes.buyNow}
+          href={`https://changelly.com/exchange/ETH/${ico.symbol}/1?ref_id=861e5d1e1238`}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => trackEvent('Changelly', 'Click Buy Now', ico.symbol)
+          }
+        >
+          Buy Instantly
+        </a>
+      }
+      {ico.supported_shapeshift &&
+        <button
+          className={classes.buyNow}
+          onClick={() => {
+            onClickBuy(ico.symbol);
+            trackEvent('Shapeshift Exchange', 'Initialize', ico.symbol);
+          }}
+        >
+          Buy Instantly
+        </button>
+      }
+    </div>
+  );
+  const icoDate = (
+    <div className={classNames(classes.td, classes.tdDate)}>
+      {moment(ico.start_date, 'MM/DD/YYYY').format('MM/DD/YY')}
+    </div>
+  );
+  const icoPrice = (
+    <div className={classNames(classes.td, classes.tdPrice, 'tooltip-trigger')}>
+      {currency === 'USD' && $}
+      {utils.getICOPrice(ico, currency).toFixed(PRECISION[currency])}
+      <div className={classes.tooltip}>
+        <div className={classes.tooltipRow}>
+          <strong>USD Raised: </strong>
+          {`$${ico.raise.toLocaleString()}`}
+        </div>
+        <div className={classes.tooltipRow}>
+          <strong>Tokens sold: </strong>
+          {ico.amount_sold_in_ico.toLocaleString()}
+        </div>
+      </div>
+    </div>
+  );
+  const currentPrice = () => {
+    const value = utils.getCurrentPrice(ico, currency);
+    const displayValue = value.toFixed(PRECISION[currency]);
+
+    return (
+      <div className={classNames(classes.td, classes.tdPrice)}>
+        <CSSTransitionGroup
+          transitionName="percentage"
+          transitionLeave={false}
+          transitionEnterTimeout={800}
+        >
+          <span key={value}>
+            {currency === 'USD' && $}
+            {displayValue}
+          </span>
+        </CSSTransitionGroup>
+      </div>
+    );
+  }
+  const roiSinceICO = () => (
+    <div
+      className={classNames(classes.td, classes.tdPrimary, {
+        [classes.tdPrimaryNegative]: utils.getTotalROI(ico, currency) < 0
+      })}
+    >
+      {getPrettyPercentage(utils.getTotalROI(ico, currency))}
+    </div>
+  );
+  const periodicROI = (key: 'DAILY' | 'WEEKLY' | 'MONTHLY') => {
+    const v = utils.getPeriodicROI(
+      utils.getTotalROI(ico, currency),
+      ico.start_date,
+      utils[key]
+    );
+    const className = classNames(
+      classes.td,
+      classes.tdPrimary,
+      classes.hideMobile,
+      {
+        [classes.tdPrimaryNegative]: v < 0
+      }
+    );
+
+    return (
+      <div
+        className={className}
+      >
+        {getPrettyPercentage(v)}
+      </div>
+    );
+  };
+  const ethROISinceICO = () => (
+    <div
+      className={classNames(classes.td, classes.tdPrimary, {
+        [classes.tdPrimaryNegative]: ico.eth_roi_during_period < 0
+      })}
+    >
+      {getPrettyPercentage(ico.eth_roi_during_period)}
+    </div>
+  );
+  const roiVsEth = () => (
+    <div
+      className={classNames(classes.td, classes.tdPrimary, {
+        [classes.tdPrimaryNegative]: ico.roi_vs_eth < 0
+      })}
+    >
+      {getPrettyPercentage(ico[isAbsolute ? 'roi_vs_eth_abs' : 'roi_vs_eth'])}
+    </div>
+  );
+  const btcROISinceICO = () => (
+    <div
+      className={classNames(classes.td, classes.tdPrimary, {
+        [classes.tdPrimaryNegative]: ico.btc_roi_during_period < 0
+      })}
+    >
+      {getPrettyPercentage(ico.btc_roi_during_period)}
+    </div>
+  );
+  const roiVsBtc = () => (
+    <div
+      className={classNames(classes.td, classes.tdPrimary, {
+        [classes.tdPrimaryNegative]: ico.roi_vs_btc < 0
+      })}
+    >
+      {getPrettyPercentage(ico[isAbsolute ? 'roi_vs_btc_abs' : 'roi_vs_btc'])}
+    </div>
+  );
+  const roiSince = (key: 'day' | 'week' | 'month') => (
+    <div
+      className={classNames(classes.td, classes.tdPrimary, {
+        [classes.tdPrimaryNegative]: ico.recentStats.roi[key] < 0,
+        [classes.tdNA]: ico.recentStats.roi[key] === null
+      })}
+    >
+      {getPrettyPercentage(ico.recentStats.roi[key])}
+    </div>
+  );
+
 
   return (
     <div
@@ -48,179 +203,24 @@ const TableRow = ({
       className={classNames(classes.tr, { 'is-active': active })}
       onTouchStart={onTouchStart}
     >
-      <div className={classNames(classes.td, classes.tdLogo)}>
-        <img
-          src={`/img/logos/${ico.id}.${ico.icon_ext || 'png'}`}
-          alt={ico.name}
-          className={classes.logo}
-        />
-      </div>
-      <div className={classNames(classes.td, classes.tdName)}>
-        {ico.name}
-        {!ico.supported_shapeshift && ico.supported_changelly &&
-          <a
-            className={classes.buyNow}
-            href={`https://changelly.com/exchange/ETH/${ico.symbol}/1?ref_id=861e5d1e1238`}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => trackEvent('Changelly', 'Click Buy Now', ico.symbol)
-            }
-          >
-            Buy Instantly
-          </a>
-        }
-        {ico.supported_shapeshift &&
-          <button
-            className={classes.buyNow}
-            onClick={() => {
-              onClickBuy(ico.symbol);
-              trackEvent('Shapeshift Exchange', 'Initialize', ico.symbol);
-            }}
-          >
-            Buy Instantly
-          </button>
-        }
-      </div>
-      <div className={classNames(classes.td, classes.tdDate)}>
-        {moment(ico.start_date, 'MM/DD/YYYY').format('MM/DD/YY')}
-      </div>
-      <div className={classNames(classes.td, classes.tdPrice, 'tooltip-trigger')}>
-        {currency === 'USD' && $}
-        {utils.getICOPrice(ico, currency).toFixed(PRECISION[currency])}
-        <div className={classes.tooltip}>
-          <div className={classes.tooltipRow}>
-            <strong>USD Raised: </strong>
-            {`$${ico.raise.toLocaleString()}`}
-          </div>
-          <div className={classes.tooltipRow}>
-            <strong>Tokens sold: </strong>
-            {ico.amount_sold_in_ico.toLocaleString()}
-          </div>
-        </div>
-      </div>
-      <div className={classNames(classes.td, classes.tdPrice)}>
-        <CSSTransitionGroup
-          transitionName="percentage"
-          transitionLeave={false}
-          transitionEnterTimeout={800}
-        >
-          <span key={moment.now()}>
-            {currency === 'USD' && $}
-            {utils.getCurrentPrice(ico, currency).toFixed(PRECISION[currency])}
-          </span>
-        </CSSTransitionGroup>
-      </div>
-      {type === types.ROI_TOTAL &&
-        <div className={classNames(classes.td, classes.tdPrimary, {
-          [classes.tdPrimaryNegative]: utils.getTotalROI(ico, currency) < 0
-        })}>
-          {getPrettyPercentage(utils.getTotalROI(ico, currency))}
-        </div>
-      }
-      {type === types.ROI_OVER_TIME &&
-        <div
-          className={classNames(
-            classes.td,
-            classes.tdPrimary,
-            classes.hideMobile,
-            {
-              [classes.tdPrimaryNegative]: utils.getPeriodicROI(utils.getTotalROI(ico, currency), ico.start_date, utils.DAILY) < 0
-            }
-          )}
-        >
-          {getPrettyPercentage(utils.getPeriodicROI(utils.getTotalROI(ico, currency), ico.start_date, utils.DAILY))}
-        </div>
-      }
-      {type === types.ROI_OVER_TIME &&
-        <div className={classNames(classes.td, classes.tdPrimary, classes.hideMobile, {
-          [classes.tdPrimaryNegative]: utils.getPeriodicROI(utils.getTotalROI(ico, currency), ico.start_date, utils.WEEKLY) < 0
-        })}>
-          {getPrettyPercentage(utils.getPeriodicROI(utils.getTotalROI(ico, currency), ico.start_date, utils.WEEKLY))}
-        </div>
-      }
-      {type === types.ROI_OVER_TIME &&
-        <div className={classNames(classes.td, classes.tdPrimary, {
-          [classes.tdPrimaryNegative]: utils.getPeriodicROI(utils.getTotalROI(ico, currency), ico.start_date, utils.MONTHLY) < 0
-        })}>
-          {getPrettyPercentage(utils.getPeriodicROI(utils.getTotalROI(ico, currency), ico.start_date, utils.MONTHLY))}
-        </div>
-      }
-      {type === types.ROI_VS_ETH &&
-        <div className={classNames(classes.td, classes.tdPrimary, {
-          [classes.tdPrimaryNegative]: utils.getTotalROI(ico, currency) < 0
-        })}>
-            {getPrettyPercentage(utils.getTotalROI(ico, currency))}
-        </div>
-      }
-      {type === types.ROI_VS_ETH &&
-        <div className={classNames(classes.td, classes.tdPrimary, {
-          [classes.tdPrimaryNegative]: ico.eth_roi_during_period < 0
-        })}>
-            {getPrettyPercentage(ico.eth_roi_during_period)}
-        </div>
-      }
-      {type === types.ROI_VS_ETH &&
-        <div
-          className={classNames(classes.td, classes.tdPrimary, {
-            [classes.tdPrimaryNegative]: ico.roi_vs_eth < 0
-          })}
-        >
-          {getPrettyPercentage(ico[isAbsolute ? 'roi_vs_eth_abs' : 'roi_vs_eth'])}
-        </div>
-      }
-      {type === types.ROI_VS_BTC &&
-        <div className={classNames(classes.td, classes.tdPrimary, {
-          [classes.tdPrimaryNegative]: utils.getTotalROI(ico, currency) < 0
-        })}>
-            {getPrettyPercentage(utils.getTotalROI(ico, currency))}
-        </div>
-      }
-      {type === types.ROI_VS_BTC &&
-        <div className={classNames(classes.td, classes.tdPrimary, {
-          [classes.tdPrimaryNegative]: ico.btc_roi_during_period < 0
-        })}>
-            {getPrettyPercentage(ico.btc_roi_during_period)}
-        </div>
-      }
-      {type === types.ROI_VS_BTC &&
-        <div
-          className={classNames(classes.td, classes.tdPrimary, {
-            [classes.tdPrimaryNegative]: ico.roi_vs_btc < 0
-          })}
-        >
-          {getPrettyPercentage(ico[isAbsolute ? 'roi_vs_btc_abs' : 'roi_vs_btc'])}
-        </div>
-      }
-      {type === types.RECENT_PERFORMANCE &&
-        <div
-          className={classNames(classes.td, classes.tdPrimary, {
-            [classes.tdPrimaryNegative]: ico.recentStats.roi.day < 0,
-            [classes.tdNA]: ico.recentStats.roi.day === null
-          })}
-        >
-          {getPrettyPercentage(ico.recentStats.roi.day)}
-        </div>
-      }
-      {type === types.RECENT_PERFORMANCE &&
-        <div
-          className={classNames(classes.td, classes.tdPrimary, {
-            [classes.tdPrimaryNegative]: ico.recentStats.roi.week < 0,
-            [classes.tdNA]: ico.recentStats.roi.week === null
-          })}
-        >
-          {getPrettyPercentage(ico.recentStats.roi.week)}
-        </div>
-      }
-      {type === types.RECENT_PERFORMANCE &&
-        <div
-          className={classNames(classes.td, classes.tdPrimary, {
-            [classes.tdPrimaryNegative]: ico.recentStats.roi.month < 0,
-            [classes.tdNA]: ico.recentStats.roi.month === null
-          })}
-        >
-          {getPrettyPercentage(ico.recentStats.roi.month)}
-        </div>
-      }
+      {logo}
+      {name}
+      {icoDate}
+      {icoPrice}
+      {currentPrice()}
+      {type === types.ROI_TOTAL && roiSinceICO()}
+      {type === types.ROI_OVER_TIME && periodicROI('DAILY')}
+      {type === types.ROI_OVER_TIME && periodicROI('WEEKLY')}
+      {type === types.ROI_OVER_TIME && periodicROI('MONTHLY')}
+      {type === types.ROI_VS_ETH && roiSinceICO()}
+      {type === types.ROI_VS_ETH && ethROISinceICO()}
+      {type === types.ROI_VS_ETH && roiVsEth()}
+      {type === types.ROI_VS_BTC && roiSinceICO()}
+      {type === types.ROI_VS_BTC && btcROISinceICO()}
+      {type === types.ROI_VS_BTC && roiVsBtc()}
+      {type === types.RECENT_PERFORMANCE && roiSince('day')}
+      {type === types.RECENT_PERFORMANCE && roiSince('week')}
+      {type === types.RECENT_PERFORMANCE && roiSince('month')}
     </div>
   );
 };

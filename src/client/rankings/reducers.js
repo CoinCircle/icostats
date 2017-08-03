@@ -11,7 +11,8 @@ const initialState = {
   },
   pageNumber: 1,
   itemsPerPage: 30,
-  ROICalcType: 'RELATIVE'
+  ROICalcType: 'RELATIVE',
+  searchQuery: ''
 };
 const rankingsReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -62,6 +63,12 @@ const rankingsReducer = (state = initialState, action) => {
         sortBy: initialState.sortBy,
         ascending: initialState.ascending,
         ROICalcType: initialState.ROICalcType
+      };
+
+    case types.SET_SEARCH_QUERY:
+      return {
+        ...state,
+        searchQuery: action.value
       };
 
     default: return state;

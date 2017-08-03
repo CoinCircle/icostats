@@ -2,7 +2,9 @@
 import React from 'react';
 import injectSheet from 'react-jss';
 import classNames from 'classnames';
+import { connect } from 'react-redux';
 import Exchange from '~/exchange/components/Exchange';
+import SearchInput from '~/app/components/SearchInput';
 import TableHeader from './TableHeader';
 import TableRow from './TableRow';
 import Filters from './Filters';
@@ -10,6 +12,7 @@ import Loading from './Loading';
 import * as types from '../constants';
 import CurrencyPicker from './CurrencyPicker';
 import Paginator from './Paginator';
+import { setSearchQuery } from '../actions';
 
 type ICO = {
   id: string
@@ -26,20 +29,28 @@ type Props = {
   toggleNav: () => void,
   sort: (sortBy: string, ascending: boolean) => void,
   maxPages: number,
-  isExchangeActive: boolean
+  isExchangeActive: boolean,
+  onChangeSearch: (val: string) => void,
+  searchQuery: string
 };
 
 
 class Rankings extends React.Component {
   props: Props;
   state: $FlowTODO;
+  debouncedOnChangeSearch: Function;
 
   constructor(props: Props) {
     super(props);
 
     this.state = {
-      indexHighlighted: null
+      indexHighlighted: null,
+      isSearchOpen: false
     };
+  }
+
+  handleSearch = (event: SyntheticEvent & { target: EventTarget }) => {
+    this.props.onChangeSearch(event.target.value);
   }
 
   render() {
@@ -67,6 +78,19 @@ class Rankings extends React.Component {
         menu
       </i>
     );
+    const search = (
+      <SearchInput
+        className={classes.search}
+        onChange={this.handleSearch}
+        value={this.props.searchQuery}
+      />
+    );
+    const searchHelp = (
+      <div className={classes.searchHelp}>
+        Include multiple queries by separating them with <em>|</em>.
+        Example: <pre>golem<em>|</em>status</pre>.
+      </div>
+    );
     const header = (
       <div className={classes.header}>
         {hamburger}
@@ -76,6 +100,8 @@ class Rankings extends React.Component {
         </div>
         <div className={classes.headerRight}>
           {showCurrencyPicker && <CurrencyPicker />}
+          {search}
+          {this.props.searchQuery && searchHelp}
         </div>
       </div>
     );
@@ -167,13 +193,39 @@ const styles = {
   headerLeft: {
     flexGrow: 2
   },
-  headerRight: {},
+  headerRight: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end'
+  },
   hamburger: {
     color: 'hsl(0, 0%, 75%)',
     paddingRight: '15px',
     cursor: 'pointer',
     '&:hover': {
       color: 'hsl(0, 0%, 80%)'
+    }
+  },
+  search: {
+    marginTop: '5px',
+    width: 'auto'
+  },
+  searchHelp: {
+    width: '180px',
+    color: 'hsl(0, 0%, 102%)',
+    fontSize: '8px',
+    textAlign: 'right',
+    marginTop: '5px',
+    fontWeight: '300',
+    lineHeight: '13px',
+    '& em': {
+      color: 'hsl(201, 87%, 54%)',
+      fontWeight: 'bold',
+      fontStyle: 'normal'
+    },
+    '& pre': {
+      color: 'hsl(0, 0%, 100%)',
+      display: 'inline'
     }
   },
   '@media (min-width: 768px)': {
@@ -188,4 +240,15 @@ const styles = {
   }
 };
 
-export default injectSheet(styles)(Rankings);
+/* =============================================================================
+=    Redux
+============================================================================= */
+const mapStateToProps = state => ({
+  searchQuery: state.rankings.searchQuery
+});
+const mapDispatchToProps = (dispatch: $FlowTODO) => ({
+  onChangeSearch: val => dispatch(setSearchQuery(val))
+});
+const Container = connect(mapStateToProps, mapDispatchToProps)(Rankings);
+
+export default injectSheet(styles)(Container);

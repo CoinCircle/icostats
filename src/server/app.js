@@ -1,6 +1,7 @@
 /* eslint-disable no-console, newline-after-var, import/prefer-default-export,
 no-multi-assign */
 import 'babel-polyfill';
+import chalk from 'chalk';
 import express from 'express';
 import bodyParser from 'body-parser';
 import winston from 'winston';
@@ -16,6 +17,21 @@ import NodeCache from 'node-cache';
 import initTickerWorker from 'lib/ticker-worker';
 import initPriceWorker from '~/lib/price-worker';
 import initGraphWorker from '~/lib/graph-worker';
+
+/**
+ * Configure logging
+ */
+winston.configure({
+  transports: [
+    new (winston.transports.Console)({
+      formatter(options) {
+        const { message, level } = options;
+
+        return `${level === 'info' ? '' : `${level}: `}${message}`;
+      }
+    })
+  ]
+});
 
 /**
  * Initialize the database.
@@ -105,7 +121,9 @@ app.get('*', (req, res) =>
  * Run the server
  */
 app.listen(settings.APP_PORT, () => {
-  console.log(`App listening on port ${settings.APP_PORT}!`);
+  console.log(
+    chalk.white.bgGreen.bold(`App listening on port ${settings.APP_PORT}!`)
+  );
   initTickerWorker();
   initPriceWorker();
   initGraphWorker();

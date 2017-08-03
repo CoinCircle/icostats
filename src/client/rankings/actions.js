@@ -30,3 +30,8 @@ export const selectRelative = view => ({
   type: types.SELECT_RELATIVE,
   view
 });
+
+export const setSearchQuery = value => ({
+  type: types.SET_SEARCH_QUERY,
+  value
+});
