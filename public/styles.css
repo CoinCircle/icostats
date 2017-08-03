@@ -159,3 +159,62 @@ div {
 .bounce {
     animation-name: bounce;
 }
+
+
+/* =============================================================================
+=    Adblock message
+============================================================================= */
+.msg-ab {
+  width: 100%;
+  height: 48px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 99999;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: hsl(201, 87%, 54%);
+}
+
+img.msg-ab-img {
+  margin-left: 100px;
+  max-height: 85%;
+}
+
+.msg-ab-wrapper {
+  color: white;
+  margin-left: 10px;
+  -ms-flex-negative: 2;
+      flex-shrink: 2;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+h2.msg-ab-title {
+  margin: 0;
+  font-size: 14px;
+}
+
+p.msg-ab-text {
+  margin: 0;
+  font-weight: 300;
+  font-size: 11px;
+  max-width: 737px;
+  color: black;
+  -webkit-text-stroke: 0.01px;
+}
