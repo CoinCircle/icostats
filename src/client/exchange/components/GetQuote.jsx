@@ -9,11 +9,14 @@ import type { Action, ReduxState } from '~/exchange/types';
 import CheckIcon from '~/app/components/CheckIcon';
 import GetQuoteColumn from './GetQuoteColumn';
 import PoweredByShapeshift from './PoweredByShapeshift';
-import { fetchValidateAddress, setReceivingAddress } from '../actions';
+import { fetchAddresses, fetchValidateAddress, setReceivingAddress } from '../actions';
 
 type Props = {
   classes: Object,
   coins: Object,
+  addresses: Array<string>,
+  isFetchingAddresses: boolean,
+  fetchAddresses: () => void,
   receivingAddress: string,
   isReceivingAddressValid: boolean,
   setReceivingAddress: (address: string) => void,
@@ -24,7 +27,10 @@ type Props = {
 
 class GetQuote extends React.Component {
   props: Props;
-  state = {};
+
+  async componentWillMount() {
+    this.props.fetchAddresses();
+  }
 
   handleChangeReceivingAddress = (event) => {
     event.persist();
@@ -33,13 +39,18 @@ class GetQuote extends React.Component {
 
     this.props.setReceivingAddress(address);
 
-    if (address && !this.props.isFetchingValidateAddress) {
+    if (
+      address &&
+      !this.props.isFetchingValidateAddress &&
+      !this.props.isFetchingAddresses
+    ) {
       debounce(this.props.fetchValidateAddress, 300)(address, to);
     }
   }
 
   render() {
     const {
+      addresses,
       classes: c, coins, receivingAddress, isReceivingAddressValid
     } = this.props;
     const title = (
@@ -68,16 +79,21 @@ class GetQuote extends React.Component {
       <div className={c.footer}>
         <PoweredByShapeshift />
         <input
-          type="text"
+          list={'receiving-address'}
+          value={receivingAddress}
           spellCheck={false}
           placeholder="Input receiving address"
-          value={receivingAddress}
           onChange={this.handleChangeReceivingAddress}
           className={classNames(c.inputReceiving, {
             'is-valid': isReceivingAddressValid,
             'is-invalid': isReceivingAddressValid === false
           })}
         />
+        <datalist id={'receiving-address'}>{addresses.map(address => (
+          <option key={address}>
+            {address}
+          </option>
+        ))}</datalist>
         {isReceivingAddressValid && <CheckIcon />}
       </div>
     );
@@ -145,6 +161,7 @@ const styles = {
     borderRadius: '3px',
     padding: '4px 0',
     width: '45%',
+    textOverflow: 'ellipsis',
     borderBottom: '1px solid hsl(0, 0%, 84%)',
     alignSelf: 'flex-end',
     '&.is-valid': {
@@ -163,10 +180,12 @@ const styled = injectSheet(styles)(GetQuote);
 ============================================================================= */
 const mapStateToProps = (state: {exchange: ReduxState}) => ({
   to: state.exchange.to,
+  addresses: state.exchange.addresses,
   receivingAddress: state.exchange.receivingAddress,
   isReceivingAddressValid: state.exchange.isReceivingAddressValid
 });
 const mapDispatchToProps = (dispatch: Dispatch<Action>) => ({
+  fetchAddresses: () => dispatch(fetchAddresses()),
   setReceivingAddress: address => dispatch(setReceivingAddress(address)),
   fetchValidateAddress: (address, symbol) =>
     dispatch(fetchValidateAddress(address, symbol)),

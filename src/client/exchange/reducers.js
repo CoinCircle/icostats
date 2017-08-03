@@ -8,6 +8,9 @@ const initialState: State = {
   from: 'ETH',
   to: 'WINGS',
   amount: '',
+  addresses: [],
+  receivingAddress: '',
+  isFetchingAddresses: false,
   isFetchingQuote: false,
   didInvalidateQuote: false,
   isFetchingLimit: false,
@@ -76,6 +79,19 @@ const exchangeReducer = (
         isFetchingLimit: false,
         didInvalidateLimit: false,
         limit: action.limit
+      };
+
+    case types.REQUEST_ADDRESSES:
+      return {
+        ...state,
+        isFetchingAddresses: true
+      };
+
+    case types.RECEIVE_ADDRESSES:
+      return {
+        ...state,
+        isFetchingAddresses: false,
+        addresses: action.addresses
       };
 
     case types.SET_RECEIVING_ADDRESS:
