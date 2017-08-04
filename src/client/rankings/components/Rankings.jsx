@@ -208,7 +208,7 @@ const styles = {
     }
   },
   search: {
-    marginTop: '5px',
+    marginTop: '15px',
     width: 'auto'
   },
   searchTooltip: {

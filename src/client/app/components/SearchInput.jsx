@@ -126,14 +126,13 @@ const styles = {
       cursor: 'default'
     },
     '& > .material-icons.js-search': {
-      top: '7px',
-      left: '2px',
-      color: 'hsl(0, 0%, 90%)',
+      top: '6px',
+      left: '-1px',
+      color: 'hsl(201, 87%, 54%)',
+      cursor: 'pointer',
       position: 'absolute',
-      fontSize: '16px',
-      WebkitFontSmoothing: 'antialiased',
-      WebkitTextStroke: '1px hsl(223, 20%, 25%)',
-      cursor: 'pointer'
+      fontSize: '18px',
+      WebkitFontSmoothing: 'antialiased'
     },
     '& > .material-icons.js-close': {
       position: 'absolute',
