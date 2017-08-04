@@ -16,7 +16,6 @@ import compareReducer from 'compare/reducers';
 import rankingsReducer from '~/rankings/reducers';
 import exchangeReducer from '~/exchange/reducers';
 import analytics, { middleware as a7sMiddleware } from '~/app/lib/analytics';
-import cointraffic from '~/app/lib/cointraffic';
 
 // Create browser history
 export const history = createHistory();
@@ -63,5 +62,4 @@ ReactDOM.render(app, rootElement, onRendered);
 // Anything that is lower priority than getting the app rendered should go here.
 function onRendered() {
   identifyUser();
-  cointraffic();
 }
