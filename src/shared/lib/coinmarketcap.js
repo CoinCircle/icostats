@@ -57,7 +57,11 @@ export async function fetchAssets() {
 
 export async function fetchBoundPriceMap() {
   if (!cachedAssets) {
-    await fetchAssets();
+    try {
+      await fetchAssets();
+    } catch (e) {
+      throw Error(e.message);
+    }
   }
   const priceMap = {};
 

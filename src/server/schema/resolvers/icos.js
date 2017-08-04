@@ -1,3 +1,4 @@
+// @flow
 /* eslint-disable no-console */
 import winston from 'winston';
 import has from 'lodash/has';
