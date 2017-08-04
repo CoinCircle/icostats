@@ -27,7 +27,7 @@ export default {
       let recents = cache.get('recentPrices');
 
       if (!recents || !recents.length) {
-        const doc = await Price.find().slice('prices', 500).lean().exec();
+        const doc = await Price.find().slice('prices', 500).batchSize(100).lean().exec();
         const priceHistory = await PriceHistory.find().lean().exec();
 
         winston.info('No recent prices in cache - re-calculating.');
