@@ -68,6 +68,28 @@ app.use(bodyParser.urlencoded({ extended: false }));
 /**
  * Setup logging
  */
+winston.configure({
+  transports: [
+    new (winston.transports.Console)({
+      handleExceptions: true,
+      humanReadableUnhandledException: true,
+      formatter(options) {
+        const { message, level } = options;
+        let prefix = '';
+
+        if (level === 'info') {
+          prefix = chalk.blue('[info]');
+        } else if (level === 'warn') {
+          prefix = chalk.yellow('[warn]');
+        } else if (level === 'error') {
+          prefix = chalk.red('[error]');
+        }
+
+        return `${prefix} ${message}`;
+      }
+    })
+  ]
+});
 winston.add(winston.transports.Loggly, {
   inputToken: settings.LOGGLY_TOKEN,
   subdomain: settings.LOGGLY_SUBDOMAIN,
