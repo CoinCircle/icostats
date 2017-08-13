@@ -2,14 +2,14 @@
   "name": "ICOStats",
   "version": "1.0.0",
   "description": "ICO Stats NodeJS Application",
-  "main": "server.js",
+  "main": "dist/server.js",
   "scripts": {
-    "start": "nodemon --inspect --watch server.js server.js",
-    "start-production": "nodemon server.js",
-    "dev": "webpack --config webpack.config.dev.js --watch",
-    "build": "webpack --config webpack.config.prod.js",
-    "test-server": "mocha-webpack --webpack-config webpack.config.test.js --require babel-polyfill \"tests/server/**/*.js\"",
-    "test": "mocha-webpack --watch --growl --webpack-config webpack.config.test.js --require babel-polyfill \"tests/client/**/*.js\" \"tests/shared/**/*.js\""
+    "start": "nodemon --inspect --watch dist/server.js dist/server.js",
+    "start-production": "nodemon dist/server.js",
+    "dev": "webpack --config scripts/webpack/webpack.config.dev.js --watch",
+    "build": "webpack --config scripts/webpack/webpack.config.prod.js",
+    "test-server": "mocha-webpack --webpack-config scripts/webpack/base/server.base.config.js --require babel-polyfill \"tests/server/**/*.js\"",
+    "test": "mocha-webpack --watch --growl --webpack-config scripts/webpack/webpack.config.test.js --require babel-polyfill \"tests/client/**/*.js\" \"tests/shared/**/*.js\""
   },
   "repository": {
     "type": "git",
