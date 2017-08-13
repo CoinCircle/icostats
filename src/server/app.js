@@ -15,6 +15,7 @@ import settings from 'settings';
 import schema from 'schema';
 import NodeCache from 'node-cache';
 import initTickerWorker from 'lib/ticker-worker';
+import Redis from 'ioredis';
 import initPriceWorker from '~/lib/price-worker';
 import initGraphWorker from '~/lib/graph-worker';
 
@@ -58,6 +59,8 @@ const appCache = new NodeCache({
   checkperiod: 120
 });
 export const cache = appCache;
+
+export const redis = new Redis(settings.REDIS_URI);
 
 /**
  * Support json & urlencoded requests.
