@@ -9,6 +9,7 @@ const client = Object.assign({}, clientBase, {
   plugins: clientBase.plugins.concat([
     new webpack.DefinePlugin({
       ROOT_DIR: JSON.stringify(ROOT_DIR),
+      'process.env.NODE_ENV': JSON.stringify('production'),
       DEBUG: JSON.stringify(false)
     }),
     new BabiliPlugin()
@@ -18,6 +19,7 @@ const client = Object.assign({}, clientBase, {
 const server = Object.assign({}, serverBase, {
   plugins: serverBase.plugins.concat([
     new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production'),
       ROOT_DIR: JSON.stringify(ROOT_DIR),
       DEBUG: JSON.stringify(false)
     }),
