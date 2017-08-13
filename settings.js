@@ -10,6 +10,7 @@ module.exports = Object.assign({}, settingsPublic, {
   MONGO_TEST_URI: process.env.MONGO_TEST_URI || 'mongodb://mongo/app_test',
   MONGO_USERNAME: process.env.MONGO_USERNAME,
   MONGO_PASSWORD: process.env.MONGO_PASSWORD,
+  REDIS_URI: process.env.REDIS_URI || 'redis://redis:6379/0',
   SMTP_USERNAME: process.env.SMTP_USERNAME,
   SMTP_PASSWORD: process.env.SMTP_PASSWORD,
   SHAPESHIFT_SECRET: process.env.SHAPESHIFT_SECRET,
