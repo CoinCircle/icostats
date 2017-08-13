@@ -1,9 +1,15 @@
 /* eslint-disable */
+const path = require('path');
 const settingsPublic = require('./settings-public.js');
-require('dotenv').config();
+
+const __ROOT_DIR__ = process.env.ROOT_DIR || ROOT_DIR || process.cwd();
+const ENV_FILE_PATH = path.resolve(__ROOT_DIR__, '.env');
+
+require('dotenv').config({ path: ENV_FILE_PATH });
 
 module.exports = Object.assign({}, settingsPublic, {
-  APP_ROOT: __dirname,
+  APP_ROOT: __ROOT_DIR__,
+  ROOT_DIR: __ROOT_DIR__,
   APP_PORT: process.env.PORT || 3000,
   DEBUG: isDebug(),
   MONGO_URI: process.env.MONGO_URI || 'mongodb://mongo/app',

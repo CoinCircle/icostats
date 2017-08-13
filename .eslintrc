@@ -154,6 +154,7 @@
     "ga": false,
     "mixpanel": false,
     "analytics": true,
-    "window": true
+    "window": true,
+    "ROOT_DIR": false
   }
 }

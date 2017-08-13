@@ -5,6 +5,7 @@ const serverBase = require('./base/server.base.config.js');
 const path = require('path');
 const ROOT_DIR = path.resolve(__dirname, '../../');
 
+
 const client = Object.assign({}, clientBase, {
   plugins: clientBase.plugins.concat([
     new webpack.DefinePlugin({
@@ -12,6 +13,7 @@ const client = Object.assign({}, clientBase, {
       'process.env.NODE_ENV': JSON.stringify('production'),
       DEBUG: JSON.stringify(false)
     }),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new BabiliPlugin()
   ])
 });
@@ -23,6 +25,7 @@ const server = Object.assign({}, serverBase, {
       ROOT_DIR: JSON.stringify(ROOT_DIR),
       DEBUG: JSON.stringify(false)
     }),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new BabiliPlugin()
   ])
 });

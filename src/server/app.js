@@ -143,6 +143,22 @@ app.get('*', (req, res) =>
  * Run the server
  */
 app.listen(settings.APP_PORT, () => {
+  winston.info(`
+============================================================================
+ICO STATS
+============================================================================
+
+Environment variables:
+NODE_ENv:  ${process.env.NODE_ENV}
+__dirname: ${__dirname}
+cwd:       ${process.cwd()}
+ROOT_DIR:  ${ROOT_DIR}
+
+Settings:
+APP_ROOT:  ${settings.APP_ROOT}
+APP_PPORT: ${settings.APP_PORT}
+DEBUG:     ${settings.DEBUG}
+  `);
   winston.info(
     chalk.white.bgGreen.bold(`App listening on port ${settings.APP_PORT}!`)
   );
