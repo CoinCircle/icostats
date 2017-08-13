@@ -136,7 +136,7 @@ app.use(express.static('public'));
  * Byh default, serve our index.html file
  */
 app.get('*', (req, res) =>
-  res.sendFile(`${settings.APP_ROOT}/public/index.html`)
+  res.sendFile(`${ROOT_DIR}/public/index.html`)
 );
 
 /**
