@@ -2,6 +2,9 @@ import { expect } from 'chai';
 import hitbtc from 'shared/lib/exchanges/hitbtc';
 
 describe('HitBTC API Integration', function () {
+
+  this.timeout(10000);
+
   it('should support fetching listed pairs', async function () {
     const res = await hitbtc.fetchPairs();
 
@@ -11,7 +14,7 @@ describe('HitBTC API Integration', function () {
   it('should support fetching tickers', async function () {
     const res = await hitbtc.fetchTicker('BTCUSD');
 
-    expect(res).not.to.be.empty;
+    expect(res).to.exist;
   });
 
   it('should support price map', async function () {
