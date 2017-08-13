@@ -14,10 +14,7 @@ import OpticsAgent from 'optics-agent';
 import settings from 'settings';
 import schema from 'schema';
 import NodeCache from 'node-cache';
-import initTickerWorker from 'lib/ticker-worker';
 import Redis from 'ioredis';
-import initPriceWorker from '~/lib/price-worker';
-import initGraphWorker from '~/lib/graph-worker';
 
 /**
  * Configure logging
@@ -146,12 +143,9 @@ app.get('*', (req, res) =>
  * Run the server
  */
 app.listen(settings.APP_PORT, () => {
-  console.log(
+  winston.info(
     chalk.white.bgGreen.bold(`App listening on port ${settings.APP_PORT}!`)
   );
-  initTickerWorker();
-  initPriceWorker();
-  initGraphWorker();
 });
 
 
