@@ -1,0 +1,9 @@
+var path = require('path');
+var settings = require('./settings.js');
+
+module.exports = {
+    dir: path.join(__dirname, 'scripts/db/migrations'),
+    template: './scripts/db/migrationTemplate.js',
+    adapter: './node_modules/east-mongo',
+    url: settings.MONGO_URI
+};

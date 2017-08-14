@@ -23,8 +23,7 @@ dependencies:
 ## Customize test commands
 test:
   pre:
-    - node bin/importGraphData.js
-    - node bin/importEtherDeltaPairs.js
+    # Test dependencies
   override:
     - npm run test-server
     - ./node_modules/mocha-webpack/bin/mocha-webpack --webpack-config webpack.config.test.js --require babel-polyfill "tests/client/**/*.js" "tests/shared/**/*.js"

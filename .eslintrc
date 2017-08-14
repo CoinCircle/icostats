@@ -146,13 +146,15 @@
     "react/sort-comp": 0,
     "react/forbid-prop-types": 0,
     "jsx-a11y/no-static-element-interactions": 0,
-    "class-methods-use-this": 0
+    "class-methods-use-this": 0,
+    "jsx-a11y/href-no-hash": 0
   },
   "globals": {
     "web3": false,
     "ga": false,
     "mixpanel": false,
     "analytics": true,
-    "window": true
+    "window": true,
+    "ROOT_DIR": false
   }
 }

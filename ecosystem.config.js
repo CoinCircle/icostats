@@ -36,7 +36,7 @@ module.exports = {
     staging: {
       user: 'root',
       host: '165.227.6.170',
-      ref: 'origin/master',
+      ref: 'origin/develop',
       repo: 'https://github.com/icostats/icostats.git',
       path: '/usr/app',
       'pre-setup': 'npm install -g yarn pm2',

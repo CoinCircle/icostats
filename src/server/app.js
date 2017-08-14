@@ -14,9 +14,7 @@ import OpticsAgent from 'optics-agent';
 import settings from 'settings';
 import schema from 'schema';
 import NodeCache from 'node-cache';
-import initTickerWorker from 'lib/ticker-worker';
-import initPriceWorker from '~/lib/price-worker';
-import initGraphWorker from '~/lib/graph-worker';
+import Redis from 'ioredis';
 
 /**
  * Configure logging
@@ -59,6 +57,8 @@ const appCache = new NodeCache({
 });
 export const cache = appCache;
 
+export const redis = new Redis(settings.REDIS_URI);
+
 /**
  * Support json & urlencoded requests.
  */
@@ -68,6 +68,28 @@ app.use(bodyParser.urlencoded({ extended: false }));
 /**
  * Setup logging
  */
+winston.configure({
+  transports: [
+    new (winston.transports.Console)({
+      handleExceptions: true,
+      humanReadableUnhandledException: true,
+      formatter(options) {
+        const { message, level } = options;
+        let prefix = '';
+
+        if (level === 'info') {
+          prefix = chalk.blue('[info]');
+        } else if (level === 'warn') {
+          prefix = chalk.yellow('[warn]');
+        } else if (level === 'error') {
+          prefix = chalk.red('[error]');
+        }
+
+        return `${prefix} ${message}`;
+      }
+    })
+  ]
+});
 winston.add(winston.transports.Loggly, {
   inputToken: settings.LOGGLY_TOKEN,
   subdomain: settings.LOGGLY_SUBDOMAIN,
@@ -121,12 +143,26 @@ app.get('*', (req, res) =>
  * Run the server
  */
 app.listen(settings.APP_PORT, () => {
-  console.log(
+  winston.info(`
+============================================================================
+ICO STATS
+============================================================================
+
+Environment variables:
+NODE_ENv:  ${process.env.NODE_ENV}
+__dirname: ${__dirname}
+cwd:       ${process.cwd()}
+ROOT_DIR:  ${ROOT_DIR}
+
+Settings:
+APP_ROOT:  ${settings.APP_ROOT}
+APP_PPORT: ${settings.APP_PORT}
+DEBUG:     ${settings.DEBUG}
+ROOT_DIR   ${settings.ROOT_DIR}
+  `);
+  winston.info(
     chalk.white.bgGreen.bold(`App listening on port ${settings.APP_PORT}!`)
   );
-  initTickerWorker();
-  initPriceWorker();
-  initGraphWorker();
 });
 
 

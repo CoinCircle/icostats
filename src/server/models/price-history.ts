@@ -1,13 +1,15 @@
-const mongoose = require('mongoose');
+import * as mongoose from 'mongoose';
 
-const Schema = mongoose.Schema;
+export interface IPriceHistory extends mongoose.Document {
+  symbol: string;
+}
 
-const PriceSchema = new Schema({
+const PriceSchema = new mongoose.Schema({
   price_usd: Number,
   timestamp: Number
 }, { _id: false });
 
-const PriceHistorySchema = new Schema({
+const PriceHistorySchema = new mongoose.Schema({
 
   symbol: {
     type: String,

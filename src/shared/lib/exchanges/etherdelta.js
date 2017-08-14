@@ -1,15 +1,17 @@
 // @flow
 import fetch from 'isomorphic-fetch';
 import winston from 'winston';
+import BigNumber from 'bignumber.js';
 import etherdeltaConfig from 'shared/lib/etherdelta.config.js';
 
-const baseUrl = 'https://api.etherdelta.com';
+const baseUrl = 'https://cache1.etherdelta.com';
 
 /**
  * NOTE You can't pass symbols, only ERC-20 contract addresses!
  */
 export async function fetchTicker(a: string, b: string = '', raw: boolean = false) {
-  const url = `${baseUrl}/orders/${a}/${b}`;
+  const nonce = getNonce();
+  const url = `${baseUrl}/orders/${nonce}/${a}/${b}`;
 
   try {
     const res = await fetch(url);
@@ -20,11 +22,17 @@ export async function fetchTicker(a: string, b: string = '', raw: boolean = fals
     }
 
     // Only order lists are exposed, so we must search for the lowest ask.
-    const sellOrders = json.orders.filter(o => o.amount < 0);
-    const sorted = sellOrders.map(o => parseFloat(o.price)).sort();
-    const lowestAsk = sorted[0];
+    const sellOrders = json.orders.filter(
+      o => /sell$/.test(o.id)
+    );
+    const sorted = sellOrders.sort((a, b) =>
+      new BigNumber(a.price).lessThan(new BigNumber(b.price)) ? -1 : 1
+    );
+    const lowestAsk = sorted[0].price;
+    const addr = sorted[0].order.tokenGet;
+    const bignum = getNumber(lowestAsk, addr);
 
-    return lowestAsk;
+    return parseFloat(bignum);
   } catch (err) {
     winston.error(err.message);
   }
@@ -62,11 +70,22 @@ export async function fetchBoundPriceMap() {
   return priceMap;
 }
 
+function getNumber(strNum: string, addr: string) {
+  const obj = etherdeltaConfig.tokens.find(t => t.addr === addr);
+  const decimals = obj.decimals;
+
+  return new BigNumber(strNum).toFixed(decimals);
+}
+
 
 function getPairsForToken(token, tokens): string[] {
   const others = tokens.filter(t => t.name !== token.name);
 
   return others.map(other => `${token.name}-${other.name}`);
+}
+
+function getNonce() {
+  return Math.random().toString().slice(2) + Math.random().toString().slice(2);
 }
 
 export default {
