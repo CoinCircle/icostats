@@ -136,7 +136,7 @@ app.use(express.static('public'));
  * Byh default, serve our index.html file
  */
 app.get('*', (req, res) =>
-  res.sendFile(`${ROOT_DIR}/public/index.html`)
+  res.sendFile(`${settings.APP_ROOT}/public/index.html`)
 );
 
 /**
@@ -158,6 +158,7 @@ Settings:
 APP_ROOT:  ${settings.APP_ROOT}
 APP_PPORT: ${settings.APP_PORT}
 DEBUG:     ${settings.DEBUG}
+ROOT_DIR   ${settings.ROOT_DIR}
   `);
   winston.info(
     chalk.white.bgGreen.bold(`App listening on port ${settings.APP_PORT}!`)
