@@ -2,6 +2,10 @@
 const path = require('path');
 const settingsPublic = require('./settings-public.js');
 
+if (typeof ROOT_DIR === 'undefined') {
+  ROOT_DIR = null;
+}
+
 const __ROOT_DIR__ = process.env.ROOT_DIR || ROOT_DIR || process.cwd();
 const ENV_FILE_PATH = path.resolve(__ROOT_DIR__, '.env');
 
