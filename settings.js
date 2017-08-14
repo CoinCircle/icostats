@@ -12,6 +12,7 @@ module.exports = Object.assign({}, settingsPublic, {
   ROOT_DIR: __ROOT_DIR__,
   APP_PORT: process.env.PORT || 3000,
   DEBUG: isDebug(),
+  PROMISE_CONCURRECY: process.env.PROMISE_CONCURRECY || 3,
   MONGO_URI: process.env.MONGO_URI || 'mongodb://mongo/app',
   MONGO_TEST_URI: process.env.MONGO_TEST_URI || 'mongodb://mongo/app_test',
   MONGO_USERNAME: process.env.MONGO_USERNAME,
