@@ -21,7 +21,7 @@
  */
 import * as moment from 'moment';
 import * as winston from 'winston';
-import * range from 'lodash/range';
+import range = require('lodash/range');
 import Ticker, { ITicker } from '~/models/Ticker';
 
 export interface ILatestTimestamp {
