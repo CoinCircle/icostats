@@ -103,7 +103,7 @@ async function saveToTickers(json, token) {
 
     await Promise.map(missingPrices, async ([ts, price]) => {
       const tsMoment = moment(ts);
-      const timestamp_hour = tsMoment.startOf('hour').valueOf();
+      const timestamp_hour = tsMoment.clone().startOf('hour').valueOf();
       const minute = tsMoment.minute();
       const second = tsMoment.second();
 
