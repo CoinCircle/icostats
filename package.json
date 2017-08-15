@@ -5,7 +5,7 @@
   "main": "dist/server.js",
   "scripts": {
     "start": "nodemon --inspect --watch dist/server.js dist/server.js",
-    "start-production": "NODE_ENV=production nodemon dist/server.js",
+    "start:production": "NODE_ENV=production node dist/server.js",
     "dev": "webpack --config scripts/webpack/webpack.config.dev.js --watch",
     "build": "webpack --config scripts/webpack/webpack.config.prod.js",
     "test-server": "mocha-webpack --webpack-config scripts/webpack/base/server.base.config.js --require babel-polyfill \"tests/server/**/*.js\"",
