@@ -24,9 +24,12 @@ const tokens = [
 ];
 
 export default async function runGraphWorker() {
+  const promiseOpts = {
+    concurrency: settings.PROMISE_CONCURRENCY
+  };
 
   try {
-    await Promise.map(tokens, fetchTokenGraph, { concurrency: 1 });
+    await Promise.map(tokens, fetchTokenGraph, promiseOpts);
   } catch (e) {
     winston.error(`[graph-worker] ERROR: ${e.message}`);
   }
@@ -85,6 +88,9 @@ function saveData(json, token) {
 }
 
 async function saveToTickers(json, token) {
+  const promiseOpts = {
+    concurrency: settings.PROMISE_CONCURRENCY * 3
+  };
   const { id } = token;
   const { price_usd } = json;
 
@@ -123,7 +129,7 @@ async function saveToTickers(json, token) {
 
         return ticker.save();
       }).catch(err => winston.error(`[graph-worker] error: ${err.message}`));
-    }, { concurrency: 10 });
+    }, promiseOpts);
   } catch (err) {
     winston.error(`[graph-worker] (saveToTickers) ERROR: ${err.message}`);
   }

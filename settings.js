@@ -2,6 +2,10 @@
 const path = require('path');
 const settingsPublic = require('./settings-public.js');
 
+if (typeof ROOT_DIR === 'undefined') {
+  ROOT_DIR = null;
+}
+
 const __ROOT_DIR__ = process.env.ROOT_DIR || ROOT_DIR || process.cwd();
 const ENV_FILE_PATH = path.resolve(__ROOT_DIR__, '.env');
 
@@ -12,6 +16,7 @@ module.exports = Object.assign({}, settingsPublic, {
   ROOT_DIR: __ROOT_DIR__,
   APP_PORT: process.env.PORT || 3000,
   DEBUG: isDebug(),
+  PROMISE_CONCURRENCY: process.env.PROMISE_CONCURRENCY || 3,
   MONGO_URI: process.env.MONGO_URI || 'mongodb://mongo/app',
   MONGO_TEST_URI: process.env.MONGO_TEST_URI || 'mongodb://mongo/app_test',
   MONGO_USERNAME: process.env.MONGO_USERNAME,
