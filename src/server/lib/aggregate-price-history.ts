@@ -160,7 +160,7 @@ async function getAllTickersNearTimestamp(timestamp: number): Promise<{
   price: number;
 }[]> {
   const ONE_HOUR = 1000 * 60 * 60;
-  const offset = ONE_HOUR * 3;
+  const offset = ONE_HOUR * 12;
   const res = await Ticker.aggregate().allowDiskUse(true)
     // Let's only consider documents with timestamps within a few hours from our
     // target timestamp.
