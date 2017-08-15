@@ -101,7 +101,7 @@ async function saveToTickers(json, token) {
       `Fetching ${missingPrices.length} prices (filtered) of a total of ${price_usd.length}`
     );
 
-    await Promise.map(missingPrices, ([ts, price]) => {
+    await Promise.map(missingPrices, async ([ts, price]) => {
       const tsMoment = moment(ts);
       const timestamp_hour = tsMoment.startOf('hour').valueOf();
       const minute = tsMoment.minute();
@@ -113,10 +113,12 @@ async function saveToTickers(json, token) {
 
       counter++;
 
-      return Ticker.findOne({
-        timestamp_hour,
-        belongs_to: id
-      }).exec().then(ticker => {
+      try {
+        let ticker = await Ticker.findOne({
+          timestamp_hour,
+          belongs_to: id
+        }).exec();
+
         if (!ticker) {
           ticker = new Ticker({
             timestamp_hour,
@@ -127,8 +129,14 @@ async function saveToTickers(json, token) {
         ticker.values[minute][second] = price;
         ticker.markModified(`values.${minute}.${second}`);
 
-        return ticker.save();
-      }).catch(err => winston.error(`[graph-worker] error: ${err.message}`));
+        winston.info(`
+          [graph-worker] Saving price: ${price}, _id: ${ticker._id}, ts: ${tsMoment.format()}
+        `);
+
+        await ticker.save();
+      } catch (e) {
+        winston.error(`[graph-worker] Error saving ticker: ${e.message}`);
+      }
     }, promiseOpts);
   } catch (err) {
     winston.error(`[graph-worker] (saveToTickers) ERROR: ${err.message}`);
