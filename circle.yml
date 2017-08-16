@@ -18,4 +18,4 @@ test:
     # Test dependencies
   override:
     - npm run test-server
-    - ./node_modules/mocha-webpack/bin/mocha-webpack --webpack-config scripts/webpack/webpack.config.standalone.js --require babel-polyfill \"tests/client/**/*.js\" \"tests/shared/**/*.js\"
+    - ./node_modules/mocha-webpack/bin/mocha-webpack --webpack-config scripts/webpack/webpack.config.standalone.js --require babel-polyfill "tests/client/**/*.js" "tests/shared/**/*.js"
