@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import etherdelta from 'shared/lib/exchanges/etherdelta';
 
-describe('EtherDelta API Integration', function () {
+describe.skip('EtherDelta API Integration', function () {
   const ONE_MINUTE = 60000;
 
   this.timeout(ONE_MINUTE);

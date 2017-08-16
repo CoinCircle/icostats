@@ -1,42 +1,21 @@
-## Customize the test machine
 machine:
-
   node:
     version: 7.4.0
-
   timezone:
-    America/Los_Angeles # Set the timezone
-
-  # Add some environment variables
+    America/Los_Angeles
   environment:
     TEST_ALL: true
     CIRCLE_ENV: test
     MONGO_TEST_URI: mongodb://icostats:icostats@ds131492.mlab.com:31492/icostats-circleci
-
-## Customize dependencies
+    ROOT_DIR: $HOME/icostats
 dependencies:
   pre:
     - npm install -g yarn
   override:
     - yarn install
-
-## Customize test commands
 test:
   pre:
     # Test dependencies
   override:
     - npm run test-server
-    - ./node_modules/mocha-webpack/bin/mocha-webpack --webpack-config webpack.config.test.js --require babel-polyfill "tests/client/**/*.js" "tests/shared/**/*.js"
-
-## Customize deployment commands
-# deployment:
-#   staging:
-#     branch: master
-#     heroku:
-#       appname: foo-bar-123
-
-## Custom notifications
-# notify:
-#   webhooks:
-#     # A list of hashes representing hooks. Only the url field is supported.
-#     - url: https://someurl.com/hooks/circle
+    - ./node_modules/mocha-webpack/bin/mocha-webpack --webpack-config scripts/webpack/webpack.config.standalone.js --require babel-polyfill "tests/client/**/*.js" "tests/shared/**/*.js"
