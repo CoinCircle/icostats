@@ -63,7 +63,7 @@ module.exports = {
               // https://babeljs.io/docs/plugins/preset-env/#optionsuse-built-ins
               useBuiltIns: true,
               // https://babeljs.io/docs/plugins/preset-env/#optionsdebug
-              debug: true
+              debug: false
             }],
             'react',
             'flow'
