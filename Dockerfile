@@ -5,12 +5,12 @@ WORKDIR /app
 
 COPY package.json /app
 COPY yarn.lock /app
+COPY . /app
 
 RUN npm install -g yarn
 RUN yarn install
-
-COPY . /app
+RUN npm run build
 
 EXPOSE 3000
 
-ENTRYPOINT /bin/sh
+CMD ["node", "dist/server.js"]

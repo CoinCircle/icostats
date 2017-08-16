@@ -152,7 +152,6 @@ Environment variables:
 NODE_ENv:  ${process.env.NODE_ENV}
 __dirname: ${__dirname}
 cwd:       ${process.cwd()}
-ROOT_DIR:  ${ROOT_DIR}
 
 Settings:
 APP_ROOT:  ${settings.APP_ROOT}
