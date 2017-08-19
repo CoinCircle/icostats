@@ -4,6 +4,10 @@ NAME := $(shell basename $$PWD | sed -e s/[\\.-]//g)
 serve:
 	docker exec -it ${NAME}_web_1 npm start
 
+## start workers
+work:
+	docker exec -it ${NAME}_web_1 npm run start:workers
+
 ## Runs webpack (development)
 webpack:
 	docker exec -it ${NAME}_web_1 npm run dev
