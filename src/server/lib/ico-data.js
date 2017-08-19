@@ -1,6 +1,21 @@
 /* eslint-disable */
 module.exports = [
   {
+    id: 'santiment',
+    symbol: 'SAN',
+    is_erc20: true,
+    contract_address: '0x7C5A0CE9267ED19B22F8cae653F198e3E8daf098',
+    name: 'Santiment',
+    symbol: 'SAN',
+    ticker: 'santiment',
+    eth_price_at_launch: 265.82,
+    btc_price_at_launch: 2604.55,
+    raise: 12215250,
+    amount_sold_in_ico: 45000000,
+    start_date: '07/04/2017',
+    supported_changelly: false
+  },
+  {
     id: 'eos',
     is_erc20: true,
     contract_address: '0x86fa049857e0209aa7d9e616f7eb3b3b78ecfdb0',
