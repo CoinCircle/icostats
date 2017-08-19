@@ -199,7 +199,6 @@ const withData = graphql(QUERY, {
 const mapStateToProps = (state: {exchange: ReduxState}) => ({
   from: state.exchange.from,
   to: state.exchange.to,
-  amount: state.exchange.amount,
   depositAddress: state.exchange.depositAddress,
   receivingAddress: state.exchange.receivingAddress,
   isReceivingAddressValid: state.exchange.isReceivingAddressValid,

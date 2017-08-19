@@ -6,6 +6,7 @@ import appendRecentStats from './lib/appendRecentStats';
 
 const getICOs = (state, props) => props.icos || [];
 const getSortBy = state => state.rankings.sortBy;
+const getSearchQuery = state => state.rankings.searchQuery;
 const getPathname = state => state.router.location.pathname;
 const getCurrency = state => state.rankings.currency;
 const getFilters = state => state.rankings.filters;
@@ -77,11 +78,22 @@ export const selectSortBy = createSelector(
  * Filter the ICOs
  */
 export const selectFilteredICOs = createSelector(
-  [getICOs, getFilters],
-  (icos, filters) => {
+  [getICOs, getFilters, getSearchQuery],
+  (icos, filters, searchQuery) => {
     const filtered = icos.filter((ico) => {
+
       if (filters.erc20 && !ico.is_erc20) {
         return false;
+      }
+
+      if (searchQuery) {
+        const queries = searchQuery.split('|');
+        const getRegex = str => new RegExp(str, 'i');
+        const isMatch = queries.some(q => getRegex(q).test(ico.name.trim()));
+
+        if (!isMatch) {
+          return false;
+        }
       }
 
       return true;

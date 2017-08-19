@@ -6,6 +6,103 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { openFeedback } from '../actions';
 
+type Props = {
+  classes: Object,
+  onClickFeedback: () => void,
+  isNavOpen: boolean
+};
+
+let tipjarRef;
+
+const Navigation = ({ classes, onClickFeedback, isNavOpen = true }: Props) => (
+
+  <div
+    className={classNames(classes.container, { [classes.hide]: !isNavOpen })}
+  >
+    <div className={classes.brand}>
+      <img src="/img/logo.svg" className={classes.logo} alt="logo" />
+    </div>
+
+    <div className={classes.menu}>
+      <h3 className={classes.menuTitle}>Stats</h3>
+      <NavLink
+        exact
+        to="/"
+        className={classes.menuItem}
+        activeClassName={classes.activeMenuItem}
+      >Recent Performers</NavLink>
+      <NavLink
+        exact
+        to="/roi-since-ico"
+        className={classes.menuItem}
+        activeClassName={classes.activeMenuItem}
+      >ROI Since ICO</NavLink>
+      <NavLink
+        to="/roi-over-time"
+        className={classes.menuItem}
+        activeClassName={classes.activeMenuItem}
+      >ROI / Time</NavLink>
+      <NavLink
+        to="/vs-eth"
+        className={classes.menuItem}
+        activeClassName={classes.activeMenuItem}
+      >ICO v.s. ETH</NavLink>
+      <NavLink
+        to="/vs-btc"
+        className={classes.menuItem}
+        activeClassName={classes.activeMenuItem}
+      >ICO v.s. BTC</NavLink>
+      <NavLink
+        to="/compare"
+        className={classes.menuItem}
+        activeClassName={classes.activeMenuItem}
+      >Compare</NavLink>
+      <a
+        href="https://www.icoalert.com/"
+        target="_blank"
+        rel="noopener"
+        className={classes.menuItem}
+      >Upcoming ICOs</a>
+      {/* <NavLink
+        to="/token-holders"
+        className={classes.menuItem}
+        activeClassName={classes.activeMenuItem}
+      >Token Holders</NavLink>
+      <NavLink
+        to="/locks"
+        className={classes.menuItem}
+        activeClassName={classes.activeMenuItem}
+      >Locks</NavLink> */}
+    </div>
+
+    <a
+      className={classes.btnFeedback}
+      onClick={onClickFeedback}
+    >Feedback</a>
+
+    <a
+      href="https://trello.com/b/UnsBjG3k"
+      target="_blank"
+      rel="noopener noreferrer"
+      className={classes.roadmap}
+    >
+      Trello Roadmap
+    </a>
+
+    <div
+      className={classes.tipjar}
+      onClick={() => tipjarRef && selectElementText(tipjarRef, window)}
+    >
+      <span className={classes.tipjarTitle}>
+        tipjar:{' '}
+      </span>
+      <pre className={classes.tipjarAddress} ref={c => tipjarRef = c}>
+        icostats.eth
+      </pre>
+    </div>
+  </div>
+);
+
 const styles = {
   container: {
     height: '100%',
@@ -13,6 +110,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
+    flexShrink: 0,
     boxShadow: '3px 0px 10px hsla(0, 0%, 0%, 0.5)',
     backgroundColor: 'hsl(222, 21%, 20%)',
     justifyContent: 'space-between',
@@ -124,104 +222,11 @@ const styles = {
   }
 };
 
-type Props = {
-  classes: Object,
-  onClickFeedback: () => void,
-  isNavOpen: boolean
-};
-
-let tipjarRef;
-
-const Navigation = ({ classes, onClickFeedback, isNavOpen = true }: Props) => (
-
-  <div
-    className={classNames(classes.container, { [classes.hide]: !isNavOpen })}
-  >
-    <div className={classes.brand}>
-      <img src="/img/logo.svg" className={classes.logo} alt="logo" />
-    </div>
-
-    <div className={classes.menu}>
-      <h3 className={classes.menuTitle}>Stats</h3>
-      <NavLink
-        exact
-        to="/"
-        className={classes.menuItem}
-        activeClassName={classes.activeMenuItem}
-      >Recent Performers</NavLink>
-      <NavLink
-        exact
-        to="/roi-since-ico"
-        className={classes.menuItem}
-        activeClassName={classes.activeMenuItem}
-      >ROI Since ICO</NavLink>
-      <NavLink
-        to="/roi-over-time"
-        className={classes.menuItem}
-        activeClassName={classes.activeMenuItem}
-      >ROI / Time</NavLink>
-      <NavLink
-        to="/vs-eth"
-        className={classes.menuItem}
-        activeClassName={classes.activeMenuItem}
-      >ICO v.s. ETH</NavLink>
-      <NavLink
-        to="/vs-btc"
-        className={classes.menuItem}
-        activeClassName={classes.activeMenuItem}
-      >ICO v.s. BTC</NavLink>
-      <NavLink
-        to="/compare"
-        className={classes.menuItem}
-        activeClassName={classes.activeMenuItem}
-      >Compare</NavLink>
-      <a
-        href="https://www.icoalert.com/"
-        target="_blank"
-        rel="noopener"
-        className={classes.menuItem}
-      >Upcoming ICOs</a>
-      {/* <NavLink
-        to="/token-holders"
-        className={classes.menuItem}
-        activeClassName={classes.activeMenuItem}
-      >Token Holders</NavLink>
-      <NavLink
-        to="/locks"
-        className={classes.menuItem}
-        activeClassName={classes.activeMenuItem}
-      >Locks</NavLink> */}
-    </div>
-
-    <a
-      className={classes.btnFeedback}
-      onClick={onClickFeedback}
-    >Feedback</a>
-
-    <a
-      href="https://trello.com/b/UnsBjG3k"
-      target="_blank"
-      rel="noopener noreferrer"
-      className={classes.roadmap}
-    >
-      Trello Roadmap
-    </a>
-
-    <div
-      className={classes.tipjar}
-      onClick={() => tipjarRef && selectElementText(tipjarRef, window)}
-    >
-      <span className={classes.tipjarTitle}>
-        tipjar:{' '}
-      </span>
-      <pre className={classes.tipjarAddress} ref={c => tipjarRef = c}>
-        icostats.eth
-      </pre>
-    </div>
-  </div>
-);
-
 const withStyles = injectSheet(styles)(Navigation);
+
+/* =============================================================================
+=    Redux
+============================================================================= */
 
 const mapStateToProps = (state, ownProps) => ({
   isNavOpen: state.app.isNavOpen,

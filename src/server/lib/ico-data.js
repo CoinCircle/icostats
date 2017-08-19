@@ -628,22 +628,6 @@ module.exports = [
     supported_changelly: true
   },
   {
-    name: 'Antshares',
-    symbol: 'ANS',
-    is_erc20: false,
-    raise: 556500, // 2100 BTC @ $265 per BTC
-    total_amount_of_tokens: '',
-    amount_sold_in_ico: 17500000,
-    start_date: '10/01/2015',
-    eth_price_at_launch: 12.16,
-    btc_price_at_launch: 579.653,
-    tokens_sold_at_launch: 17500000,
-    raised: 541800,
-    ticker: 'antshares',
-    id: 'antshares',
-    supported_changelly: false
-  },
-  {
     name: 'Lunyr',
     symbol: 'LUN',
     is_erc20: true,
@@ -909,6 +893,32 @@ module.exports = [
     ticker: 'spectrecoin',
     supported_changelly: false
   },
+  {
+  /**
+   * Sources:
+   * GDAX
+   * https://etherscan.io/token/district0x
+   *https://blog.district0x.io/district0x-network-fundraiser-recap-d0437c939bc1
+   *https://blog.district0x.io/district0x-network-contribution-period-faq-57cc3455ceda
+   */
+  id: 'district0x',
+  name: 'district0x',
+  symbol: 'DNT',
+  ticker: 'district0x',
+  eth_price_at_launch: 234.03, /*15:00 July 18 on GDAX ETH/USD*/
+  btc_price_at_launch: 2349.87, /*15:00 July 18 on GDAX BTC/USD*/
+  raise: 10102951.0641, /*see below x 234.03*/
+  amount_sold_in_ico: 600000000,
+  start_date: '07/18/2017',
+  supported_changelly: false,
+  is_erc20: true,
+  // Below keys are optional but recommended
+  contract_address: '0x0AbdAce70D3790235af448C88547603b945604ea', /*https://etherscan.io/token/district0x*/
+  raise_by_currency: {
+    eth: 43169.47, /*https://blog.district0x.io/district0x-network-fundraiser-recap-d0437c939bc1*/
+    btc: 0
+  }
+},
   // {
   //   id: 'aeternity-two',
   //   is_erc20: false,

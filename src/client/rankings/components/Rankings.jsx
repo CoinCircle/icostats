@@ -2,7 +2,9 @@
 import React from 'react';
 import injectSheet from 'react-jss';
 import classNames from 'classnames';
+import { connect } from 'react-redux';
 import Exchange from '~/exchange/components/Exchange';
+import SearchInput from '~/app/components/SearchInput';
 import TableHeader from './TableHeader';
 import TableRow from './TableRow';
 import Filters from './Filters';
@@ -10,6 +12,7 @@ import Loading from './Loading';
 import * as types from '../constants';
 import CurrencyPicker from './CurrencyPicker';
 import Paginator from './Paginator';
+import { setSearchQuery } from '../actions';
 
 type ICO = {
   id: string
@@ -27,24 +30,32 @@ type Props = {
   sort: (sortBy: string, ascending: boolean) => void,
   maxPages: number,
   isExchangeActive: boolean,
-  subscribe: () => $FlowTODO
+  subscribe: () => $FlowTODO,
+  onChangeSearch: (val: string) => void,
+  searchQuery: string
 };
 
 
 class Rankings extends React.Component {
   props: Props;
   state: $FlowTODO;
+  debouncedOnChangeSearch: Function;
 
   constructor(props: Props) {
     super(props);
 
     this.state = {
-      indexHighlighted: null
+      indexHighlighted: null,
+      isSearchOpen: false
     };
   }
 
   componentDidMount() {
-    // this.props.subscribe();
+    this.props.subscribe();
+  }
+
+  handleSearch = (event: SyntheticEvent & { target: EventTarget }) => {
+    this.props.onChangeSearch(event.target.value);
   }
 
   render() {
@@ -72,6 +83,21 @@ class Rankings extends React.Component {
         menu
       </i>
     );
+    const tooltip = (
+      <span className={classes.searchTooltip}>
+        Include multiple queries by separating them with `<em>|</em>`.<br />
+        For example, `<pre>golem<em>|</em>status</pre>` would match both golem
+        and status.
+      </span>
+    );
+    const search = (
+      <SearchInput
+        className={classes.search}
+        onChange={this.handleSearch}
+        value={this.props.searchQuery}
+        tooltip={tooltip}
+      />
+    );
     const header = (
       <div className={classes.header}>
         {hamburger}
@@ -81,16 +107,17 @@ class Rankings extends React.Component {
         </div>
         <div className={classes.headerRight}>
           {showCurrencyPicker && <CurrencyPicker />}
+          {search}
         </div>
       </div>
     );
     const table = (
       <div className={classes.table}>
         <TableHeader
-          sortBy={this.props.sortBy}
+          sortBy={this.props.sortBy.replace('_abs', '')}
           onSort={(sortBy, ascending) => this.props.sort(sortBy, ascending)}
           ascending={this.props.ascending}
-          type={view}
+          view={view}
           currency={this.props.currency}
         />
         <div className={classes.tbody}>
@@ -172,13 +199,35 @@ const styles = {
   headerLeft: {
     flexGrow: 2
   },
-  headerRight: {},
+  headerRight: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end'
+  },
   hamburger: {
     color: 'hsl(0, 0%, 75%)',
     paddingRight: '15px',
     cursor: 'pointer',
     '&:hover': {
       color: 'hsl(0, 0%, 80%)'
+    }
+  },
+  search: {
+    marginTop: '15px',
+    width: 'auto'
+  },
+  searchTooltip: {
+    color: 'hsl(0, 0%, 102%)',
+    fontSize: '10px',
+    marginTop: '5px',
+    '& em': {
+      color: 'hsl(201, 87%, 54%)',
+      fontWeight: 'bold',
+      fontStyle: 'normal'
+    },
+    '& pre': {
+      color: 'hsl(0, 0%, 100%)',
+      display: 'inline'
     }
   },
   '@media (min-width: 768px)': {
@@ -193,4 +242,15 @@ const styles = {
   }
 };
 
-export default injectSheet(styles)(Rankings);
+/* =============================================================================
+=    Redux
+============================================================================= */
+const mapStateToProps = state => ({
+  searchQuery: state.rankings.searchQuery
+});
+const mapDispatchToProps = (dispatch: $FlowTODO) => ({
+  onChangeSearch: val => dispatch(setSearchQuery(val))
+});
+const Container = connect(mapStateToProps, mapDispatchToProps)(Rankings);
+
+export default injectSheet(styles)(Container);

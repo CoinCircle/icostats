@@ -237,9 +237,11 @@ class Feedback extends React.Component {
       >
         {back}
         <div className={c.text}>
-          Fill this out to request an addition to our listings. To expedite the
-          process, please be as accurate as possible and provide sources for
-          your information.
+          The fastest way to get listed is to create a pull request directly to
+          our repo according to <a href="https://github.com/icostats/icostats/blob/master/docs/Tokens.md">these instructions</a>.
+          <br /><br />
+          Alternatively, you can fill out the form below to submit a request to have a token listed. To expedite the process, please be as accurate
+          as possible and provide sources for your information.
         </div>
         {fields.map(field => (
           <div className={c.fieldset} key={field.name}>

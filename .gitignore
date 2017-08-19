@@ -6,3 +6,4 @@ public/bundle.js
 server.js
 dist/
 yarn-error.log
+/npm-debug.log

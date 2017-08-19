@@ -21,10 +21,17 @@ export const changePageNumber = pageNumber => ({
   pageNumber
 });
 
-export const selectAbsolute = () => ({
-  type: types.SELECT_ABSOLUTE
+export const selectAbsolute = view => ({
+  type: types.SELECT_ABSOLUTE,
+  view
 });
 
-export const selectRelative = () => ({
-  type: types.SELECT_RELATIVE
+export const selectRelative = view => ({
+  type: types.SELECT_RELATIVE,
+  view
+});
+
+export const setSearchQuery = value => ({
+  type: types.SET_SEARCH_QUERY,
+  value
 });

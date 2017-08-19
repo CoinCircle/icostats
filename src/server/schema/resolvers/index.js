@@ -1,15 +1,16 @@
-/* eslint-disable no-console */
+/* eslint-disable no-console, max-statements */
 import winston from 'winston';
 import fetch from 'isomorphic-fetch';
-import { cache } from 'app';
+import { redis } from 'app';
 import GraphQLJSON from 'graphql-type-json';
+import Subscription from './subscription';
 import { normalize as normalizeICO } from 'lib/icos';
 import { sendMail } from 'lib/mail';
-import recentPrices from 'lib/recentPrices';
 import Price from 'models/price';
-import PriceHistory from '~/models/price-history';
 import * as shapeshift from 'shared/lib/shapeshift';
 import getExchangeService from 'shared/lib/exchange.service';
+import * as agg from '~/lib/aggregate-price-history';
+import icoData from '~/lib/ico-data';
 import icos from './icos';
 
 export default {
@@ -21,19 +22,38 @@ export default {
       return doc;
     },
     async recentPrices() {
-      const ONE_MINUTE = 60;
-      const FIFTEEN_MINUTES = ONE_MINUTE * 15;
+      let recentPrices;
 
-      let recents = cache.get('recentPrices');
-
-      if (!recents || !recents.length) {
-        const doc = await Price.find().lean().exec();
-        const priceHistory = await PriceHistory.find().lean().exec();
-
-        winston.info('No recent prices in cache - re-calculating.');
-        recents = recentPrices(doc, priceHistory);
-        cache.set('recentPrices', recents, FIFTEEN_MINUTES);
+      try {
+        recentPrices = await redis.get('recentPrices');
+      } catch (e) {
+        throw Error(e.message);
       }
+
+      if (!recentPrices) {
+        winston.warn(`recentPrices not in cache: Querying mongo for new data`);
+        try {
+          const startRecentPrices = Date.now();
+
+          recentPrices = await agg.getRecentPrices();
+          const endRecentPrices = Date.now();
+          const msRecentPrices = endRecentPrices - startRecentPrices;
+
+          winston.info(`Querying mongo for Tickers for icos resolver took ${msRecentPrices}ms`);
+
+          await redis.set('recentPrices', JSON.stringify(recentPrices));
+
+        } catch (err) {
+          winston.error(`Failed to get recentPrices from mongo: ${err.message}`);
+        }
+      } else {
+        recentPrices = JSON.parse(recentPrices);
+      }
+
+      const recents = icoData.map(ico => ({
+        symbol: ico.symbol,
+        recent_prices: recentPrices[ico.id] || {}
+      }));
 
       return recents;
     },
@@ -64,5 +84,6 @@ export default {
       return success ? 'success' : 'failed';
     }
   },
+  Subscription,
   JSON: GraphQLJSON
 };

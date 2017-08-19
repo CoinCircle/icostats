@@ -91,7 +91,7 @@
     "operator-assignment": [1, "never"],
     "operator-linebreak": 0,
     "quote-props": 0,
-    "quotes": [1, "single", "avoid-escape"],
+    "quotes": [1, "single", { "allowTemplateLiterals": true }],
     "keyword-spacing": [1, {
       "before": true,
       "after": true,
@@ -146,9 +146,15 @@
     "react/sort-comp": 0,
     "react/forbid-prop-types": 0,
     "jsx-a11y/no-static-element-interactions": 0,
-    "class-methods-use-this": 0
+    "class-methods-use-this": 0,
+    "jsx-a11y/href-no-hash": 0
   },
   "globals": {
-    "web3": true
+    "web3": false,
+    "ga": false,
+    "mixpanel": false,
+    "analytics": true,
+    "window": true,
+    "ROOT_DIR": false
   }
 }

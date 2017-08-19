@@ -3,7 +3,10 @@ services:
     web:
         tty: true
         stdin_open: true
-        build: .
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+        command: "/bin/bash"
         volumes:
             - ./:/app
         ports:
@@ -11,9 +14,14 @@ services:
             - "9229:9229"
         links:
             - mongo
+            - redis
         environment:
             - MY_ENV_VAR="some value"
     mongo:
         image: mongo
         ports:
             - "27018:27017"
+    redis:
+        image: redis
+        ports:
+            - "6379:6379"

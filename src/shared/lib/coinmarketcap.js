@@ -13,22 +13,27 @@ export async function fetchTicker(
   raw: boolean = false
 ) {
   const url = `${baseUrl}/ticker/${id}`;
-  const res = await fetch(url);
-  const json = await res.json();
 
-  if (raw) {
-    return json;
+  try {
+    const res = await fetch(url);
+    const json = await res.json();
+
+    if (raw) {
+      return json;
+    }
+
+    if (currency === 'USD') {
+      return parseFloat(json[0].price_usd);
+    }
+
+    if (currency === 'BTC') {
+      return parseFloat(json[0].price_btc);
+    }
+
+    return json[0];
+  } catch (e) {
+    throw Error(e.message);
   }
-
-  if (currency === 'USD') {
-    return parseFloat(json[0].price_usd);
-  }
-
-  if (currency === 'BTC') {
-    return parseFloat(json[0].price_btc);
-  }
-
-  return json[0];
 }
 
 export async function fetchAssets() {
@@ -52,7 +57,11 @@ export async function fetchAssets() {
 
 export async function fetchBoundPriceMap() {
   if (!cachedAssets) {
-    await fetchAssets();
+    try {
+      await fetchAssets();
+    } catch (e) {
+      throw Error(e.message);
+    }
   }
   const priceMap = {};
 

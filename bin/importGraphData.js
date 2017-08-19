@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /* eslint-disable */
 const winston = require('winston');
 const mongoose = require('mongoose');
@@ -49,9 +50,10 @@ function recursiveFetch(tokens, i) {
    .then(checkStatus)
    .then(res => res.json())
    .then(json => saveData(json, ticker, symbol, i))
-   .catch(err =>
-     winston.error('Failed to fetch graph for %s: %s', ticker, err.message)
-   );
+   .catch(err => {
+     winston.error('Failed to fetch graph for %s: %s', ticker, err.message);
+     return recurseOrFinish(ticker, i);
+   });
 }
 
 /**

@@ -1,12 +1,11 @@
-/* eslint-disable no-console */
+// @flow
+/* eslint-disable no-console, max-statements */
 import winston from 'winston';
 import has from 'lodash/has';
 import { normalize as normalizeICO } from 'lib/icos';
 import icoData from 'lib/ico-data';
-import { fetchETHPrice, fetchBTCPrice } from 'shared/lib/exchanges/gdax';
-import { cache } from 'app';
-import Ticker from '~/models/ticker';
-import PriceHistory from 'models/price-history';
+import { cache, redis } from 'app';
+import { getLatestPrices } from '~/lib/aggregate-price-history';
 import * as shapeshift from 'shared/lib/shapeshift';
 
 const ONE_MINUTE = 60;
@@ -16,39 +15,51 @@ const ONE_DAY = ONE_HOUR * 24;
 export default async function icos() {
   const startAll = Date.now();
 
-  let priceHistories = cache.get('priceHistories');
+  let latestPrices;
 
-  if (!priceHistories) {
-    winston.warn(`Price histories not in cache: Querying mongo for new data`);
-    try {
-      priceHistories = await PriceHistory.find().select('-prices').lean().exec();
-      const endPriceHistories = Date.now();
-      const msPriceHistories = endPriceHistories - startAll;
-
-      winston.info(`Querying mongo for PriceHistory for icos resolver took ${msPriceHistories}ms`);
-
-      cache.set('priceHistories', priceHistories, ONE_MINUTE * 10);
-
-    } catch (err) {
-      winston.error(`Failed to get price histories from mongo: ${err.message}`);
-    }
+  try {
+    latestPrices = await redis.get('latestPrices');
+  } catch (e) {
+    throw Error(e.message);
   }
 
-  const pricesBySymbol = priceHistories.reduce((obj, model) => ({
+  if (!latestPrices) {
+    winston.warn(`latestPrices not in cache: Querying mongo for new data`);
+    try {
+      latestPrices = await getLatestPrices();
+      const endLatestPrices = Date.now();
+      const msLatestPrices = endLatestPrices - startAll;
+
+      winston.info(`Querying mongo for Tickers for icos resolver took ${msLatestPrices}ms`);
+
+      await redis.set('latestPrices', JSON.stringify(latestPrices));
+
+    } catch (err) {
+      winston.error(`Failed to get latestPrices from mongo: ${err.message}`);
+    }
+  } else {
+    latestPrices = JSON.parse(latestPrices);
+  }
+
+  const pricesById = latestPrices.reduce((obj, curr) => ({
     ...obj,
-    [model.symbol]: model.latest
+    [curr.id]: {
+      price_usd: curr.latestPrice,
+      timestamp: curr.timestamp
+    }
   }), {});
+
   // when new tokens are added, it takes a bit for their price history to
   // be added to the db. So just leave that token out for now if so.
-  const validICOs = icoData.filter(ico => has(pricesBySymbol, ico.symbol));
+  const validICOs = icoData.filter(ico => has(pricesById, ico.id));
   const results = validICOs.map(data => ({
     ...data,
-    ...pricesBySymbol[data.symbol],
+    ...pricesById[data.id],
     id: data.id
   }));
 
   // get shapeshift info
-  let shapeshiftCoins = cache.get('shapeshiftCoins');
+  let shapeshiftCoins = await redis.get('shapeshiftCoins');
 
   if (!shapeshiftCoins) {
     const start = Date.now();
@@ -61,18 +72,20 @@ export default async function icos() {
 
       winston.info(`Fetched shapeshift coin list in ${ms}ms`);
 
-      cache.set('shapeshiftCoins', shapeshiftCoins, ONE_DAY);
+      await redis.set('shapeshiftCoins', JSON.stringify(shapeshiftCoins));
     } catch (err) {
       winston.error('Failed to fetch shapeshift coins: %s', err.message);
       shapeshiftCoins = {};
     }
+  } else {
+    shapeshiftCoins = JSON.parse(shapeshiftCoins);
   }
 
   // Get the current ETH/BTC price
-  const eth = priceHistories.find(p => p.symbol === 'ETH');
-  const btc = priceHistories.find(p => p.symbol === 'BTC');
-  const ethPrice = eth.latest.price_usd;
-  const btcPrice = btc.latest.price_usd;
+  const eth = pricesById.ethereum;
+  const btc = pricesById.bitcoin;
+  const ethPrice = eth && eth.price_usd;
+  const btcPrice = btc && btc.price_usd;
 
   const startNormalize = Date.now();
   const res = results.map(ico =>

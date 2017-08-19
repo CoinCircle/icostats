@@ -1,5 +1,5 @@
-// flow-typed signature: 18b0758a665cf7eb72bdb60fb6713aca
-// flow-typed version: 5eb011abdd/moment_v2.x.x/flow_>=v0.34.x
+// flow-typed signature: b066790a0280dbd8ea71ea2a212c78ef
+// flow-typed version: b43dff3e0e/moment_v2.x.x/flow_>=v0.28.x
 
 type moment$MomentOptions = {
   y?: number|string,
@@ -217,8 +217,8 @@ declare class moment$Moment {
   clone(): moment$Moment;
   static isMoment(obj: any): bool;
   static isDate(obj: any): bool;
-  static locale(locale: string, localeData?: Object): string;
   static updateLocale(locale: string, localeData?: ?Object): void;
+  static locale(locale?: string, localeData?: Object): string;
   static locale(locales: Array<string>): string;
   locale(locale: string, customization?: Object|null): moment$Moment;
   locale(): string;

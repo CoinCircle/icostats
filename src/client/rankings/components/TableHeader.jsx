@@ -11,7 +11,7 @@ type Props = {
   sortBy: string,
   ascending: boolean,
   onSort: Function,
-  type: string,
+  view: string,
   classes: Object,
   onClickAbsolute: Function,
   onClickRelative: Function,
@@ -26,19 +26,19 @@ class TableHeader extends React.Component {
   };
 
   renderAbsDiff() {
-    const { classes: c, isAbsolute } = this.props;
+    const { classes: c, view, isAbsolute } = this.props;
 
     return (
       <div className={c.absDelta}>
         <div
-          onClick={() => this.props.onClickAbsolute()}
+          onClick={() => this.props.onClickAbsolute(view)}
           className={classNames(c.absDeltaItem, isAbsolute && 'is-active')}
         >
           Abs
         </div>
         <div style={{ margin: '0 6px' }}>|</div>
         <div
-          onClick={() => this.props.onClickRelative()}
+          onClick={() => this.props.onClickRelative(view)}
           className={classNames(c.absDeltaItem, !isAbsolute && 'is-active')}
         >
           Rel
@@ -53,14 +53,17 @@ class TableHeader extends React.Component {
       sortBy,
       onSort,
       ascending,
-      type
+      view,
+      isAbsolute
     } = this.props;
     const onClickHint = () => this.setState({ isModalOpen: true });
     const sortedCell = item => (
       <span
         className={classes.sortActive}
         onClick={() => onSort(
-          item.key,
+          (item.key === view.toLowerCase() && isAbsolute)
+            ? `${item.key}_abs`
+            : item.key,
           (sortBy === item.key) ? !ascending : ascending
         )}
       >
@@ -96,7 +99,7 @@ class TableHeader extends React.Component {
     return (
       <div className={classes.tableheader}>
         <div className={classNames(classes.th, classes.thLogo)} />
-        {getColumns(type, classes, onClickHint).map(item =>
+        {getColumns(view, classes, onClickHint).map(item =>
           <Cell key={item.key} item={item} />
         )}
         {this.state.isModalOpen &&
@@ -245,8 +248,8 @@ const mapStateToProps = state => ({
   isAbsolute: state.rankings.ROICalcType === 'ABSOLUTE'
 });
 const mapDispatchToProps = dispatch => ({
-  onClickAbsolute: () => dispatch(selectAbsolute()),
-  onClickRelative: () => dispatch(selectRelative())
+  onClickAbsolute: view => dispatch(selectAbsolute(view)),
+  onClickRelative: view => dispatch(selectRelative(view))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(styled);

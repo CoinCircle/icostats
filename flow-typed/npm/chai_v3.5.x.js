@@ -1,5 +1,5 @@
-// flow-typed signature: aa75b63fef0c35e8592ad341a4edb0f2
-// flow-typed version: 2cae338ff0/chai_v3.5.x/flow_>=v0.24.0
+// flow-typed signature: 15188a7f96fdf199b663cfb4f91a6701
+// flow-typed version: b43dff3e0e/chai_v3.5.x/flow_>=v0.15.0
 
 declare module "chai" {
 
@@ -57,7 +57,7 @@ declare module "chai" {
         keys: (key: string | Array<string>, ...keys: Array<string>) => ExpectChain<T>,
 
         throw: <E>(
-            err: Class<E> | Error | RegExp | string,
+            err?: Class<E> | Error | RegExp | string,
             errMsgMatcher?: RegExp | string,
             msg?: string) => ExpectChain<T>,
 

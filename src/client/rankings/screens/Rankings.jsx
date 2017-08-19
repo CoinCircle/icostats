@@ -64,7 +64,7 @@ const QUERY = gql`
   ${ICOFragment}
 `;
 const SUBSCRIPTION_QUERY = gql`
-  subscription icoPriceChanges {
+  subscription icoPriceChanged {
     icoPriceChanged {
       ...ICOFragment
     }
