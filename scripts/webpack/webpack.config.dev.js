@@ -9,6 +9,9 @@ module.exports = [
     performance: {
       hints: 'warning'
     },
+    watchOptions: {
+      poll: true
+    },
     plugins: client.plugins.concat([
       new webpack.DefinePlugin({
         ROOT_DIR: JSON.stringify(ROOT_DIR),
@@ -19,6 +22,9 @@ module.exports = [
   Object.assign({}, server, {
     performance: {
       hints: 'warning'
+    },
+    watchOptions: {
+      poll: true
     },
     plugins: server.plugins.concat([
       new webpack.DefinePlugin({
