@@ -24,7 +24,8 @@
       "es2015.proxy",
       "es2015.reflect",
       "es2015.symbol",
-      "esnext.asynciterable"
+      "esnext.asynciterable",
+      "es2017.object"
     ],
     "baseUrl": ".",
     "paths": {
