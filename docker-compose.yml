@@ -16,11 +16,13 @@ services:
             - mongo
             - redis
         environment:
-            - MY_ENV_VAR="some value"
+            - NODE_ENV="development"
     mongo:
         image: mongo
         ports:
             - "27018:27017"
+        volumes:
+          - ./scripts/db:/host-db
     redis:
         image: redis
         ports:

@@ -23,3 +23,7 @@ test:
 ## Run tests
 test-client:
 	docker exec -it ${NAME}_web_1 npm run test-client
+
+## Fill local db with some bootstrapped data
+seed:
+	docker exec -it ${NAME}_mongo_1 mongorestore --uri=mongodb://localhost:27017/app --gzip --archive=/host-db/seed.gz
