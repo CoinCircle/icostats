@@ -9,7 +9,7 @@ import getExchangeService from 'shared/lib/exchange.service';
 const TEN_SECONDS = 1000 * 10;
 const exchangeService = getExchangeService();
 
-describe.only('Token validation', function () {
+describe('Token validation', function () {
 
   this.timeout(TEN_SECONDS);
 
