@@ -919,17 +919,20 @@ module.exports = [
     btc: 0
   }
 },
-  // {
-  //   id: 'aeternity-two',
-  //   is_erc20: false,
-  //   name: 'Aeternity Phase II',
-  //   symbol: 'AE',
-  //   eth_price_at_launch: 185.94,
-  //   btc_price_at_launch: 2183.63,
-  //   raise: 21844271.49391, // 104,148.741 ETH, 1,135.199 BTC raised // $19365416.90154 + $2478854.59237
-  //   amount_sold_in_ico: 88139450.839, // ref https://wallet.aeternity.com/
-  //   start_date: '05/29/2017', // ref. https://tokenmarket.net/blockchain/aeternity/assets/aeternity/
-  //   ticker: 'aeternity',
-  //   supported_changelly: false
-  // },
+{
+    name: 'Neo',
+    symbol: 'NEO',
+    is_erc20: false,
+    raise: 556500, // 2100 BTC @ $265 per BTC
+    total_amount_of_tokens: '',
+    amount_sold_in_ico: 17500000,
+    start_date: '10/01/2015',
+    eth_price_at_launch: 12.16,
+    btc_price_at_launch: 579.653,
+    tokens_sold_at_launch: 17500000,
+    raised: 541800,
+    ticker: 'neo',
+    id: 'neo',
+    supported_changelly: false
+  }
 ];
