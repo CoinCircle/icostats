@@ -6,9 +6,13 @@ import { expect, assert } from 'chai';
 import tokens from 'server/lib/ico-data.js';
 import getExchangeService from 'shared/lib/exchange.service';
 
+const TEN_SECONDS = 1000 * 10;
 const exchangeService = getExchangeService();
 
 describe.only('Token validation', function () {
+
+  this.timeout(TEN_SECONDS);
+
   tokens.forEach(token => {
     describe(`${token.name}`, function () {
       it('contains a unique ID', function () {
