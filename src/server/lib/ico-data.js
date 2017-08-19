@@ -1150,7 +1150,8 @@ module.exports = [
     amount_sold_in_ico: 487500000,
     raise_by_currency: {
       eth: 80000
-    }
+    },
+    icon_ext: 'svg'
   },
   {
     /**
