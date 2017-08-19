@@ -1,5 +1,11 @@
 /* eslint-disable */
 module.exports = [
+  /**
+   * Sources:
+   * https://www.cryptocoinsnews.com/santiment-raises-12-215-million-in-two-stage-token-crowdsale/
+   * https://www.finextra.com/pressarticle/69964/crypto-market-data-feed-platform-santiment-closes-12m-token-sale
+   * http://www.econotimes.com/Crypto-market-datafeeds-platform-Santiment-raises-12M-in-two-stage-crowdsale-792019
+   */
   {
     id: 'santiment',
     symbol: 'SAN',
@@ -105,6 +111,12 @@ module.exports = [
      * Sources:
      * https://twitter.com/MysteriumNet/status/869678853404454914
      * https://www.smithandcrown.com/sale/mysterium2/
+     *
+     * Calculation for amount sold:
+     * - 14 million CHF hard cap
+     * - 6 million of them were priced at 1.2 MYST per CHF (= 7.2M MYST)
+     * - Remaining 8 million were 1 MUST per CHF
+     * - Adds up to 15.2 million total possible to buy, and hard cap was reached
      */
     id: 'mysterium',
     is_erc20: true,
@@ -113,7 +125,7 @@ module.exports = [
     eth_price_at_launch: 205.55,
     btc_price_at_launch: 2252.71,
     raise: 14106690.95, // 68629 ETH
-    amount_sold_in_ico: 80000000,
+    amount_sold_in_ico: 15200000,
     start_date: '05/30/2017',
     ticker: 'mysterium',
     supported_changelly: false
