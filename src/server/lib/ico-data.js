@@ -961,5 +961,212 @@ module.exports = [
     ticker: 'neo',
     id: 'neo',
     supported_changelly: false
+  },
+  {
+    /**
+     * Sources:
+     * Wagerr CEO
+     */
+    id: 'wagerr',
+    symbol: 'WGR',
+    is_erc20: false,
+    name: 'Wagerr',
+    ticker:'wagerr',
+    eth_price_at_launch: 273.12,
+    btc_price_at_launch: 2445.73,
+    raise: 11000000,
+    amount_sold_in_ico: 170000000,
+    start_date: '07/01/2017',
+    supported_changelly: false,
+    icon_ext: 'svg'
+  },
+  {
+    /**
+     * Sources:
+     * https://tokensale.civic.com/
+     * https://cointelegraph.com/news/33-mln-civic-ico-rations-tokens-to-cope-with-unprecedented-demand
+     */
+    id: 'civic',
+    name: 'Civic',
+    symbol: 'CVC',
+    ticker: 'civic',
+    is_erc20: true,
+    contract_address: '0x41e5560054824eA6B0732E656E3Ad64E20e94E45',
+    eth_price_at_launch: 253.49,
+    btc_price_at_launch: 2556.94,
+    raise: 33000000,
+    amount_sold_in_ico: 330000000,
+    start_date: '07/06/2017',
+    supported_changelly: true,
+    icon_ext: 'svg'
+  },
+  {
+    /**
+     * Sources:
+     * https://www.smithandcrown.com/sale/nimiq/
+     */
+    id: 'nimiq',
+    name: 'Nimiq',
+    symbol: 'NET',
+    ticker: 'nimiq',
+    is_erc20: false,
+    eth_price_at_launch: 304,
+    btc_price_at_launch: 2486,
+    raise: 10787761,
+    amount_sold_in_ico: 10500000,
+    start_date: '06/28/2017',
+    supported_changelly: false
+  },
+  {
+    /**
+     * Source:
+     * Team member
+     */
+    id: 'fucktoken',
+    name: 'Fuck',
+    symbol: 'FUCK',
+    ticker: 'fucktoken',
+    is_erc20: true,
+    contract_address: '0xE9C417EaE5E9be4A4837b844795F67F9681Df69f',
+    start_date: '07/13/2017',
+    eth_price_at_launch: 200.4,
+    btc_price_at_launch: 2277.36,
+    raise: 80000,
+    amount_sold_in_ico: 20000000,
+    supported_changelly: false
+  },
+  {
+    /**
+     * Sources:
+     * Populous team
+     */
+    id: 'populous',
+    name: 'Populous',
+    symbol: 'PPT',
+    ticker: 'populous',
+    is_erc20: true,
+    contract_address: '0xd4fa1460F537bb9085d22C7bcCB5DD450Ef28e3a',
+    start_date: '06/24/2017',
+    eth_price_at_launch: 290.47,
+    btc_price_at_launch: 2523.02,
+    raise: 10000000,
+    amount_sold_in_ico: 35998518,
+    supported_changelly: false
+  },
+  {
+    /**
+     * Sources:
+     * https://www.wikiwand.com/en/Nxt
+     */
+    id: 'nxt',
+    name: 'NXT',
+    symbol: 'NXT',
+    ticker: 'nxt',
+    is_erc20: false,
+    start_date: '09/28/2013',
+    eth_price_at_launch: 0.3,
+    btc_price_at_launch: 134.69,
+    raise: 16800,
+    amount_sold_in_ico: 1000000000,
+    supported_changelly: true
+  },
+  {
+    /**
+     * Sources:
+     * https://cdn.omise.co/omg/crowdsaledoc.pdf
+     */
+    id: 'omisego',
+    name: 'OmiseGO',
+    symbol: 'OMG',
+    ticker: 'omisego',
+    is_erc20: true,
+    contract_address: '0xd26114cd6EE289AccF82350c8d8487fedB8A0C07',
+    start_date: '07/15/2017',
+    eth_price_at_launch: 155.2,
+    btc_price_at_launch: 1972.3,
+    raise: 24000000,
+    amount_sold_in_ico: 98312024,
+    supported_changelly: false,
+    icon_ext: 'svg'
+  },
+  {
+    /**
+     * Sources:
+     * https://bittrex.com/Market/Index?MarketName=BTC-MTL
+     * https://blog.metalpay.com/metal-token-mtl-is-being-distributed/
+     * https://www.metalpay.com/assets/pdf/whitepaper.pdf
+     */
+    id: 'metalpay',
+    name: 'Metal',
+    symbol: 'MTL',
+    ticker: 'metal',
+    is_erc20: true,
+    contract_address: '0xF433089366899D83a9f26A773D59ec7eCF30355e',
+    start_date: '03/01/2017',
+    eth_price_at_launch: 17.3,
+    btc_price_at_launch: 1228.71,
+    raise: 3795999,
+    amount_sold_in_ico: 21088888,
+    supported_changelly: false,
+    icon_ext: 'svg'
+  },
+  {
+    /**
+     * Sources:
+     * http://bitcoinist.com/tenx-ico-raises-34-million-7-minutes/
+     * https://www.smithandcrown.com/sale/tenx/
+     */
+    id: 'tenx',
+    name: 'TenX',
+    symbol: 'PAY',
+    ticker: 'tenx',
+    is_erc20: true,
+    contract_address: '0xB97048628DB6B661D4C2aA833e95Dbe1A905B280',
+    start_date: '06/24/2017',
+    eth_price_at_launch: 290.47,
+    btc_price_at_launch: 2523.02,
+    raise: 83110818,
+    amount_sold_in_ico: 104661310.533697,
+    supported_changelly: true,
+    raise_by_currency: {
+      eth: 200000
+    }
+  },
+  {
+    /**
+     * Sources:
+     * https://steemit.com/cryptocurrency/@bcn/coindash-ico-today
+     */
+    id: 'coindash',
+    name: 'Coindash',
+    symbol: 'CDT',
+    ticker: 'coindash',
+    is_erc20: true,
+    contract_address: '0x177d39ac676ed1c67a2b268ad7f1e58826e5b0af',
+    start_date: '07/17/2017',
+    eth_price_at_launch: 188.72,
+    btc_price_at_launch: 2217,
+    raise: 15097600,
+    amount_sold_in_ico: 487500000,
+    raise_by_currency: {
+      eth: 80000
+    }
+  },
+  {
+    /**
+     * Sources:
+     * https://0xproject.com/token
+     */
+    id: '0x',
+    name: '0x',
+    symbol: 'ZRX',
+    ticker: '0x',
+    is_erc20: true,
+    contract_address: '0xE41d2489571d322189246DaFA5ebDe1F4699F498',
+    start_date: '08/15/2017',
+    eth_price_at_launch: 286.65,
+    btc_price_at_launch: 4170.8,
+    raise: 24000000,
+    amount_sold_in_ico: 500000000
   }
 ];
