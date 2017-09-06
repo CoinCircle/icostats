@@ -5,6 +5,7 @@ import injectSheet from 'react-jss';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { openFeedback } from '../actions';
+import AlertsCTA from './AlertsCTA';
 
 type Props = {
   classes: Object,
@@ -74,6 +75,8 @@ const Navigation = ({ classes, onClickFeedback, isNavOpen = true }: Props) => (
         activeClassName={classes.activeMenuItem}
       >Locks</NavLink> */}
     </div>
+
+    <AlertsCTA />
 
     <a
       className={classes.btnFeedback}
