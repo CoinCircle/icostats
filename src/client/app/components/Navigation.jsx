@@ -117,7 +117,8 @@ const styles = {
     boxShadow: '3px 0px 10px hsla(0, 0%, 0%, 0.5)',
     backgroundColor: 'hsl(222, 21%, 20%)',
     justifyContent: 'space-between',
-    zIndex: 1
+    zIndex: 1,
+    overflow: 'scroll'
   },
   brand: {
 
@@ -128,7 +129,8 @@ const styles = {
   menu: {
     display: 'flex',
     flexDirection: 'column',
-    flexGrow: 2
+    flexGrow: 2,
+    flexShrink: 0
   },
   menuTitle: {
     fontWeight: 700,
