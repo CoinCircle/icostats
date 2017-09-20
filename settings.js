@@ -1,6 +1,7 @@
 /* eslint-disable */
 const path = require('path');
 const settingsPublic = require('./settings-public.js');
+let ROOT_DIR;
 
 if (typeof ROOT_DIR === 'undefined') {
   ROOT_DIR = null;
