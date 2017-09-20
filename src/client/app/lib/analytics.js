@@ -64,8 +64,8 @@ export function middleware(/* store: Object */) {
     const hasAnalytics = has(action, 'meta.analytics');
 
     if (hasAnalytics) {
-      const { eventType, eventPayload } = action.meta.analytics;
-      const { category, event, label, value, ...meta } = eventPayload;
+      const { type, payload } = action.meta.analytics;
+      const { category, event, label, value, ...meta } = payload;
       const trackParams = {
         category: category || 'UI Event',
         action: event,
@@ -74,7 +74,7 @@ export function middleware(/* store: Object */) {
         meta
       };
 
-      if (eventType === EventTypes.track) {
+      if (type === EventTypes.track) {
         analytics.track(trackParams);
       }
     }
