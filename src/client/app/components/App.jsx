@@ -8,6 +8,7 @@ import Navigation from '~/app/components/Navigation';
 import Rankings from '~/rankings/screens/Rankings';
 import Compare from '~/compare/components/Compare';
 import Feedback from './Feedback';
+import Unikoin from './Unikoin';
 
 type Props = {
   isFeedbackOpen: boolean
@@ -26,6 +27,7 @@ const App = ({ isFeedbackOpen }: Props) => (
       <Route exact path="/compare" component={Compare} />
 
       {isFeedbackOpen && <Feedback />}
+      <Unikoin />
     </div>
   </ConnectedRouter>
 );
