@@ -70,5 +70,21 @@ export default injectSheet({
     border: '1px solid hsl(0, 0%, 2%)',
     cursor: 'pointer',
     outline: 'none'
+  },
+  '@media (max-width: 648px)': {
+    title: {
+      fontSize: '12px',
+      margin: '5px 12px'
+    },
+    description: {
+      display: 'none'
+    },
+    button: {
+      fontSize: '12px',
+      padding: '8px 10px'
+    },
+    logo: {
+      maxWidth: '85px'
+    }
   }
 })(Unikoin);
