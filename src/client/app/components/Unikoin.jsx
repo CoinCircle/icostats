@@ -1,32 +1,54 @@
 import React from 'react';
 import injectSheet from 'react-jss';
 
-function Unikoin({ classes: c }) {
-  return (
-    <a
-      className={c.container}
-      href="https://token.unikrn.com"
-      onClick={event => {
-        event.preventDefault();
-        window.analytics.track({
-          category: 'Advertising',
-          action: 'Click Footer Ad',
-          label: 'Unikrn'
-        });
+class Unikoin extends React.Component {
 
-        setTimeout(() => window.location.href = 'https://unikoingold.com', 300);
-      }}
-    >
-      <img src="/img/unikoin.png" className={c.logo} alt="unikoin" />
-      <h2 className={c.title}>
-        Token Sale Live Now
-      </h2>
-      <p className={c.description}>
-        Established esports bettings platform
-      </p>
-      <button className={c.button}>Join Now</button>
-    </a>
-  );
+  showUKG = Math.random() <= 0.6;
+
+  componentWillMount() {
+    if (!this.showUKG) {
+      const script = document.createElement('script');
+
+      script.src = '//koinser.in/js/?wkey=3Tnr8t';
+
+      document.body.appendChild(script);
+    }
+  }
+
+  render() {
+    const { classes: c } = this.props;
+    const ukg = (
+      <a
+        className={c.container}
+        href="https://token.unikrn.com"
+        onClick={(event) => {
+          event.preventDefault();
+          window.analytics.track({
+            category: 'Advertising',
+            action: 'Click Footer Ad',
+            label: 'Unikrn'
+          });
+
+          setTimeout(() => window.location.href = 'https://unikoingold.com', 300);
+        }}
+      >
+        <img src="/img/unikoin.png" className={c.logo} alt="unikoin" />
+        <h2 className={c.title}>
+          Token Sale Live Now
+        </h2>
+        <p className={c.description}>
+          Established esports bettings platform
+        </p>
+        <button className={c.button}>Join Now</button>
+      </a>
+    );
+
+    if (this.showUKG) {
+      return ukg;
+    }
+
+    return null;
+  }
 }
 
 export default injectSheet({
