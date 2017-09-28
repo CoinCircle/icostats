@@ -183,7 +183,7 @@ class ExchangeService {
       }
     }
 
-    throw new UnsupportedPairError('Pair not found on any exchange');
+    throw new UnsupportedPairError(`Pair ${a}-${b} not found on any exchange`);
   }
 
   async fetchPrice(a: string, b: string) {
