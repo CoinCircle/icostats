@@ -11,7 +11,9 @@ const connection = mongoose.connection;
 // =============================================================================
 // Reset the database after every test.
 // =============================================================================
-before(done => {
+
+before(function (done) {
+  this.timeout(200000);
   connection.on('open', () => {
     connection.db.dropDatabase(done);
   });
