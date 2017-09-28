@@ -7,3 +7,4 @@ server.js
 dist/
 yarn-error.log
 /npm-debug.log
+/mongo-data
