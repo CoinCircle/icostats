@@ -3,7 +3,6 @@
 import winston from 'winston';
 import has from 'lodash/has';
 import { normalize as normalizeICO } from 'lib/icos';
-import icoData from 'lib/ico-data';
 import { cache, redis } from 'app';
 import { getLatestPrices } from '~/lib/aggregate-price-history';
 import * as shapeshift from 'shared/lib/shapeshift';
@@ -12,7 +11,7 @@ const ONE_MINUTE = 60;
 const ONE_HOUR = ONE_MINUTE * 60;
 const ONE_DAY = ONE_HOUR * 24;
 
-export default async function icos() {
+export default async function resolveICOs() {
   const startAll = Date.now();
 
   let latestPrices;
@@ -51,7 +50,9 @@ export default async function icos() {
 
   // when new tokens are added, it takes a bit for their price history to
   // be added to the db. So just leave that token out for now if so.
-  const validICOs = icoData.filter(ico => has(pricesById, ico.id));
+  const tokensJSON = await redis.get('tokens');
+  const tokens = JSON.parse(tokensJSON);
+  const validICOs = tokens.filter(ico => has(pricesById, ico.id));
   const results = validICOs.map(data => ({
     ...data,
     ...pricesById[data.id],

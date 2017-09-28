@@ -9,7 +9,6 @@ import Price from 'models/price';
 import * as shapeshift from 'shared/lib/shapeshift';
 import getExchangeService from 'shared/lib/exchange.service';
 import * as agg from '~/lib/aggregate-price-history';
-import icoData from '~/lib/ico-data';
 import icos from './icos';
 
 export default {
@@ -49,9 +48,11 @@ export default {
         recentPrices = JSON.parse(recentPrices);
       }
 
-      const recents = icoData.map(ico => ({
-        symbol: ico.symbol,
-        recent_prices: recentPrices[ico.id] || {}
+      const tokensJSON = await redis.get('tokens');
+      const tokens = JSON.parse(tokensJSON);
+      const recents = tokens.map(token => ({
+        symbol: token.symbol,
+        recent_prices: recentPrices[token.id] || {}
       }));
 
       return recents;

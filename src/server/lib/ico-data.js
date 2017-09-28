@@ -36,23 +36,6 @@ module.exports = [
     supported_changelly: false
   },
   {
-    /**
-     * Sources:
-     * Voise team member
-     */
-    id: 'voise',
-    is_erc20: true,
-    name: 'Voise',
-    symbol: 'VSM',
-    eth_price_at_launch: 248.04,
-    btc_price_at_launch: 2628.94,
-    raise: 715835,
-    amount_sold_in_ico: 825578,
-    start_date: '06/05/2017',
-    ticker: 'voise',
-    supported_changelly: false
-  },
-  {
     id: 'darcrus',
     is_erc20: false,
     name: 'Darcrus',

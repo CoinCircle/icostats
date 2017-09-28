@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const Promise = require('bluebird');
 const fetch = require('isomorphic-fetch');
 const settings = require('../settings.js');
-const icoData = require('../src/server/lib/ico-data.js');
+const Token = require('../src/server/models/Token.js');
 const Price = require('../src/server/models/price.js');
 const checkStatus = require('../src/shared/lib/fetch-check-status.js');
 
@@ -22,16 +22,20 @@ winston.add(winston.transports.Loggly, {
   json: true
 });
 
-// Get our tickers, and add ETH/BTC
-const tokens = [
-  ...icoData.filter(ico => !!ico.ticker).map(({ ticker, symbol }) => ({ ticker, symbol })),
-  { ticker: 'ethereum', symbol: 'ETH' },
-  { ticker: 'bitcoin', symbol: 'BTC' }
-];
+const icos = Token.find().lean().exec().then(icos => {
+  // Get our tickers, and add ETH/BTC
+  const tokens = [
+    ...icos.filter(ico => !!ico.ticker).map(({ ticker, symbol }) => ({ ticker, symbol })),
+    { ticker: 'ethereum', symbol: 'ETH' },
+    { ticker: 'bitcoin', symbol: 'BTC' }
+  ];
 
-// Initialize!
-winston.info('Fetching %s graphs...', tokens.length);
-recursiveFetch(tokens, 0).then(() => console.log('done'));
+  // Initialize!
+  winston.info('Fetching %s graphs...', tokens.length);
+  recursiveFetch(tokens, 0).then(() => console.log('done'));
+});
+
+
 
 /**
  * Fetches a graph, saves it, and does it again if the counter is less than the

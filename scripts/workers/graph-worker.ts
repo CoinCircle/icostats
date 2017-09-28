@@ -4,7 +4,7 @@ import * as mongoose from 'mongoose';
 import * as fetch from 'isomorphic-fetch';
 import * as moment from 'moment';
 import * as settings from 'settings';
-import * as icoData from '~/lib/ico-data.js';
+import * as Token from '~/models/Token.js';
 import * as Price from '~/models/price.js';
 import Ticker, { ValueTypes, ITicker } from '~/models/Ticker';
 import * as checkStatus from 'shared/lib/fetch-check-status.js';
@@ -12,21 +12,23 @@ import { connectMongoose, collectGarbage } from './utils';
 
 const db = connectMongoose();
 
-// Get our tickers, and add ETH/BTC
-const tokens = [
-  ...icoData.filter(
-    ico => !!ico.ticker
-  ).map(
-    ({ id, ticker, symbol }) => ({ id, ticker, symbol })
-  ),
-  { id: 'ethereum', ticker: 'ethereum', symbol: 'ETH' },
-  { id: 'bitcoin', ticker: 'bitcoin', symbol: 'BTC' }
-];
+const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 export default async function runGraphWorker() {
   const promiseOpts = {
-    concurrency: settings.PROMISE_CONCURRENCY
+    concurrency: 1 // We need to query rarely due to rate-limiting now.
   };
+  const icos = await Token.find().lean().exec();
+  // Get our tickers, and add ETH/BTC
+  const tokens = [
+    ...icos.filter(
+      ico => !!ico.ticker
+    ).map(
+      ({ id, ticker, symbol }) => ({ id, ticker, symbol })
+    ),
+    { id: 'ethereum', ticker: 'ethereum', symbol: 'ETH' },
+    { id: 'bitcoin', ticker: 'bitcoin', symbol: 'BTC' }
+  ];
 
   try {
     await Promise.map(tokens, fetchTokenGraph, promiseOpts);
@@ -61,6 +63,9 @@ async function fetchTokenGraph(token) {
 
     await saveData(json, token);
     await saveToTickers(json, token);
+
+    // Wait a bit to avoid rate-limiting.
+    await wait(10000);
   } catch (err) {
     winston.error(`Failed to fetch graph for ${ticker}: ${err.message}`);
   }

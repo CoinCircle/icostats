@@ -42,7 +42,8 @@ const QUERY = gql`
       supported_changelly,
       raise,
       amount_sold_in_ico,
-      supported_shapeshift
+      supported_shapeshift,
+      image_url
     }
     recentPrices {
       symbol

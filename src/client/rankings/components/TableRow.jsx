@@ -43,7 +43,7 @@ const TableRow = ({
   const logo = (
     <div className={classNames(classes.td, classes.tdLogo)}>
       <img
-        src={`/img/logos/${ico.id}.${ico.icon_ext || 'png'}`}
+        src={ico.image_url}
         alt={ico.name}
         className={classes.logo}
       />
@@ -79,7 +79,7 @@ const TableRow = ({
   );
   const icoDate = (
     <div className={classNames(classes.td, classes.tdDate)}>
-      {moment(ico.start_date, 'MM/DD/YYYY').format('MM/DD/YY')}
+      {moment(ico.start_date).format('MM/DD/YY')}
     </div>
   );
   const icoPrice = (

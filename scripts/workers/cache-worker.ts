@@ -6,10 +6,27 @@ import {
   getLatestPrices,
   getRecentPrices
 } from 'server/lib/aggregate-price-history';
+import * as Token from 'server/models/Token';
 import { collectGarbage, connectMongoose } from './utils';
 
 const db = connectMongoose();
 const redis = new Redis(settings.REDIS_URI);
+
+/* =============================================================================
+=    Tokens
+============================================================================= */
+export async function refreshTokens() {
+  winston.info(`[cache-worker] refreshTokens - Updating tokens`);
+  try {
+    const tokens = await Token.find().lean().exec();
+
+    await redis.set('tokens', JSON.stringify(tokens));
+  } catch (e) {
+    winston.error(e.message);
+  }
+
+  collectGarbage(db);
+}
 
 
 /* =============================================================================

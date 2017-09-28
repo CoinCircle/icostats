@@ -43,6 +43,7 @@ type ICO {
   raise: Float!
   amount_sold_in_ico: Float!
   supported_shapeshift: Boolean
+  image_url: String
 }
 
 type Price {

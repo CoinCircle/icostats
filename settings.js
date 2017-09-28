@@ -29,7 +29,8 @@ module.exports = Object.assign({}, settingsPublic, {
   LOGGLY_SUBDOMAIN: 'icostats',
   LOGGLY_TOKEN: '8b807190-29c8-4a5b-adfb-cfe5621fe18b',
   LOGGLY_TAG: process.env.LOGGLY_TAG || 'development',
-  OPTICS_API_KEY: process.env.OPTICS_API_KEY || 'service:icostats-dev:UZPcus12V1nCychIBLloUA'
+  OPTICS_API_KEY: process.env.OPTICS_API_KEY || 'service:icostats-dev:UZPcus12V1nCychIBLloUA',
+  S3_BASE_URL: process.env.S3_BASE_URL || 'https://s3-us-west-2.amazonaws.com/icostats'
 });
 
 function isDebug() {

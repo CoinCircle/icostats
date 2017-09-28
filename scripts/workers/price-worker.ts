@@ -25,9 +25,9 @@
  * to make this work.
  */
 import * as winston from 'winston';
-import * as icoData from '~/lib/ico-data';
 import getExchangeService from 'shared/lib/exchange.service';
 import Ticker, { ValueTypes } from '~/models/Ticker';
+import * as Token from 'server/models/Token';
 import * as moment from 'moment';
 import * as settings from 'settings';
 import { connectMongoose, collectGarbage } from './utils';
@@ -37,20 +37,21 @@ const handleError = err => winston.error(
   `Error in price-worker: ${err.message}`
 );
 const exchangeService = getExchangeService();
-const targets: Target[] = [
-  {
-    id: 'bitcoin',
-    symbol: 'BTC'
-  },
-  ...icoData.map(ico => ({ id: ico.id, symbol: ico.symbol }))
-];
 
 interface Target {
   id: string;
   symbol: string;
 }
 
-export default function runPriceWorker() {
+export default async function runPriceWorker() {
+  const icos = await Token.find().lean().exec();
+  const targets: Target[] = [
+    {
+      id: 'bitcoin',
+      symbol: 'BTC'
+    },
+    ...icos.map(ico => ({ id: ico.id, symbol: ico.symbol }))
+  ];
   const promise = targets.reduce((promise, target) =>
     promise.then(() => fetchPrice(target)).catch(handleError)
   , Promise.resolve());
