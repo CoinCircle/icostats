@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { openFeedback } from '../actions';
 import AlertsCTA from './AlertsCTA';
+import UKGBox from './UKGBox';
 
 type Props = {
   classes: Object,
@@ -76,7 +77,8 @@ const Navigation = ({ classes, onClickFeedback, isNavOpen = true }: Props) => (
       >Locks</NavLink> */}
     </div>
 
-    <AlertsCTA />
+    {/* <AlertsCTA /> */}
+    <UKGBox />
 
     <a
       className={classes.btnFeedback}
