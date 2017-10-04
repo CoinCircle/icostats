@@ -19,11 +19,13 @@ export default function initAllWokers(): Promise<any> {
 
 function workerRecurser(id): Promise<any> {
   switch (id) {
-    case 1: return refreshTokens().then(() => workerRecurser(2))
-    case 2: return refreshLatestPrices().then(() => workerRecurser(3));
-    case 3: return refreshRecentPrices().then(() => workerRecurser(4));
-    case 4: return runPriceWorker().then(() => workerRecurser(5));
-    case 5: return runGraphWorker().then(() => workerRecurser(6));
+    // Run things that write to db first
+    case 1: return runGraphWorker().then(() => workerRecurser(2));
+    case 2: return runPriceWorker().then(() => workerRecurser(3));
+    // Then run the things that refresh the cache
+    case 3: return refreshLatestPrices().then(() => workerRecurser(4));
+    case 4: return refreshRecentPrices().then(() => workerRecurser(5));
+    case 5: return refreshTokens().then(() => workerRecurser(6))
     default: return workerRecurser(1);
   }
 }
