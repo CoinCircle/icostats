@@ -87,18 +87,14 @@ export async function getLatestPrices(): Promise<ILatestPrice[]> {
     // Iterate through each minute/second (in reverse) until we find a non-zero
     // value, meaning we found a price.
     for (let minute in timeKeys) {
-      if (price) break;
-      for (let second in timeKeys) {
-          if (price) break;
-          const val = ticker.values[minute][second];
+        if (price) break;
+        const val = ticker.values[minute];
 
-          if (val) {
-            price = val;
-            tsMoment.minute(+minute);
-            tsMoment.second(+second);
-            timestamp = tsMoment.valueOf();
-          }
-      }
+        if (val) {
+          price = val;
+          tsMoment.minute(+minute);
+          timestamp = tsMoment.valueOf();
+        }
     }
 
     return {
@@ -199,13 +195,9 @@ function extractFirstPrice(values): number {
   let price;
 
   for (let minute of keys) {
-    if (price) break;
-
-    for (let second of keys) {
-      if (values[minute][second] > 0) {
-        price = values[minute][second];
-        break;
-      }
+    if (values[minute] > 0) {
+      price = values[minute];
+      break;
     }
   }
 

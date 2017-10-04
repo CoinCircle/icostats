@@ -12,9 +12,7 @@ export interface ITicker extends mongoose.Document {
   timestamp_hour: Date;
   type: ValueTypes;
   values: {
-    [minute: number]: {
-      [second: number]: number
-    }
+    [minute: number]: number
   }
 }
 
@@ -59,25 +57,21 @@ export default mongoose.model<ITicker>('Ticker', TickerSchema);
  * Builds an object to represent an hour's worth of data that looks like this:
  *
  * {
- *   0: { 0: 0, 1: 0, …, 59: 0 },
- *   1: { 0: 0, 1: 0, …, 59: 0 },
+ *   0: 0,
+ *   1: 0,
  *   …,
- *   58: { 0: 0, 1: 0, …, 59: 0 },
- *   59: { 0: 0, 1: 0, …, 59: 0 }
+ *   58: 0,
+ *   59: 0
  * }
  *
- * The keys on the root represent a minute, and the keys on the nested object
- * represent seconds. This allows us to store an hour of data in such a way
- * that it is efficient to read and write to.
+ * The keys on the root represent a minute within the hour. This allows us to
+ * store an hour of data in such a way that it is efficient to read and write to.
  */
 function getDefaultValues() {
   const sixty = lodash.range(60);
 
   return sixty.reduce((obj, c) => ({
     ...obj,
-    [c]: sixty.reduce((objj, cc) => ({
-      ...objj,
-      [cc]: 0
-    }), {})
+    [c]: 0
   }), {});
 }

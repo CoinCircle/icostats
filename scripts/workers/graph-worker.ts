@@ -110,7 +110,6 @@ async function saveToTickers(json, token) {
       const tsMoment = moment(ts);
       const timestamp_hour = tsMoment.clone().startOf('hour').valueOf();
       const minute = tsMoment.minute();
-      const second = tsMoment.second();
 
       winston.info(
         `graph-worker: (${id}) Fetching price ${counter} of${missingPrices.length}`
@@ -131,8 +130,8 @@ async function saveToTickers(json, token) {
             type: ValueTypes.PriceUSD
           });
         }
-        ticker.values[minute][second] = price;
-        ticker.markModified(`values.${minute}.${second}`);
+        ticker.values[minute] = price;
+        ticker.markModified(`values.${minute}`);
 
         winston.info(`
           [graph-worker] Saving price: ${price}, _id: ${ticker._id}, ts: ${tsMoment.format()}
@@ -160,7 +159,6 @@ async function filterMissingPrices(
     const tsMoment = moment(ts);
     const timestamp_hour = tsMoment.clone().startOf('hour').valueOf();
     const minute = tsMoment.minute();
-    const second = tsMoment.second();
     const ticker = tickers.find(
       t => t.timestamp_hour.valueOf() === timestamp_hour
     );
@@ -169,7 +167,7 @@ async function filterMissingPrices(
       return true;
     }
 
-    if (!ticker.values[minute][second]) {
+    if (!ticker.values[minute]) {
       return true
     }
 

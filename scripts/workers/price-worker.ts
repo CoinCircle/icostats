@@ -97,11 +97,10 @@ async function savePrice(price, target, ts) {
   }
 
   const minute = tsMoment.minute();
-  const second = tsMoment.second();
   //  Add to the history
-  model.values[minute][second] = price;
+  model.values[minute] = price;
 
-  model.markModified(`values.${minute}.${second}`);
+  model.markModified(`values.${minute}`);
 
   try {
     await model.save();
