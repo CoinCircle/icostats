@@ -9,7 +9,7 @@ export const ETH = 'ETH';
 export const BTC = 'BTC';
 
 export function getPeriodicROI(roi, startDate, period) {
-  const start = moment(startDate, 'MM/DD/YYYY');
+  const start = moment(new Date(startDate));
   const now = moment();
   const daysElapsed = now.diff(start, 'days');
   const periodsElapsed = daysElapsed / period;
