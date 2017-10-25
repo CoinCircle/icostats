@@ -20,6 +20,24 @@ class SearchInput extends React.Component {
     focus: false
   };
 
+  componentDidMount() {
+    document.addEventListener('click', this.handleDocumentClick);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleDocumentClick);
+  }
+
+  handleDocumentClick = (event) => {
+    const didClickInside = this.root.contains(event.target);
+
+    if (!didClickInside) {
+      this.setState({
+        focus: false
+      });
+    }
+  }
+
   handleExpand = () => {
     if (!this.state.isOpen) {
       this.setState({
@@ -92,6 +110,7 @@ class SearchInput extends React.Component {
         className={cx(c.container, className, { 'is-open': isOpen })}
         style={{ width: interpolatedStyles.width }}
         onClick={this.handleExpand}
+        ref={(c) => { this.root = c; }}
       >
         {input}
         {iconSearch}
