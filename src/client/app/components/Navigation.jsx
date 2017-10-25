@@ -77,8 +77,7 @@ const Navigation = ({ classes, onClickFeedback, isNavOpen = true }: Props) => (
       >Locks</NavLink> */}
     </div>
 
-    {/* <AlertsCTA /> */}
-    <UKGBox />
+    <AlertsCTA />
 
     <a
       className={classes.btnFeedback}

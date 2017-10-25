@@ -27,7 +27,6 @@ const App = ({ isFeedbackOpen }: Props) => (
       <Route exact path="/compare" component={Compare} />
 
       {isFeedbackOpen && <Feedback />}
-      <Unikoin />
     </div>
   </ConnectedRouter>
 );
