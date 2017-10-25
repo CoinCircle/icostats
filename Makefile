@@ -30,4 +30,4 @@ test-client:
 
 ## Fill local db with some bootstrapped data
 seed:
-	docker exec -it ${NAME}_mongo_1 mongorestore --uri=mongodb://localhost:27017/app --gzip --archive=/host-db/seed.gz
+	tar xvfz scripts/db/dump.tar.gz -C scripts/db && docker exec -it ${NAME}_mongo_1 mongorestore -h localhost:27017 -d app /host-db/dump/icostats && rm -rf scripts/db/dump
