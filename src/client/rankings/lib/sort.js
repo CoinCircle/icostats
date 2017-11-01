@@ -39,9 +39,8 @@ currency: $Currency
       return 0;
     }
     case 'start_date': {
-      const format = 'MM/DD/YYYY';
-      const ma = moment(a, format);
-      const mb = moment(b, format);
+      const ma = new Date(a);
+      const mb = new Date(b);
 
       if (ma < mb) return ascending ? -1 : 1;
       if (ma > mb) return ascending ? 1 : -1;
