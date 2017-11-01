@@ -79,7 +79,7 @@ const TableRow = ({
   );
   const icoDate = (
     <div className={classNames(classes.td, classes.tdDate)}>
-      {moment(ico.start_date).format('MM/DD/YY')}
+      {moment(ico.start_date).format('YYYY-MM-DD')}
     </div>
   );
   const icoPrice = (
