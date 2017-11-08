@@ -54,7 +54,7 @@ export default async function runPriceWorker() {
     ...icos.map(ico => ({ id: ico.id, symbol: ico.symbol }))
   ];
   const promise = targets.reduce((promise, target) =>
-    promise.then(() => fetchPrice(target)).then(() => wait(10000)).catch(handleError)
+    promise.then(() => fetchPrice(target)).catch(handleError)
   , Promise.resolve());
 
   return promise.then(() => collectGarbage(db));
@@ -74,6 +74,8 @@ async function fetchPrice(target: Target) {
     } else {
       await savePrice(price, target, ts);
     }
+
+    await wait(10000);
   } catch (err) {
     winston.error(
       `Price worker failed to fetch price for ${target.id}: ${err.message}`
