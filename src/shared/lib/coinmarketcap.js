@@ -42,7 +42,7 @@ export async function fetchAssets() {
   }
 
   try {
-    const url = `${baseUrl}/ticker`;
+    const url = `${baseUrl}/ticker?limit=0`;
     const res = await fetch(url);
     const json = await res.json();
 
