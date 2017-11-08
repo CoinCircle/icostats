@@ -36,6 +36,7 @@ const db = connectMongoose();
 const handleError = err => winston.error(
   `Error in price-worker: ${err.message}`
 );
+const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 const exchangeService = getExchangeService();
 
 interface Target {
@@ -53,7 +54,7 @@ export default async function runPriceWorker() {
     ...icos.map(ico => ({ id: ico.id, symbol: ico.symbol }))
   ];
   const promise = targets.reduce((promise, target) =>
-    promise.then(() => fetchPrice(target)).catch(handleError)
+    promise.then(() => fetchPrice(target)).then(() => wait(10000)).catch(handleError)
   , Promise.resolve());
 
   return promise.then(() => collectGarbage(db));
