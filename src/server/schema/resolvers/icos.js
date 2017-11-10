@@ -52,7 +52,19 @@ export default async function resolveICOs() {
   // be added to the db. So just leave that token out for now if so.
   const tokensJSON = await redis.get('tokens');
   const tokens = JSON.parse(tokensJSON);
-  const validICOs = tokens.filter(ico => has(pricesById, ico.id));
+  const validICOs = tokens.filter((ico) => {
+    const isValid =
+      pricesById[ico.id] && typeof pricesById[ico.id].price_usd === 'number';
+
+    if (!isValid) {
+      winston.warn(`
+        latestPrices.${ico.id} returned a null value.
+        Most likely we are failing to fetch the price.
+      `);
+    }
+
+    return isValid;
+  });
   const results = validICOs.map(data => ({
     ...data,
     ...pricesById[data.id],
