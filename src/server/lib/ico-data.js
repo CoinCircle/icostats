@@ -2,6 +2,28 @@
 module.exports = [
   /**
    * Sources:
+   * https://github.com/qvolta/qvolta-contract/blob/master/QvoltaContract.sol
+   * https://qvolta.com/
+   */
+  {
+    id: 'qvolta',
+    is_erc20: true,
+    contract_address: '0x1183f92a5624d68e85ffb9170f16bf0443b4c242',
+    name: 'Qvolta',
+    symbol: 'QVT',
+    ticker: 'qvolta',
+    eth_price_at_launch: 287.03,
+    btc_price_at_launch: 4551.00,
+    raise: 1099363.20,
+    amount_sold_in_ico: 6731528,
+    start_date: '10/10/2017',
+    supported_changelly: false
+    raise_by_currency: {
+      eth: 3830
+    }
+  },
+  /**
+   * Sources:
    * https://www.cryptocoinsnews.com/santiment-raises-12-215-million-in-two-stage-token-crowdsale/
    * https://www.finextra.com/pressarticle/69964/crypto-market-data-feed-platform-santiment-closes-12m-token-sale
    * http://www.econotimes.com/Crypto-market-datafeeds-platform-Santiment-raises-12M-in-two-stage-crowdsale-792019
