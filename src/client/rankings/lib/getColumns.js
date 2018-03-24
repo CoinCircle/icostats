@@ -31,17 +31,17 @@ export default function getColumns(
         ...columns,
         {
           key: 'recentStats.roi.day',
-          label: '24 Hr ROI',
+          label: '24時間の投資収益率',
           addClass: classes.thPrimary
         },
         {
           key: 'recentStats.roi.week',
-          label: 'ROI Since Last Week',
+          label: '先週の投資収益率',
           addClass: [classes.thPrimary, classes.hideMobile]
         },
         {
           key: 'recentStats.roi.month',
-          label: 'ROI Since Last Month',
+          label: '先月の投資収益率',
           addClass: [classes.thPrimary, classes.hideMobile]
         }
       ];
@@ -51,17 +51,17 @@ export default function getColumns(
         ...columns,
         {
           key: 'roi_per_day',
-          label: 'Daily ROI',
+          label: '毎日の投資収益率',
           addClass: [classes.thPrimary, classes.hideMobile]
         },
         {
           key: 'roi_per_week',
-          label: 'Weekly ROI',
+          label: '毎週の投資収益率',
           addClass: [classes.thPrimary, classes.hideMobile]
         },
         {
           key: 'roi_per_month',
-          label: 'Monthly ROI',
+          label: '1か月あたりの投資収益率',
           addClass: classes.thPrimary
         }
       ];
@@ -71,17 +71,17 @@ export default function getColumns(
         ...columns,
         {
           key: 'roi_since_ico',
-          label: 'ROI since ICO',
+          label: 'ICOからの投資収益率',
           addClass: classes.thPrimary
         },
         {
           key: 'eth_roi_during_period',
-          label: 'ETH ROI since ICO',
+          label: 'ICOからの投資収益率（対ETH）',
           addClass: classes.thPrimary
         },
         {
           key: 'roi_vs_eth',
-          label: 'ROI vs ETH',
+          label: '対ETHでの投資収益率',
           addClass: classes.thPrimary
         }
       ];
@@ -91,17 +91,17 @@ export default function getColumns(
         ...columns,
         {
           key: 'roi_since_ico',
-          label: 'ROI since ICO',
+          label: 'ICOからの投資収益率',
           addClass: classes.thPrimary
         },
         {
           key: 'btc_roi_during_period',
-          label: 'BTC ROI since ICO',
+          label: 'ICOからの投資収益率 (対ETH)',
           addClass: classes.thPrimary
         },
         {
           key: 'roi_vs_btc',
-          label: 'ROI vs BTC',
+          label: '対BTCでの投資収益率',
           addClass: classes.thPrimary
         }
       ];
@@ -135,15 +135,15 @@ export default function getColumns(
 function defaultColumns(classes: Object, onClickHint: Function) {
   return [{
     key: 'name',
-    label: 'Name',
+    label: '仮想通貨名',
     addClass: classes.thName
   }, {
     key: 'start_date',
-    label: 'ICO Date',
+    label: 'ICO（上場）日',
     addClass: classes.thDate
   }, {
     key: 'implied_token_price',
-    label: 'ICO Price',
+    label: 'ICO（上場）価格',
     addClass: classes.thPrice,
     extra: (
       <i
@@ -153,7 +153,7 @@ function defaultColumns(classes: Object, onClickHint: Function) {
     )
   }, {
     key: 'current_price',
-    label: 'Curr. Price',
+    label: '現在の価格',
     addClass: classes.thPrice
   }];
 }

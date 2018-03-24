@@ -24,10 +24,10 @@ class AlertsCTA extends React.Component {
         action="//coincircle.us16.list-manage.com/subscribe/post?u=fe27d79e7114564ede2644cd1&amp;id=603deaf5fa"
       >
         <h2 className={c.title}>
-          Get Notified
+          最新ICO情報配信中
         </h2>
         <div className={c.description}>
-          Early email alerts on the top ICOs
+          メールアドレスをご登録いただければ最新のICO情報をお届けします！
         </div>
         <input
           name="EMAIL"
@@ -38,7 +38,7 @@ class AlertsCTA extends React.Component {
           value={this.state.inputValue}
         />
         <button className={c.btnSubmit} type="submit">
-          Sign Up
+          登録する
         </button>
       </form>
     );

@@ -16,15 +16,14 @@ import { expect } from 'chai';
 import getExchangeService from 'shared/lib/exchange.service';
 
 
-describe.skip('Console', function () {
+describe.only('Console', function () {
   this.timeout(100000);
   it('Console', async function () {
     const exchangeService = getExchangeService();
-    const priceMap = await exchangeService.fetchBoundPriceMap()
-    const price = await exchangeService.fetchUSDPrice('DICE');
+    const price = await exchangeService.fetchUSDPrice('FUCK');
 
     console.log('price', price);
 
-    expect(price).to.be(12);
+    expect(price).to.be.a('number');
   });
 });

@@ -32,39 +32,45 @@ const Navigation = ({ classes, onClickFeedback, isNavOpen = true }: Props) => (
         to="/"
         className={classes.menuItem}
         activeClassName={classes.activeMenuItem}
-      >Recent Performers</NavLink>
+      >直近の上昇率</NavLink>
       <NavLink
         exact
         to="/roi-since-ico"
         className={classes.menuItem}
         activeClassName={classes.activeMenuItem}
-      >ROI Since ICO</NavLink>
+      >
+        ICOからの投資収益率O
+      </NavLink>
       <NavLink
         to="/roi-over-time"
         className={classes.menuItem}
         activeClassName={classes.activeMenuItem}
-      >ROI / Time</NavLink>
+      >
+        期間ごとの投資収益率
+      </NavLink>
       <NavLink
         to="/vs-eth"
         className={classes.menuItem}
         activeClassName={classes.activeMenuItem}
-      >ICO v.s. ETH</NavLink>
+      >
+        ETH換算の上昇率
+      </NavLink>
       <NavLink
         to="/vs-btc"
         className={classes.menuItem}
         activeClassName={classes.activeMenuItem}
-      >ICO v.s. BTC</NavLink>
+      >BTC換算の上昇率</NavLink>
       <NavLink
         to="/compare"
         className={classes.menuItem}
         activeClassName={classes.activeMenuItem}
-      >Compare</NavLink>
+      >比較グラフ</NavLink>
       <a
         href="https://www.icoalert.com/"
         target="_blank"
         rel="noopener"
         className={classes.menuItem}
-      >Upcoming ICOs</a>
+      >最新ICO情報</a>
       {/* <NavLink
         to="/token-holders"
         className={classes.menuItem}
@@ -82,7 +88,7 @@ const Navigation = ({ classes, onClickFeedback, isNavOpen = true }: Props) => (
     <a
       className={classes.btnFeedback}
       onClick={onClickFeedback}
-    >Feedback</a>
+    >お問い合わせ</a>
 
     <a
       href="https://trello.com/b/UnsBjG3k"
@@ -110,7 +116,7 @@ const Navigation = ({ classes, onClickFeedback, isNavOpen = true }: Props) => (
 const styles = {
   container: {
     height: '100%',
-    width: '200px',
+    width: '220px',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
