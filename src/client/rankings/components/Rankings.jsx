@@ -93,6 +93,22 @@ class Rankings extends React.Component {
         tooltip={tooltip}
       />
     );
+    const jp = (
+      <a
+        href="https://jp.icostats.com"
+        style={{
+          fontSize: '12px',
+          fontWeight: 'bold',
+          color: 'hsl(222, 26%, 78%)',
+          margin: '16px 21px 0',
+          paddingLeft: '20px',
+          textDecoration: 'underline'
+        }}
+      >
+        日本語
+      </a>
+    )
+
     const header = (
       <div className={classes.header}>
         {hamburger}
@@ -100,6 +116,7 @@ class Rankings extends React.Component {
           {title}
           <Filters />
         </div>
+        {jp}
         <div className={classes.headerRight}>
           {showCurrencyPicker && <CurrencyPicker />}
           {search}
