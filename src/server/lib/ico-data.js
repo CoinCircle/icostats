@@ -1166,7 +1166,7 @@ module.exports = [
     symbol: 'ERT',
     eth_price_at_launch: 427.25,
     btc_price_at_launch: 12912,
-    raise: 3138109, // Unknown BTC and ETH amount
+    raise: 3138109,
     amount_sold_in_ico: 156905453.78,
     start_date: '12/07/2017',
     ticker: 'eristica',
