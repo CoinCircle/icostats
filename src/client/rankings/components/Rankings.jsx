@@ -13,6 +13,7 @@ import * as types from '../constants';
 import CurrencyPicker from './CurrencyPicker';
 import Paginator from './Paginator';
 import { setSearchQuery } from '../actions';
+import Earn from '~/app/components/Earn';
 
 type ICO = {
   id: string
@@ -153,6 +154,7 @@ class Rankings extends React.Component {
         {table}
         <Paginator max={this.props.maxPages} />
         {this.props.isExchangeActive && <Exchange />}
+        <Earn />
       </div>
     );
   }

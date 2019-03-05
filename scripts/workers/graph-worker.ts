@@ -53,7 +53,7 @@ export default async function runGraphWorker() {
  */
 async function fetchTokenGraph(token) {
   const { id, ticker, symbol } = token;
-  const url = `https://graphs.coinmarketcap.com/currencies/${ticker}/`;
+  const url = `https://graphs2.coinmarketcap.com/currencies/${ticker}/`;
 
   winston.info(`Fetching graph for ${ticker}`);
 

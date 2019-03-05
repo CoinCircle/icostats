@@ -74,7 +74,7 @@ function roiSinceICOBtc(ico, btcPrice) {
  */
 function roiPerDays(ico, numDays) {
   const diff = roiSinceICO(ico);
-  const start = moment(ico.start_date, 'MM/DD/YYYY');
+  const start = moment(ico.start_date);
   const now = moment();
   const daysElapsed = now.diff(start, 'days');
   const periodsElapsed = daysElapsed / numDays;
