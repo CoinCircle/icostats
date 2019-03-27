@@ -9,7 +9,7 @@ class Footer extends React.Component {
       <a
         className={c.container}
         target="_blank"
-        href="https://coincircle.com/earn"
+        href="https://coincircle.com/earn?utm_source=icostats"
       >
         <img
           className={c.img}

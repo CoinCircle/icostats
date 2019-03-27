@@ -203,7 +203,7 @@ const TableRow = ({
       className={classNames(classes.tr, { 'is-active': active })}
       onTouchStart={onTouchStart}
       onClick={() => {
-        const win = window.open('https://coincircle.com/earn', '_blank');
+        const win = window.open('https://coincircle.com/earn?utm_source=icostats', '_blank');
         win.focus();
       }}
     >

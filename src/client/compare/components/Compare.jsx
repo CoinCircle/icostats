@@ -10,6 +10,7 @@ import app from '~/app';
 import { getColors } from '~/compare/helpers';
 import CompareSelector from './CompareSelector';
 import ComparisonChart from './ComparisonChart';
+import Earn from '~/app/components/Earn';
 
 type Props = {
   prices: Array<Object>,
@@ -43,24 +44,27 @@ class Compare extends React.Component {
     );
 
     return (
-      <div className={classes.container}>
-        <h1 className={classes.title}>
-          {hamburger}
-          Compare ICOs (Beta)
-        </h1>
-        <CompareSelector
-          loading={this.props.isFetching}
-          colors={colors}
-          items={this.props.icos}
-          selected={tickers}
-          onAdd={ticker => this.props.addTicker(ticker)}
-          onRemove={ticker => this.props.onRemove(ticker)}
-        />
-        <ComparisonChart
-          colors={colors}
-          prices={this.props.prices}
-          tickers={this.props.tickers}
-        />
+      <div className={classes.bg}>
+        <div className={classes.container}>
+          <h1 className={classes.title}>
+            {hamburger}
+            Compare ICOs (Beta)
+          </h1>
+          <CompareSelector
+            loading={this.props.isFetching}
+            colors={colors}
+            items={this.props.icos}
+            selected={tickers}
+            onAdd={ticker => this.props.addTicker(ticker)}
+            onRemove={ticker => this.props.onRemove(ticker)}
+          />
+          <ComparisonChart
+            colors={colors}
+            prices={this.props.prices}
+            tickers={this.props.tickers}
+          />
+        </div>
+        <Earn />
       </div>
     );
   }
@@ -97,7 +101,14 @@ const container = connect(mapStateToProps, mapDispatchToProps)(withData);
 =    Stylesheet
 ============================================================================= */
 const styles = {
+  bg: {
+    width: '100%',
+    flexGrow: '2',
+    display: 'flex',
+    flexDirection: 'column'
+  },
   container: {
+    flexGrow: '2',
     padding: '15px 40px',
     display: 'flex',
     flexDirection: 'column',
