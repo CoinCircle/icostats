@@ -202,6 +202,10 @@ const TableRow = ({
       key={ico.id}
       className={classNames(classes.tr, { 'is-active': active })}
       onTouchStart={onTouchStart}
+      onClick={() => {
+        const win = window.open('https://coincircle.com/earn', '_blank');
+        win.focus();
+      }}
     >
       {logo}
       {name}
@@ -259,6 +263,10 @@ const styles = {
     ].join(','),
     '&.is-active': {
       background: 'hsla(0, 0%, 100%, 0.05)'
+    },
+    '&:hover': {
+      background: 'hsla(0, 0%, 100%, 0.02)',
+      cursor: 'pointer'
     }
   },
   td: {
