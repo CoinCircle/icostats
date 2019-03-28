@@ -52,29 +52,14 @@ const TableRow = ({
   const name = (
     <div className={classNames(classes.td, classes.tdName)}>
       {ico.name}
-      {!ico.supported_shapeshift && ico.supported_changelly &&
-        <a
-          className={classes.buyNow}
-          href={`https://changelly.com/exchange/ETH/${ico.symbol}/1?ref_id=861e5d1e1238`}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => trackEvent('Changelly', 'Click Buy Now', ico.symbol)
-          }
-        >
-          Buy Instantly
-        </a>
-      }
-      {ico.supported_shapeshift &&
-        <button
-          className={classes.buyNow}
-          onClick={() => {
-            onClickBuy(ico.symbol);
-            trackEvent('Shapeshift Exchange', 'Initialize', ico.symbol);
-          }}
-        >
-          Buy Instantly
-        </button>
-      }
+      <a
+        className={classes.buyNow}
+        href={`coincircle.com/earn?utm_source=icostats`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Earn Now
+      </a>
     </div>
   );
   const icoDate = (
@@ -347,10 +332,10 @@ const styles = {
     bottom: '-11px',
     right: '0px',
     width: '60px',
-    color: 'hsl(220, 30%, 60%)',
+    color: 'hsl(199, 73%, 56%)',
     position: 'absolute',
-    fontSize: '8px',
-    fontWeight: '400',
+    fontSize: '9px',
+    fontWeight: '700',
     textDecoration: 'none',
     background: 'none',
     border: 'none',
