@@ -49,6 +49,30 @@ module.exports = [
     supported_changelly: true
   },
   {
+  /**
+   * Sources:
+   * https://blockmason.io/cp-whitepaper/
+   * https://blockmason.io/cp-whitepaper/Token-Sale/
+   * https://etherscan.io/token/0x1c4481750daa5Ff521A2a7490d9981eD46465Dbd
+   */
+  id: 'credit-protocol',
+  name: 'BlockMason Credit Protocol',
+  symbol: 'BCPT',
+  ticker: 'bcpt',
+  eth_price_at_launch: 301.55,
+  btc_price_at_launch: 4319.81,
+  raise: 13569750,
+  amount_sold_in_ico: 116158667,
+  start_date: '10/01/2017',
+  supported_changelly: false,
+  is_erc20: true,
+  // Below keys are optional but recommended
+  contract_address: '0x1c4481750daa5Ff521A2a7490d9981eD46465Dbd',
+  raise_by_currency: {
+    eth: 45000
+  }
+},
+  {
     /**
      * Sources:
      * https://qtum.org/en/crowdsale
