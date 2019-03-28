@@ -1152,5 +1152,26 @@ module.exports = [
     btc_price_at_launch: 4170.8,
     raise: 24000000,
     amount_sold_in_ico: 500000000
-  }
+  },
+    {
+    /**
+     * Sources:
+     * https://eristica.com/tokenholders
+     * https://blog.eristica.com/unsold-ert-tokens-were-burned-de80ecbdbe09
+     * https://icobench.com/ico/eristica
+     */
+    id: 'ert',
+    is_erc20: true,
+    name: 'Eristica',
+    symbol: 'ERT',
+    eth_price_at_launch: 427.25,
+    btc_price_at_launch: 12912,
+    raise: 3138109,
+    amount_sold_in_ico: 156905453.78,
+    start_date: '12/07/2017',
+    ticker: 'eristica',
+    supported_changelly: false
+  },
+  
+  
 ];
